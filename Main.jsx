@@ -31,20 +31,25 @@ const Main = () => {
         barStyle = "light-content" backgroundColor = "transparent" translucent = {true}
       />
         <NavigationContainer>
-            <Stack.Navigator>
-            {/* <Stack.Screen name='setProfile' component={SetProfile} options={{headerShown:false}}/> */}
-            {/* <Stack.Screen name='login' component={Login} options={{headerShown:false}}/> */}
+
+            <Stack.Navigator >
+            {/* <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/> */}
+            {/* <Stack.Screen name='orderConfirm' component={OrderConfirm} options={{headerShown:false}}/> */}
+            <Stack.Screen name='addAddress' component={AddAddress}/>
+
             <Stack.Screen name='parent' component={Parent} options={{headerShown:false}}/>
                 {/* <Stack.Screen name='home' component={Home} options={{headerShown:false}}/> */}
                 <Stack.Screen name='otpVerify' component={OtpVerify}/>
-                <Stack.Screen name='addAddress' component={AddAddress}/>
+                
                 <Stack.Screen name='address' component={Address}/>
+
                 {/* <Stack.Screen name='cart' component={Cart}/> */}
                 <Stack.Screen name='orderConfirm' component={OrderConfirm}/>
                 <Stack.Screen name='orderHistory' component={OrderHistory}/>
                 <Stack.Screen name='orderHistoryItems' component={OrderHistoryItems}/>
                 <Stack.Screen name='payment' component={Payment}/>
                 <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
+
                 <Stack.Screen name='splashScreen2' component={SplashScreen2}/>
                 <Stack.Screen name='splashScreen3' component={SplashScreen3}/>
                 <Stack.Screen name='userProfile' component={UserProfile}/>
