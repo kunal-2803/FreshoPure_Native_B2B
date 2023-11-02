@@ -13,8 +13,8 @@ const Tab = createBottomTabNavigator();
 const Parent = () => {
   return (
     <View  className="flex-1" style={{paddingTop:Platform.OS ==='android'?StatusBar.currentHeight:0}}>
-      <Tab.Navigator initialRouteName='login' screenOptions={{headerShown:false}}>
-      <Tab.Screen name="login" component={Login} />
+      <Tab.Navigator initialRouteName='home' screenOptions={{headerShown:false}}>
+      <Tab.Screen name="home" component={Home} />
       <Tab.Screen name="cart" component={Cart} />
       <Tab.Screen name="wishList" component={WishList} />
       <Tab.Screen name="accounts" component={Accounts} />
