@@ -1,28 +1,29 @@
-import { View, Text ,SafeAreaView,Platform,StatusBar} from 'react-native'
+import { View, Text, SafeAreaView, Platform, StatusBar, Dimensions } from 'react-native'
 import React from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useNavigation } from '@react-navigation/native'
-import Home from './Home';
-import SplashScreen2 from './SplashScreen2';
-const Tab = createBottomTabNavigator();
+import LottieView from 'lottie-react-native';
+
+const width = Dimensions.get('window').width;
+const height = Dimensions.get('window').height;
+
 
 const SplashScreen1 = () => {
-    const navigation = useNavigation();
+
   return (
-    <View>
-      <View style={{paddingTop:Platform.OS ==='android'?StatusBar.currentHeight:0}}>
-      <SafeAreaView>
-      <Text className="bg-red">SplashScreen 1</Text>
-      <Text className="mt-10" onPress={()=>navigation.navigate("splashScreen2")}>Login</Text>
-        {/* <BottomNavigation></BottomNavigation> */}
-        {/* <Tab.Navigator initialRouteName='splashScreen1' screenOptions={{headerShown:false}}>
-      <Tab.Screen name="home" component={Home} />
-      <Tab.Screen name="home" component={Home} />
-      <Tab.Screen name="splashScreen2" component={SplashScreen2} />
-    </Tab.Navigator> */}
-      </SafeAreaView>
-    </View>
-    {/* <Text>Hello</Text> */}
+    <View className=" flex items-center justify-center ">
+
+      <View style={{width:width*0.9 ,marginTop:height*0.16}} className="items-center" >
+        <LottieView
+          source={require('../assets/screen1.json')}
+          autoPlay
+          loop
+          style={{  height: 260 }}
+        />
+      </View>
+      <Text className="font-bold text-xl mt-5"># Fresh Food for Fresh Moments</Text>
+      <Text className="text-center mt-3 font-semibold">Dont Need to get out side {'\n'}everyday for your grocery items</Text>
+
+
+
     </View>
   )
 }
