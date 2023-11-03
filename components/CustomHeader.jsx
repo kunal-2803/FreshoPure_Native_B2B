@@ -6,15 +6,17 @@ const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 import BackIcon from 'react-native-vector-icons/Ionicons'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
+import {useNavigation} from '@react-navigation/native'
 
 const CustomHeader = ({title,backButton,height,headerBar,parentHeader}) => {
+  const navigation = useNavigation()
   return (
     <View style={{width:windowWidth,minHeight:windowHeight*height}} className="bg-green rounded-b-3xl flex flex-row">
      <StatusBar
         barStyle = "light-content" backgroundColor = "#54B175" translucent = {true}
       />
       {!headerBar && <View className="flex flex-row justify-center items-start w-full text-white relative mt-8">
-      <TouchableOpacity className="absolute left-4">
+      <TouchableOpacity className="absolute left-4" onPress={()=>console.log('hi')}>
       <BackIcon name="chevron-back" size={30} color="#fff"/>
       </TouchableOpacity>
       <Text className="text-white text-xl ">{title}</Text>

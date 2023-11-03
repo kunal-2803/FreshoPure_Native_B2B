@@ -7,10 +7,18 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const OrderImg = require('./../assets/orderimg.png')
+import {useNavigation} from '@react-navigation/native'
 
 
 
 const OrderHistoryComponet = () => {
+
+    const navigation = useNavigation()
+
+    const handlePress=()=>{
+      navigation.navigate('orderHistoryItems')
+    }
+
     return (
         <View>
             <View className="justify-center items-center mb-5">
@@ -35,9 +43,9 @@ const OrderHistoryComponet = () => {
                                 </View>
                             </View>
                         </View>
-                        <View className="mr-4">
+                        <TouchableOpacity className="mr-4" onPress={handlePress}>
                             <MaterialIcons name='keyboard-arrow-right' size={24} />
-                        </View>
+                        </TouchableOpacity>
                     </View>
 
 

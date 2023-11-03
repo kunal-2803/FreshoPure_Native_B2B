@@ -57,14 +57,15 @@ const AddAddress = () => {
       <View className="mt-10">
       {/* <CustomButton  text={"Use My Location"} width={width*0.8} ></CustomButton> */}
       
-      <TouchableOpacity>
-      <View className="flex items-center py-2 rounded-md justify-center space-x-3">
-      <Text  className="flex items-center justify-center space-x-3" style={{width:width*0.8}}><MaterialIcons name="my-location" size={24} className="item-center px-3"/>Use My Location</Text>
-      
-      </View>
+      <View className="flex items-center w-full my-4">
+      <TouchableOpacity style={{width:width*0.9}} className="flex justify-center items-center bg-white border border-lightText rounded-lg flex-row py-2 mx-auto">
+      <MaterialIcons name="my-location" size={20} className="item-center px-3" color={'#64748B'}/>
+      <Text  className="flex items-center justify-center text-lightText ml-1">Use My Location</Text>
       </TouchableOpacity>
+
+      </View>
       
-      <CustomButton text={"Save Address"} width={width*0.8}></CustomButton>
+      <CustomButton text={"Save Address"} width={width*0.9}></CustomButton>
       </View>
       
     </View>

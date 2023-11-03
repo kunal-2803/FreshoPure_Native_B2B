@@ -7,10 +7,16 @@ const windowWidth = Dimensions.get('window').width;
 import InputFeild from '../components/InputFeild.jsx'
 import CustomButton from '../components/CustomButton.jsx'
 import CustomButton2 from '../components/CustomButton2.jsx'
+import {useNavigation} from '@react-navigation/native'
 
 
 
 const Login = () => {
+  const navigation = useNavigation()
+
+  const handlePress=()=>{
+    navigation.navigate('otp')
+  }
   return (
     <View className ="flex flex-1 bg-white">
       {/* <Text>Login</Text> */}
@@ -26,7 +32,7 @@ const Login = () => {
       <View style={{width:windowWidth}} className="flex justify-center items-center my-4">
         <InputFeild width={windowWidth*0.8}/>
         <Text className="my-2 font-urban">By continuing, I agree to the <Text className="font-semibold text-brown">Terms of Use</Text>{'\n'} & <Text className="font-semibold text-brown">Privacy Policy</Text></Text>
-        <CustomButton text="Login" width={windowWidth*0.8}/>
+        <CustomButton text="Login" width={windowWidth*0.8}  handlePress={handlePress}/>
           <Text className="text-lightText">or continue with</Text>
           <CustomButton2 width={windowWidth*0.8}/>
       </View>

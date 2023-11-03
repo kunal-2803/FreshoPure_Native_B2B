@@ -15,10 +15,17 @@ const windowWidth = Dimensions.get("window").width;
 import InputFeild from "../components/InputFeild.jsx";
 import CustomButton from "../components/CustomButton.jsx";
 import CustomButton2 from "../components/CustomButton2.jsx";
+import {useNavigation} from '@react-navigation/native'
 
 const OtpVerify = () => {
   const [otp, setOtp] = useState("");
   const [timer, setTimer] = useState(60);
+
+  const navigation = useNavigation()
+
+  const handlePress=()=>{
+    navigation.navigate('setProfile')
+  }
 
   useEffect(() => {
     let intervalId;
@@ -132,7 +139,7 @@ const OtpVerify = () => {
           )}
         </View>
 
-        <CustomButton text="Verify" width={windowWidth * 0.8} />
+        <CustomButton text="Verify" width={windowWidth * 0.8}  handlePress={handlePress}/>
       </View>
       
     </View>

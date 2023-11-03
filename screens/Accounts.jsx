@@ -9,11 +9,14 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
-
+import {useNavigation} from '@react-navigation/native'
 const profile = require('./../assets/profile.png')
 const bg = require('./../assets/bg-texture.png')
 
 const Accounts = () => {
+  const navigation = useNavigation()
+
+
   return (
     <View>
       <CustomHeader title={'Profile'} backButton={true} height={0.16} headerBar={false} />
@@ -30,7 +33,7 @@ const Accounts = () => {
       </View>
 
       <ScrollView style={{ height: height * 0.47, width: width * 0.86 }} showsVerticalScrollIndicator={false} className=" mt-12 space-y-3  mx-auto">
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate('userProfile')}>
           <View className="flex flex-row   items-center justify-between">
             <View className="flex flex-row  items-center">
               <View className="rounded-md shadow-md  bg-white w-10 items-center" style={[styles.shadowProp, styles.space]}>
@@ -44,7 +47,7 @@ const Accounts = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate('orderHistory')}>
           <View className="flex flex-row   items-center justify-between">
             <View className="flex flex-row  items-center">
               <View className="rounded-md shadow-md  bg-white w-10 items-center" style={[styles.shadowProp, styles.space]}>
@@ -58,7 +61,7 @@ const Accounts = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate('address')}>
           <View className="flex flex-row   items-center justify-between">
             <View className="flex flex-row  items-center">
               <View className="rounded-md shadow-md  bg-white w-10 items-center" style={[styles.shadowProp, styles.space]}>
@@ -72,7 +75,7 @@ const Accounts = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate('address')}>
           <View className="flex flex-row   items-center justify-between">
             <View className="flex flex-row  items-center">
               <View className="rounded-md shadow-md  bg-white  w-10 items-center" style={[styles.shadowProp, styles.space]}>
@@ -86,7 +89,7 @@ const Accounts = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate('address')}>
           <View className="flex flex-row   items-center justify-between">
             <View className="flex flex-row  items-center">
               <View className="rounded-md shadow-md  bg-white w-10 items-center" style={[styles.shadowProp, styles.space]}>
@@ -100,7 +103,7 @@ const Accounts = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate('faq')}>
           <View className="flex flex-row   items-center justify-between">
             <View className="flex flex-row  items-center">
               <View className="rounded-md shadow-md  bg-white w-10 items-center" style={[styles.shadowProp, styles.space]}>
@@ -135,10 +138,10 @@ const Accounts = () => {
 }
 const styles = StyleSheet.create({
   shadowProp: {
-    shadowColor: '#171717',
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 1,
+    shadowColor: '#000',
+    shadowOffset: { width: 5, height:5 },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
   },
   space: {
     padding: 5,

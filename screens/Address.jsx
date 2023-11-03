@@ -6,8 +6,16 @@ const bg = require('./../assets/bg-texture.png')
 const address = require('./../assets/address.png')
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
+import {useNavigation} from '@react-navigation/native'
 
 const Address = () => {
+  
+  const navigation = useNavigation()
+
+  const handlePress=()=>{
+    navigation.navigate('addAddress')
+  }
+
   return (
     <View className="flex">
         <CustomHeader title={'My Addresses'} backButton={true} height={0.14} headerBar={false}/>
@@ -90,7 +98,7 @@ const Address = () => {
     <TouchableOpacity style={{width:windowWidth*0.42}} className="bg-white border-linegray border p-2 rounded-lg flex justify-center items-center my-2">
       <Text className="text-green uppercase text-xs">Remove Address</Text>
     </TouchableOpacity>
-    <TouchableOpacity style={{width:windowWidth*0.42}} className="bg-green p-2 rounded-lg flex justify-center items-center my-2">
+    <TouchableOpacity style={{width:windowWidth*0.42}} className="bg-green p-2 rounded-lg flex justify-center items-center my-2" onPress={()=>handlePress()}>
       <Text className="text-white uppercase text-xs">Add New Address</Text>
     </TouchableOpacity>
     </View>

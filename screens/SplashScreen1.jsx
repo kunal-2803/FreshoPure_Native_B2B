@@ -4,10 +4,15 @@ import LottieView from 'lottie-react-native';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
-
+import {useNavigation} from '@react-navigation/native'
 import CustomButton from '../components/CustomButton';
 
 const SplashScreen1 = () => {
+  const navigation = useNavigation()
+
+  const handlePress=()=>{
+    navigation.navigate('splashScreen2')
+  }
 
   return (
     <View className=" flex items-center justify-center ">
@@ -31,7 +36,7 @@ const SplashScreen1 = () => {
 
 
       <View className="mt-5">
-        <CustomButton text={"Continue"} width={width * 0.8} ></CustomButton>
+        <CustomButton text={"Continue"} width={width * 0.8} handlePress={handlePress}/>
       </View>
 
     </View>

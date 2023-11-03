@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Dimensions, TouchableWithoutFeedback, Keyboard, Image, ScrollView } from 'react-native'
 import React from 'react'
-import PieChart from 'react-native-pie-chart'
+// import PieChart from 'react-native-pie-chart'
 
 import CustomHeader from '../components/CustomHeader';
 
@@ -33,13 +33,13 @@ const Analytics = () => {
 
 
                 <View style={styles.container}>
-                    <PieChart
+                    {/* <PieChart
                         widthAndHeight={widthAndHeight}
                         series={series}
                         sliceColor={sliceColor}
                         coverRadius={0.7}
                         coverFill={'#FFF'}
-                    />
+                    /> */}
                     {/* <View style={styles.centerTextContainer}>
                         <Text style={styles.centerText}>{centerText}</Text>
                     </View> */}

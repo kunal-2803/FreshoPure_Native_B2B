@@ -7,8 +7,15 @@ const bg = require('./../assets/bg-texture.png')
 const profile = require('./../assets/profile.png')
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
+import {useNavigation} from '@react-navigation/native'
 
 const SetProfile = () => {
+  const navigation = useNavigation()
+
+  const handlePress=()=>{
+    navigation.navigate('parent')
+  }
+
   return (
     <View className="flex" >
       <Image source={bg} className="absolute" style={{height:windowHeight*1.4}} resizeMode="repeat"/>
@@ -53,7 +60,7 @@ const SetProfile = () => {
       </View>
 
       <View className="flex w-full justify-center items-center my-2">
-      <CustomButton width={windowWidth*0.85} text={'Proceed'}/>
+      <CustomButton width={windowWidth*0.85} text={'Proceed'} handlePress={handlePress}/>
       </View>
 
     </ScrollView>
