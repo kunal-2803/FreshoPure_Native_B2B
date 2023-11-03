@@ -37,6 +37,7 @@ const Main = () => {
         <NavigationContainer>
 
             <Stack.Navigator >
+            <Stack.Screen name='splashScreen3' component={SplashScreen3} options={{headerShown:false}}/>
             {/* <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/> */}
             {/* <Stack.Screen name='orderConfirm' component={OrderConfirm} options={{headerShown:false}}/> */}
             <Stack.Screen name='addAddress' component={AddAddress}/>
@@ -57,7 +58,7 @@ const Main = () => {
                 <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
 
                 <Stack.Screen name='splashScreen2' component={SplashScreen2}/>
-                <Stack.Screen name='splashScreen3' component={SplashScreen3}/>
+                
                 <Stack.Screen name='userProfile' component={UserProfile}/>
             </Stack.Navigator>
         </NavigationContainer>

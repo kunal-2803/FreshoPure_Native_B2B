@@ -14,7 +14,7 @@ const SplashScreen3 = () => {
 
       <View style={{ width: width * 0.9, marginTop: height * 0.16 }} className="items-center" >
         <LottieView
-          source={require('../assets/screen1.json')}
+          source={require('../assets/screen3.json')}
           autoPlay
           loop
           style={{ height: 260 }}
