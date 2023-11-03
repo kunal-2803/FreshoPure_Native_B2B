@@ -23,6 +23,8 @@ import UserProfile from './screens/UserProfile';
 import WishList from './screens/WishList';
 import Accounts from './screens/Accounts';
 import Analytics from './screens/Analytics';
+import FAQ from './screens/FAQ';
+import Checkout from './screens/Checkout';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,31 +36,29 @@ const Main = () => {
       />
         <NavigationContainer>
 
-            <Stack.Navigator options={{headerShown:false}}>
-            <Stack.Screen name='splashScreen2' component={SplashScreen2} options={{headerShown:false}}/>
-            <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
+            <Stack.Navigator >
+            {/* <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/> */}
             {/* <Stack.Screen name='orderConfirm' component={OrderConfirm} options={{headerShown:false}}/> */}
-            {/* <Stack.Screen name='accounts' component={Accounts} options={{headerShown:false}}/> */}
-            {/* <Stack.Screen name='addAddress' component={AddAddress} options={{headerShown:false}}/> */}
-            <Stack.Screen name='analytics' component={Analytics} options={{headerShown:false}}/>
-            <Stack.Screen name='orderHistory' component={OrderHistory} options={{headerShown:false}}/>
+            <Stack.Screen name='addAddress' component={AddAddress}/>
+
             <Stack.Screen name='parent' component={Parent} options={{headerShown:false}}/>
-                {/* <Stack.Screen name='home' component={Home} options={{headerShown:false}}/> */}
-                <Stack.Screen name='otpVerify' component={OtpVerify}/>
-                
-                <Stack.Screen name='address' component={Address}/>
 
-                {/* <Stack.Screen name='cart' component={Cart}/> */}
+            <Stack.Screen name='faq' component={FAQ} options={{headerShown:false}}/>
+            <Stack.Screen name='orderHistoryItems' component={OrderHistoryItems} options={{headerShown:false}}/>
+
+            {/* <Stack.Screen name='setProfile' component={SetProfile} options={{headerShown:false}}/> */}
+            <Stack.Screen name='address' component={Address} options={{headerShown:false}}/>
+                <Stack.Screen name='login' component={Login}/>
+                
                 <Stack.Screen name='orderConfirm' component={OrderConfirm}/>
-                
-                <Stack.Screen name='orderHistoryItems' component={OrderHistoryItems}/>
+                <Stack.Screen name='orderHistory' component={OrderHistory}/>
+                {/* <Stack.Screen name='orderHistoryItems' component={OrderHistoryItems}/> */}
                 <Stack.Screen name='payment' component={Payment}/>
-                {/* <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/> */}
+                <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
 
-                {/* <Stack.Screen name='splashScreen2' component={SplashScreen2}/> */}
+                <Stack.Screen name='splashScreen2' component={SplashScreen2}/>
                 <Stack.Screen name='splashScreen3' component={SplashScreen3}/>
                 <Stack.Screen name='userProfile' component={UserProfile}/>
-                {/* <Stack.Screen name='wishList' component={WishList}/> */}
             </Stack.Navigator>
         </NavigationContainer>
         </>

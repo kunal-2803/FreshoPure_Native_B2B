@@ -7,7 +7,7 @@ const windowWidth = Dimensions.get('window').width;
 import BackIcon from 'react-native-vector-icons/Ionicons'
 import EvilIcons from 'react-native-vector-icons/EvilIcons'
 
-const CustomHeader = ({title,backButton,height,headerBar}) => {
+const CustomHeader = ({title,backButton,height,headerBar,parentHeader}) => {
   return (
     <View style={{width:windowWidth,minHeight:windowHeight*height}} className="bg-green rounded-b-3xl flex flex-row">
      <StatusBar
@@ -19,8 +19,8 @@ const CustomHeader = ({title,backButton,height,headerBar}) => {
       </TouchableOpacity>
       <Text className="text-white text-xl ">{title}</Text>
       </View>}
-      {headerBar && <View className="w-full flex justify-center items-center">
-        <View style={{width:windowWidth*0.9}} className="bg-white h-12 rounded-lg flex flex-row items-center justify-between px-2">
+      {headerBar && <View className="w-full flex items-center">
+        <View style={{width:windowWidth*0.9}} className="bg-white mt-4 h-12 rounded-lg flex flex-row items-center justify-between px-2">
           <Image source={Avatar}/>
           <View className="flex items-center flex-row justify-center">
             <EvilIcons name="location" size={24}/>
@@ -28,8 +28,10 @@ const CustomHeader = ({title,backButton,height,headerBar}) => {
           </View>
           <EvilIcons name="bell" size={32}/> 
           </View>
+          {parentHeader && <Text className="text-white font-semibold text-2xl capitalize mt-4">{parentHeader}</Text>}
       </View>
       }
+      
     </View>
   )
 }

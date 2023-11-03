@@ -18,7 +18,7 @@ const SetProfile = () => {
      <Image source={profile} className="w-24 h-24 bg-white rounded-full border"/>
      </View>
       
-    <ScrollView alwaysBounceVertical={true} className="flex" style={{height:windowHeight*0.8}} showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
+    <ScrollView alwaysBounceVertical={true} className="flex" style={{height:windowHeight*0.84}} showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
       
     <View className="flex w-full justify-center items-center my-2 mt-14">
       <InputFeild width={windowWidth*0.85} placeHolder='Full Name'/>
