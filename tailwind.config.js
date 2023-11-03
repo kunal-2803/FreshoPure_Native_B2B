@@ -18,6 +18,9 @@ module.exports = {
       "white":"#fff",
       "lightText":"#64748B",
       "buttongray":"#F1F5F9",
+      "ordercomp":"#fff",
+      "inProcess":"#FFAA33",
+      "red":"#DC143C"
       
 
      },

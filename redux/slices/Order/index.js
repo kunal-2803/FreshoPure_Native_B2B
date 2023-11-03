@@ -1,12 +1,12 @@
 import React from 'react';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-
+const baseUrl = 'http://15.206.181.239'
 //Action
 export const orderHistory = createAsyncThunk("orderHistory", async () => {
-    const response = await fetch(`${process.env.REACT_APP_URL}/order/orderhistory`, {
+    const response = await fetch(`${baseUrl}/order/orderhistory`, {
         method: 'get',
         headers: {
-            'token': localStorage.getItem("token")
+            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s'
         }
     });
     const res = await response.json()
@@ -22,11 +22,11 @@ export const orderHistory = createAsyncThunk("orderHistory", async () => {
 });
 
 export const orderHistoryItems = createAsyncThunk("orderHistoryItems", async (order_id) => {
-    const response = await fetch(`${process.env.REACT_APP_URL}/order/orderhistoryitems`, {
+    const response = await fetch(`${baseUrl}/order/orderhistoryitems`, {
         method: 'post',
         body: JSON.stringify({ order_id }),
         headers: {
-            'token': localStorage.getItem("token"),
+            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
             'Content-Type': 'application/json'
         }
     });
@@ -37,7 +37,7 @@ export const orderHistoryItems = createAsyncThunk("orderHistoryItems", async (or
 export const placeOrder = createAsyncThunk("placeOrder", async (data) => {
     const addressId=data.address;
     const price=data.price;
-    let response = await fetch(`${process.env.REACT_APP_URL}/order/placeorder`, {
+    let response = await fetch(`${baseUrl}/order/placeorder`, {
         method: 'post',
         body: JSON.stringify({ addressId, price }),
         headers: {

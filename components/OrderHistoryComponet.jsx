@@ -11,12 +11,13 @@ import {useNavigation} from '@react-navigation/native'
 
 
 
-const OrderHistoryComponet = () => {
+const OrderHistoryComponet = ({item}) => {
+
 
     const navigation = useNavigation()
 
     const handlePress=()=>{
-      navigation.navigate('orderHistoryItems')
+      navigation.navigate('orderHistoryItems',{data:item?._id})
     }
 
     return (
@@ -29,17 +30,17 @@ const OrderHistoryComponet = () => {
                             <View>
                                 <Image source={OrderImg} className="h-20 m-4" style={{ width: width * 0.23 }} />
                             </View>
-                            <View style={{ width: width * 0.34 }}>
-                                <Text className="text-lightText text-xs">10:30 AM</Text>
-                                <Text><Text className="font-bold">Order Id:</Text> #9355</Text>
-                                <View className="flex flex-row justify-between">
-                                    <Text className="text-lightText text-xs ">10 Items</Text>
+                            <View className="w-fit">
+                                <Text className="text-lightText text-xs">{item?.time} AM</Text>
+                                <Text className="font-bold">Order Id:{item?.orderId}</Text> 
+                                <View className="flex flex-row">
+                                    <Text className="text-lightText text-xs ">{item?.totalItems} Items </Text>
                                     <Text className="text-lightText text-xs ">|</Text>
-                                    <Text className="text-lightText text-xs">30/08/2023</Text>
+                                    <Text className="text-lightText text-xs"> {item?.date}</Text>
                                 </View>
-                                <View className="flex flex-row justify-between">
-                                    <Text className="text-lightText text-xs">Rs. 5049</Text>
-                                    <Text className="text-green text-xs font-bold">Completed</Text>
+                                <View className="flex flex-row ">
+                                    <Text className="text-lightText text-xs mr-2">₹ {item?.totalPrice}</Text>
+                                    {item?.orderstatus === 'Order Placed' || 'Order Delivered' ? <Text className="text-green text-xs font-bold">{item?.orderstatus}</Text> : (item?.orderstatus === 'Order InProcess') ? <Text className="text-inProcess text-xs font-bold">{item?.orderstatus}</Text> : <Text className="text-red text-xs font-bold">{item?.orderstatus}</Text>}
                                 </View>
                             </View>
                         </View>
