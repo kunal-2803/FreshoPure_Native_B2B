@@ -8,6 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
+  FlatList
 } from "react-native";
 import React, { useState,useEffect } from "react";
 import CustomHeader from "../components/CustomHeader.jsx";
@@ -24,7 +25,6 @@ const Cart = () => {
   const dispatch=useDispatch();
   const {data,isError,isLoading} = useSelector(state=>state.cartItems)
   
-
   useEffect(()=>{
     dispatch(fetchCartItems())
   },[])
@@ -45,17 +45,27 @@ const Cart = () => {
       />
 
       <View className="flex w-full justify-center items-center">
-        <ScrollView style={{ width: windowWidth * 0.9 }}>
-       
-
-
-        </ScrollView>
+      <FlatList
+         className = ""
+         style={{width:windowWidth*0.9}}
+         data={data?.cartData}
+         renderItem={item=><CartItem item={item?.item}/>}
+         keyExtractor={item => item._id}
+    />
       </View>
     </View>
   );
 };
 
-const CartItem = ()=>{
+const CartItem = ({item})=>{
+  
+  function func(img) {
+    let image = img.substr(12)
+    const retImage = 'https://letusfarm-image-storage.s3.ap-south-1.amazonaws.com' + image
+    
+    return retImage
+  }
+
   return (
     <View
     className="w-full h-fit my-2 rounded-md flex flex-col justify-between p-2 items-center shadow-freshoxl bg-white"
@@ -69,11 +79,11 @@ const CartItem = ()=>{
   >
     <View className="flex flex-row justify-between w-full">
       <View className="flex flex-row items-center">
-        <Image source={apple} className="w-10 h-10"></Image>
+        <Image source={{uri:func(item?.image)}} className="w-10 h-10"></Image>
         <View>
-          <Text className="font-semibold ml-2">Apple</Text>
+          <Text className="font-semibold ml-2 capitalize">{item?.itemName}</Text>
           <Text className="ml-2 text-xs text-lightText mt-1">
-            2kg 500gm
+            {item?.quantity?.kg}kg {item?.quantity?.gram}gm
           </Text>
         </View>
       </View>

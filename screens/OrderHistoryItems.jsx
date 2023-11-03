@@ -1,5 +1,5 @@
 import { View, Text, Image, Dimensions, TouchableOpacity } from "react-native";
-import React from "react";
+import React,{useState,useEffect} from "react";
 import CustomHeader from "../components/CustomHeader.jsx";
 import CustomButton from "../components/CustomButton.jsx";
 const bg = require("./../assets/bg-texture.png");
@@ -8,8 +8,21 @@ const windowHeight = Dimensions.get("window").height;
 const windowWidth = Dimensions.get("window").width;
 const apple = require('./../assets/apple.png')
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import {orderHistoryItems} from '../redux/slices/Order/index.js'
+import {useDispatch,useSelector} from 'react-redux';   
+import { useRoute } from '@react-navigation/native';
 
-const OrderHistoryItems = () => {
+const OrderHistoryItem = () => {
+  const dispatch=useDispatch();
+  const {orderItems,isError,isLoading} = useSelector(state=>state.order)
+  const route = useRoute();
+  const order_id = route.params.data; 
+  console.log(orderItems)
+  
+  useEffect(()=>{
+    dispatch(orderHistoryItems(order_id))
+  },[])
+
   return (
     <View className="flex">
       <CustomHeader
@@ -152,4 +165,4 @@ const OrderHistoryItems = () => {
   );
 };
 
-export default OrderHistoryItems;
+export default OrderHistoryItem;
