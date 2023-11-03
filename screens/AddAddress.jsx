@@ -1,97 +1,75 @@
-import { View, Text, StyleSheet, TouchableOpacity,TextInput,Dimensions,TouchableWithoutFeedback, Keyboard } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity,TextInput,Dimensions,TouchableWithoutFeedback, Keyboard,Image } from 'react-native'
 import React from 'react'
 import HeaderComponent from '../components/HeaderComponent'
+import InputFeild from '../components/InputFeild';
+import CustomHeader from '../components/CustomHeader';
+import CustomButton from '../components/CustomButton';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
+const bg = require('./../assets/bg-texture.png')
+
 const AddAddress = () => {
   return (
     <View className="flex justify-center items-center">
-      {/* <Text>AddAddress</Text> */}
-      <HeaderComponent heading={"AddAddress"} />
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={{width:width*0.9}}>
-        <Text>Name</Text>
-        <TextInput className="rounded-md border mt-2 py-1 px-3"
-            placeholder='Hemendra Mali'
-          // style={styles.input}
-          // onChangeText={onChangeText}
-          // value={text}
-        />
-      </View>
-      </TouchableWithoutFeedback>
+      <Image source={bg} className="absolute" style={{height:height*1.4}} resizeMode="repeat"/>
+      <CustomHeader title={'Add Address'} backButton={true} height={0.16} headerBar={false}/>
+     <View className="space-y-7 mt-10">
       <View>
-        <Text>Name</Text>
-        <TextInput
-          style={styles.input}
-          // onChangeText={onChangeText}
-          // value={text}
-        />
+        
+        <InputFeild width={width*0.9} placeHolder={'Hemendra Mali'}></InputFeild>
       </View>
       <View>
-        <Text>Name</Text>
-        <TextInput
-          style={styles.input}
-          // onChangeText={onChangeText}
-          // value={text}
-        />
+        
+        <InputFeild width={width*0.9} placeHolder={'Hemendra Mali'}></InputFeild>
       </View>
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View className="flex-row">
-        <View>
-          <Text>Name</Text>
-          <TextInput
-            style={styles.input}
-            // onChangeText={onChangeText}
-            // value={text}
-          />
-        </View>
-        <View>
-          <Text>Name</Text>
-          <TextInput
-            style={styles.input}
-            // onChangeText={onChangeText}
-            // value={text}
-          />
-        </View>
+      <View>
+        
+        <InputFeild width={width*0.9} placeHolder={'Hemendra Mali'}></InputFeild>
       </View>
-      </TouchableWithoutFeedback>
-      <View className="flex-row">
-        <View>
-          <Text>Name</Text>
-          <TextInput
-            style={styles.input}
-            // onChangeText={onChangeText}
-            // value={text}
-          />
-        </View>
-        <View>
-          <Text>Name</Text>
-          <TextInput
-            style={styles.input}
-            // onChangeText={onChangeText}
-            // value={text}
-          />
-        </View>
+      
+      <View className="flex-row flex justify-between space-x-4" style={{width:width*0.9}}>
+      <View>
+        
+        <InputFeild width={width*0.43} placeHolder={'Hemendra Mali'}></InputFeild>
       </View>
-      <TouchableOpacity>
-        <Text className="border py-2 items-center text-center rounded-md" style={{width:width*0.8}}>Use My Location</Text>
-      </TouchableOpacity>
+      <View>
+        
+        <InputFeild width={width*0.43} placeHolder={'Hemendra Mali'}></InputFeild>
+      </View>
+      </View>
+        
+    
+      <View className="flex-row flex justify-between space-x-4" style={{width:width*0.9}}>
+      <View>
+        
+        <InputFeild width={width*0.43} placeHolder={'Hemendra Mali'}></InputFeild>
+      </View>
+      <View>
+        
+        <InputFeild width={width*0.43} placeHolder={'Hemendra Mali'}></InputFeild>
+      </View>
+      </View>
+      </View>
 
+      <View className="mt-10">
+      {/* <CustomButton  text={"Use My Location"} width={width*0.8} ></CustomButton> */}
+      
       <TouchableOpacity>
-      <Text className="border py-2 items-center text-center rounded-md mt-4" style={{width:width*0.8}}>Save Address</Text>
+      <View className="flex items-center py-2 rounded-md justify-center space-x-3">
+      <Text  className="flex items-center justify-center space-x-3" style={{width:width*0.8}}><MaterialIcons name="my-location" size={24} className="item-center px-3"/>Use My Location</Text>
+      
+      </View>
       </TouchableOpacity>
+      
+      <CustomButton text={"Save Address"} width={width*0.8}></CustomButton>
+      </View>
+      
     </View>
   )
 }
-const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-});
+
 
 export default AddAddress

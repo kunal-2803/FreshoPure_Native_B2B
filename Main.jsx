@@ -21,6 +21,8 @@ import SplashScreen2 from './screens/SplashScreen2';
 import SplashScreen3 from './screens/SplashScreen3';
 import UserProfile from './screens/UserProfile';
 import WishList from './screens/WishList';
+import Accounts from './screens/Accounts';
+import Analytics from './screens/Analytics';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,11 +34,14 @@ const Main = () => {
       />
         <NavigationContainer>
 
-            <Stack.Navigator >
-            {/* <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/> */}
+            <Stack.Navigator options={{headerShown:false}}>
+            <Stack.Screen name='splashScreen2' component={SplashScreen2} options={{headerShown:false}}/>
+            <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
             {/* <Stack.Screen name='orderConfirm' component={OrderConfirm} options={{headerShown:false}}/> */}
-            <Stack.Screen name='addAddress' component={AddAddress}/>
-
+            {/* <Stack.Screen name='accounts' component={Accounts} options={{headerShown:false}}/> */}
+            {/* <Stack.Screen name='addAddress' component={AddAddress} options={{headerShown:false}}/> */}
+            <Stack.Screen name='analytics' component={Analytics} options={{headerShown:false}}/>
+            <Stack.Screen name='orderHistory' component={OrderHistory} options={{headerShown:false}}/>
             <Stack.Screen name='parent' component={Parent} options={{headerShown:false}}/>
                 {/* <Stack.Screen name='home' component={Home} options={{headerShown:false}}/> */}
                 <Stack.Screen name='otpVerify' component={OtpVerify}/>
@@ -45,12 +50,12 @@ const Main = () => {
 
                 {/* <Stack.Screen name='cart' component={Cart}/> */}
                 <Stack.Screen name='orderConfirm' component={OrderConfirm}/>
-                <Stack.Screen name='orderHistory' component={OrderHistory}/>
+                
                 <Stack.Screen name='orderHistoryItems' component={OrderHistoryItems}/>
                 <Stack.Screen name='payment' component={Payment}/>
-                <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
+                {/* <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/> */}
 
-                <Stack.Screen name='splashScreen2' component={SplashScreen2}/>
+                {/* <Stack.Screen name='splashScreen2' component={SplashScreen2}/> */}
                 <Stack.Screen name='splashScreen3' component={SplashScreen3}/>
                 <Stack.Screen name='userProfile' component={UserProfile}/>
                 {/* <Stack.Screen name='wishList' component={WishList}/> */}
