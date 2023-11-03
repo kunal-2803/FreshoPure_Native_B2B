@@ -41,6 +41,7 @@ const apple = require('./../assets/apple.png')
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import {useDispatch,useSelector} from 'react-redux'
 import {fetchItems} from '../redux/slices/HotelItems/index.js'
+import { addToWishlist } from '../redux/slices/Wishlist/index.js'
 
 const Home = () => {
   const [selectedCategory,setSelectedCategory] = useState('All')
@@ -111,7 +112,7 @@ const Home = () => {
 }
 
 const ItemList = ({item})=>{
-
+  const dispatch = useDispatch()
   function func(img) {
     let image = img.substr(12)
     const retImage = 'https://letusfarm-image-storage.s3.ap-south-1.amazonaws.com' + image
@@ -119,10 +120,11 @@ const ItemList = ({item})=>{
     return retImage
   }
     return(
-    <View style={{width:windowWidth*0.9}} className=" h-14 my-2 rounded-md flex flex-row justify-between px-2 items-center shadow-freshoxl bg-white" style={{ shadowColor: 'rgba(0, 0, 0,1)',
+    <View  className=" h-14 my-2 rounded-md flex flex-row justify-between px-2 items-center shadow-freshoxl bg-white" style={{ shadowColor: 'rgba(0, 0, 0,1)',
            shadowOffset: { width: 0, height: 10 },
            shadowOpacity: 1,
            shadowRadius: 1,
+           width:windowWidth*0.9,
            elevation: 6}}>
             <View className="flex flex-row items-center">
               <Image source={{uri:func(item?.image)}} className="w-10 h-10"></Image>
@@ -130,7 +132,7 @@ const ItemList = ({item})=>{
             </View>
 
             <View className="flex flex-row items-center">
-              <Ionicons name="heart-outline" size={24} />
+              <Ionicons name="heart-outline" size={24} onPress={()=>dispatch(addToWishlist(item?._id))} />
               <TouchableOpacity className="flex justify-center items-center border-linegray border px-4 py-2 rounded-md ml-4"><Text className="text-green uppercase">Add</Text></TouchableOpacity>
             </View>
           </View>
