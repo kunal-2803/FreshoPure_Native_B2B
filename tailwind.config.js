@@ -21,6 +21,9 @@ module.exports = {
       
 
      },
+     boxShadow: {
+      'freshoxl': '4px 4px 6px rgba(0, 0, 0, 1)',
+    },
 
   },
   plugins: [],

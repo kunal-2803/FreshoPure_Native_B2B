@@ -3,7 +3,7 @@ import React from 'react'
 
 const CustomButton = ({text,width}) => {
   return (
-    <TouchableOpacity style={{width:width}} className="bg-green p-4 rounded-md flex justify-center items-center my-4">
+    <TouchableOpacity style={{width:width}} className="bg-green p-4 rounded-md flex justify-center items-center my-2">
       <Text className="text-white">{text}</Text>
     </TouchableOpacity>
   )

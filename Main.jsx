@@ -21,6 +21,8 @@ import SplashScreen2 from './screens/SplashScreen2';
 import SplashScreen3 from './screens/SplashScreen3';
 import UserProfile from './screens/UserProfile';
 import WishList from './screens/WishList';
+import FAQ from './screens/FAQ';
+import Checkout from './screens/Checkout';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,17 +33,22 @@ const Main = () => {
         barStyle = "light-content" backgroundColor = "transparent" translucent = {true}
       />
         <NavigationContainer>
-            <Stack.Navigator initialRouteName='parent'>
+            <Stack.Navigator >
+            <Stack.Screen name='checkout' component={Checkout} options={{headerShown:false}}/>
+
+            <Stack.Screen name='otpVerify' component={OtpVerify} options={{headerShown:false}}/>
             <Stack.Screen name='parent' component={Parent} options={{headerShown:false}}/>
-                <Stack.Screen name='otpVerify' component={OtpVerify}/>
+
+            <Stack.Screen name='faq' component={FAQ} options={{headerShown:false}}/>
+            <Stack.Screen name='orderHistoryItems' component={OrderHistoryItems} options={{headerShown:false}}/>
+
+            {/* <Stack.Screen name='setProfile' component={SetProfile} options={{headerShown:false}}/> */}
+            <Stack.Screen name='address' component={Address} options={{headerShown:false}}/>
                 <Stack.Screen name='login' component={Login}/>
                 
-                <Stack.Screen name='address' component={Address}/>
                 <Stack.Screen name='orderConfirm' component={OrderConfirm}/>
                 <Stack.Screen name='orderHistory' component={OrderHistory}/>
-                <Stack.Screen name='orderHistoryItems' component={OrderHistoryItems}/>
                 <Stack.Screen name='payment' component={Payment}/>
-                <Stack.Screen name='setProfile' component={SetProfile}/>
                 <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
                 <Stack.Screen name='splashScreen2' component={SplashScreen2}/>
                 <Stack.Screen name='splashScreen3' component={SplashScreen3}/>
