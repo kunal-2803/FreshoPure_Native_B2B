@@ -48,7 +48,7 @@ export const removefromCart = createAsyncThunk("removefromCart", async (itemId, 
         method: 'post',
         body: JSON.stringify({ Itemid: itemId }),
         headers: {
-            'token': localStorage.getItem("token"),
+            'token':token,
             'Content-Type': 'application/json'
         }
     });

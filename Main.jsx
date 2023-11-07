@@ -37,7 +37,7 @@ const Main = () => {
         <NavigationContainer>
 
             <Stack.Navigator >
-            <Stack.Screen name='address' component={Address} options={{headerShown:false}}/>
+            {/* <Stack.Screen name='address' component={Address} options={{headerShown:false}}/> */}
 
             {/* <Stack.Screen name='orderHistory' component={OrderHistory} options={{headerShown:false}}/> */}
             <Stack.Screen name='parent' component={Parent} options={{headerShown:false}}/>
