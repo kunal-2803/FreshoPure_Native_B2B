@@ -75,7 +75,7 @@ const Accounts = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={()=>navigation.navigate('address')}>
+        <TouchableOpacity onPress={()=>navigation.navigate('analytics')}>
           <View className="flex flex-row   items-center justify-between">
             <View className="flex flex-row  items-center">
               <View className="rounded-md shadow-md  bg-white  w-10 items-center" style={[styles.shadowProp, styles.space]}>
