@@ -11,14 +11,18 @@ import {
   FlatList
 } from "react-native";
 import React, { useState,useEffect } from "react";
+
 import CustomHeader from "../components/CustomHeader.jsx";
 import CustomButton from "../components/CustomButton.jsx";
+
 const bg = require("./../assets/bg-texture.png");
+
 const windowHeight = Dimensions.get("window").height;
 const windowWidth = Dimensions.get("window").width;
-const apple = require("./../assets/apple.png");
+
 import Ionicons from "react-native-vector-icons/Ionicons";
-import {fetchCartItems} from '../redux/slices/Cart/index.js'
+
+import {fetchCartItems ,removefromCart} from '../redux/slices/Cart/index.js'
 import {useDispatch,useSelector} from 'react-redux';   
 
 const Cart = () => {
@@ -58,7 +62,7 @@ const Cart = () => {
 };
 
 const CartItem = ({item})=>{
-  
+  const dispatch=useDispatch();
   function func(img) {
     let image = img.substr(12)
     const retImage = 'https://letusfarm-image-storage.s3.ap-south-1.amazonaws.com' + image
@@ -110,6 +114,7 @@ const CartItem = ({item})=>{
         <TouchableOpacity
           style={{ width: windowWidth * 0.35 }}
           className="bg-white border-linegray border p-2 rounded-lg flex justify-center items-center my-2"
+          onPress={()=>dispatch(removefromCart(item?._id))}
         >
           <Text className="text-green uppercase text-xs">Remove</Text>
         </TouchableOpacity>

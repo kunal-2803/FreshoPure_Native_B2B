@@ -37,6 +37,10 @@ const Main = () => {
         <NavigationContainer>
 
             <Stack.Navigator >
+<<<<<<< HEAD
+            {/* <Stack.Screen name='address' component={Address} options={{headerShown:false}}/> */}
+=======
+>>>>>>> efb9a4dd8efd360627124a95718aaca3e619679e
 
             <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
             <Stack.Screen name='splashScreen2' component={SplashScreen2} options={{headerShown:false}}/>

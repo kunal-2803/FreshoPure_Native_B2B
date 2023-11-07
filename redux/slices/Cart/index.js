@@ -1,6 +1,7 @@
 import React from 'react';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 const baseUrl = 'http://15.206.181.239'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s'
 
 //Action
 export const fetchCartItems = createAsyncThunk("fetchCartItems", async () => {
@@ -29,12 +30,13 @@ export const addToCart = createAsyncThunk("addToCart", async (itemId, { rejectWi
         method: 'post',
         body: JSON.stringify({ orderedItem }),
         headers: {
-            'token': localStorage.getItem("token"),
+            'token': token,
             'Content-Type': 'application/json'
         }
     });
     try {
         const result = await response.json();
+        console.log(result)
         return result;
     } catch (error) {
         return rejectWithValue(error);
@@ -46,7 +48,7 @@ export const removefromCart = createAsyncThunk("removefromCart", async (itemId, 
         method: 'post',
         body: JSON.stringify({ Itemid: itemId }),
         headers: {
-            'token': localStorage.getItem("token"),
+            'token':token,
             'Content-Type': 'application/json'
         }
     });

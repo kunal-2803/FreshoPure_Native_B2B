@@ -1,15 +1,16 @@
 import React from 'react';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s'
 //Action
 export const fetchWishlistItems = createAsyncThunk("fetchWishlistItems", async () => {
-    const response = await fetch(`${process.env.REACT_APP_URL}/wishlist/getwishlistitems`, {
+    const response = await fetch(`http://15.206.181.239/wishlist/getwishlistitems`, {
         method: 'get',
         headers: {
-            'token': localStorage.getItem("token")
+            'token': token
         }
     });
     const res = await response.json()
+    console.log(res)
     return res;
 });
 
@@ -20,16 +21,17 @@ export const addToWishlist = createAsyncThunk("addToWishlist", async (itemId, { 
         }
       ];
 
-    const response = await fetch(`${process.env.REACT_APP_URL}/wishlist/additemtowishlist`, {
+    const response = await fetch(`http://15.206.181.239/wishlist/additemtowishlist`, {
         method: 'post',
         body: JSON.stringify({ wishlistItem }),
         headers: {
-            'token': localStorage.getItem("token"),
+            'token': token,
             'Content-Type': 'application/json'
         }
     });
     try {
         const result = await response.json();
+        console.log(result)
         return result;
     } catch (error) {
         return rejectWithValue(error);
@@ -37,16 +39,18 @@ export const addToWishlist = createAsyncThunk("addToWishlist", async (itemId, { 
 })
 
 export const removefromWishlist = createAsyncThunk("removefromWishlist", async (itemId, { rejectWithValue }) => {
-    const response = await fetch(`${process.env.REACT_APP_URL}/wishlist/removeitemfromwishlist`, {
+    console.log(itemId);
+    const response = await fetch(`http://15.206.181.239/wishlist/removeitemfromwishlist`, {
         method: 'post',
         body: JSON.stringify({ Itemid: itemId }),
         headers: {
-            'token': localStorage.getItem("token"),
+            'token': token,
             'Content-Type': 'application/json'
         }
     });
     try {
         const result = await response.json();
+        console.log(result)
         return itemId;
     } catch (error) {
         return rejectWithValue(error);
