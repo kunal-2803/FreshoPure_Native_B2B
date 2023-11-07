@@ -1,13 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+const baseUrl = 'http://15.206.181.239'
 
 export const addAddress = createAsyncThunk("addAddress", async (newAddress) => {
-  const response = await fetch(`${process.env.REACT_APP_URL}/address/addaddress`, {
+  const response = await fetch(`${baseUrl}/address/addaddress`, {
     method: 'post',
     body: JSON.stringify({ ...newAddress }),
     headers: {
-      'token': localStorage.getItem("token"),
+      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
       'Content-Type': 'application/json'
-    }
+    } 
   });
   try {
     const result = await response.json();
@@ -18,14 +19,16 @@ export const addAddress = createAsyncThunk("addAddress", async (newAddress) => {
 })
 
 export const selectedAddress = createAsyncThunk("selectedAddress", async () => {
-  const response = await fetch(`${process.env.REACT_APP_URL}/address/getselectedaddress`, {
+  console.log('hit')
+  const response = await fetch(`${baseUrl}/address/getselectedaddress`, {
     method: 'get',
     headers: {
-      'token': localStorage.getItem("token")
+      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
     }
   });
   try {
     const result = await response.json();
+    console.log(result,'res')
     return result;
   } catch (error) {
     return error;
@@ -33,10 +36,10 @@ export const selectedAddress = createAsyncThunk("selectedAddress", async () => {
 })
 
 export const allAddress = createAsyncThunk("allAddress", async () => {
-  const response = await fetch(`${process.env.REACT_APP_URL}/address/getalladdresses`, {
+  const response = await fetch(`${baseUrl}/address/getalladdresses`, {
     method: 'get',
     headers: {
-      'token': localStorage.getItem("token")
+      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
     }
   });
   try {
@@ -48,7 +51,7 @@ export const allAddress = createAsyncThunk("allAddress", async () => {
 })
 
 export const selectDiffAddress = createAsyncThunk("selectDiffAddress", async (addressId, { rejectWithValue }) => {
-  const responseUpdate = await fetch(`${process.env.REACT_APP_URL}/address/updateselectedaddress`, {
+  const responseUpdate = await fetch(`${baseUrl}/address/updateselectedaddress`, {
     method: 'post',
     body: JSON.stringify({ addressId }),
     headers: {
@@ -57,7 +60,7 @@ export const selectDiffAddress = createAsyncThunk("selectDiffAddress", async (ad
     }
   });
 
-  const response = await fetch(`${process.env.REACT_APP_URL}/address/getselectedaddress`, {
+  const response = await fetch(`${baseUrl}/address/getselectedaddress`, {
     method: 'get',
     headers: {
       'token': localStorage.getItem("token")
@@ -72,7 +75,7 @@ export const selectDiffAddress = createAsyncThunk("selectDiffAddress", async (ad
 })
 
 export const deleteaddress = createAsyncThunk("deleteaddress", async (addressId, { rejectWithValue }) => {
-  const response = await fetch(`${process.env.REACT_APP_URL}/address/removeaddress`, {
+  const response = await fetch(`${baseUrl}/address/removeaddress`, {
     method: 'post',
     body: JSON.stringify({ addressId }),
     headers: {
