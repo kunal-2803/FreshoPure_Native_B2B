@@ -19,14 +19,15 @@ const Accounts = () => {
 
   return (
     <View>
-      <CustomHeader title={'Profile'} backButton={true} height={0.16} headerBar={false} />
-      <View className="border-2 border-white rounded-full absolute left-1/2 top-20 z-10" style={{ transform: [{ translateX: -50 }] }}>
-        <Image source={profile} className="w-24 h-24 bg-white rounded-full border" />
-      </View>
+    <CustomHeader backButton={false} height={0.14} headerBar={false}/>
+
+    <View className="border-2 border-white rounded-full absolute left-1/2 top-10 z-10" style={{transform:[{translateX:-50}]}}>
+    <Image source={profile} className="w-24 h-24 bg-white rounded-full border"/>
+    </View>
 
       <Image source={bg} className="absolute" style={{ height: height * 1.4 }} resizeMode="repeat" />
 
-      <View className="mt-20 items-center space-y-2">
+      <View className="mt-12 items-center space-y-2">
         <Text className="font-bold text-xl">Bimal Shrestha</Text>
         <Text className="font-light">bimalstha291@gmail.com</Text>
         <Text className="font-light">Tipsy Family restaurant Vidhya Dhar Nagar </Text>

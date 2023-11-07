@@ -28,7 +28,6 @@ export const selectedAddress = createAsyncThunk("selectedAddress", async () => {
   });
   try {
     const result = await response.json();
-    console.log(result,'res')
     return result;
   } catch (error) {
     return error;
@@ -55,7 +54,7 @@ export const selectDiffAddress = createAsyncThunk("selectDiffAddress", async (ad
     method: 'post',
     body: JSON.stringify({ addressId }),
     headers: {
-      'token': localStorage.getItem("token"),
+      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
       'Content-Type': 'application/json'
     }
   });
@@ -63,7 +62,7 @@ export const selectDiffAddress = createAsyncThunk("selectDiffAddress", async (ad
   const response = await fetch(`${baseUrl}/address/getselectedaddress`, {
     method: 'get',
     headers: {
-      'token': localStorage.getItem("token")
+      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
     }
   });
   try {
@@ -79,13 +78,14 @@ export const deleteaddress = createAsyncThunk("deleteaddress", async (addressId,
     method: 'post',
     body: JSON.stringify({ addressId }),
     headers: {
-      'token': localStorage.getItem("token"),
+      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
       'Content-Type': 'application/json'
     }
   });
   try {
     const result = await response.json();
-    return addressId;
+    console.log(result,'result')
+    return result;
   } catch (error) {
     return rejectWithValue(error);
   }

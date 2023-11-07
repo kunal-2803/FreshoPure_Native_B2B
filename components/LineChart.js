@@ -21,3 +21,20 @@ const LineChartJS = () => {
 }
 
 export default LineChartJS
+
+
+// Order for Freshopure
+
+// Date: {{date}}  
+
+// Item List: 
+
+// {{#items}}
+// {{item_number}}. {{item_name}} - {{item_quantity}}
+// {{/items}}
+
+// Total: {{total}} 
+
+// Please confirm the order and provide the total cost.
+  
+// Thank you!

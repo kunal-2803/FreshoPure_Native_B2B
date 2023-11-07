@@ -24,7 +24,7 @@ const FAQ = () => {
         resizeMode="repeat"
       />
 
-      <View className="flex w-full items-center">
+      <View className="flex w-full items-center mt-4">
         <View style={{ width: windowWidth * 0.9 }} className="">
           <Text className="text-2xl">
             We’re here to help you with anything and everyting on Fresh O pure

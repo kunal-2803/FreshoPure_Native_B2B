@@ -16,9 +16,9 @@ const CustomHeader = ({title,backButton,height,headerBar,parentHeader}) => {
         barStyle = "light-content" backgroundColor = "#54B175" translucent = {true}
       />
       {!headerBar && <View className="flex flex-row justify-center items-start w-full text-white relative mt-8">
-      <TouchableOpacity className="absolute left-4" onPress={()=>console.log('hi')}>
+      {backButton === true && <TouchableOpacity className="absolute left-4" onPress={()=>navigation.goBack()}>
       <BackIcon name="chevron-back" size={30} color="#fff"/>
-      </TouchableOpacity>
+      </TouchableOpacity>}
       <Text className="text-white text-xl ">{title}</Text>
       </View>}
       {headerBar && <View className="w-full flex items-center">

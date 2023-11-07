@@ -19,7 +19,7 @@ const UserProfile = () => {
   return (
     <View className="flex" >
       <Image source={bg} className="absolute" style={{height:windowHeight*1.4}} resizeMode="repeat"/>
-      <CustomHeader title={'Profile'} backButton={true} height={0.20} headerBar={false}/>
+      <CustomHeader title={'Profile'} backButton={false} height={0.20} headerBar={true}/>
 
      <View className="border-2 border-white rounded-full absolute left-1/2 top-20 z-10" style={{transform:[{translateX:-50}]}}>
      <Image source={profile} className="w-24 h-24 bg-white rounded-full border"/>
