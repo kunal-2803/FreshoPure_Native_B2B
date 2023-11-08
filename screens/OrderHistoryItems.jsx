@@ -2,6 +2,7 @@ import { View, Text, Image, Dimensions, TouchableOpacity } from "react-native";
 import React,{useState,useEffect} from "react";
 import CustomHeader from "../components/CustomHeader.jsx";
 import CustomButton from "../components/CustomButton.jsx";
+import SkeletonComponent from '../components/SkeletonComponent'
 const bg = require("./../assets/bg-texture.png");
 const address = require("./../assets/address.png");
 const windowHeight = Dimensions.get("window").height;
@@ -37,7 +38,10 @@ const OrderHistoryItem = () => {
         style={{ height: windowHeight * 1.4 }}
         resizeMode="repeat"
       />
-
+{isLoading?
+            <>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.1}/>
+            </>:
       <View className="flex justify-center items-center w-full mt-4">
         <View style={{ width: windowWidth * 0.9 }} className="">
           <View className="bg-lightgray h-14 rounded-lg flex flex-row px-2 justify-between items-center my-1" style={{ shadowColor: 'rgba(0, 0, 0,1)',
@@ -45,7 +49,7 @@ const OrderHistoryItem = () => {
            shadowOpacity: 1,
            shadowRadius: 1,
            elevation: 6}}>
-
+            
             <View>
               <Text className="text-xs text-lightText ml-2">10 Items</Text>
               <Text className="text-md font-bold ml-2">Order Id #67546778-6543</Text>
@@ -54,6 +58,7 @@ const OrderHistoryItem = () => {
               <Text className="font-bold text-green text-xs">Completed</Text>
               </View>
             </View>
+
 
             <View className="flex items-end mr-2">
               <Text className="text-xs text-lightText">10:31 AM</Text>
@@ -64,15 +69,19 @@ const OrderHistoryItem = () => {
           </View>
         </View>
       </View>
+      }
 
       {/*  address */}
-
+     
       <View className="flex justify-center items-center w-full mt-4">
         <View style={{ width: windowWidth * 0.9 }} className="">
           <Text className="font-semibold capitalize text-md my-2">
             Other Addresses
           </Text>
-
+          {isLoading?
+            <>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.1}/>
+            </>:
           <View className="bg-lightgray h-14 rounded-lg flex flex-row px-1 justify-between items-center my-1" style={{ shadowColor: 'rgba(0, 0, 0,1)',
            shadowOffset: { width: 0, height: 10 },
            shadowOpacity: 1,
@@ -88,8 +97,10 @@ const OrderHistoryItem = () => {
             </View>
             <TouchableOpacity className="border-2 mr-2 border-lightText rounded-full bg-white p-2"></TouchableOpacity>
           </View>
+      }
         </View>
       </View>
+
 
     {/* items list */}
       <View className="flex justify-center items-center w-full mt-4">

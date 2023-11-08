@@ -6,6 +6,7 @@ import {
   TextInput,
   Dimensions,
   TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native";
 import React, { useState, useEffect } from "react";
 const images = require("./../assets/logins.png");
@@ -17,13 +18,22 @@ import CustomButton from "../components/CustomButton.jsx";
 import CustomButton2 from "../components/CustomButton2.jsx";
 import {useNavigation} from '@react-navigation/native'
 
+import { useDispatch,useSelector } from "react-redux";
+import { otpVerify } from "../redux/slices/Mobile/index.js";
+
 const OtpVerify = () => {
+  const dispatch = useDispatch();
+  const mobNo = useSelector((state) => state.mobile.data)
+
   const [otp, setOtp] = useState("");
   const [timer, setTimer] = useState(60);
+  // console.log(otp.join("").toString(),'otp')
 
   const navigation = useNavigation()
 
   const handlePress=()=>{
+    console.log(mobNo)
+    dispatch(otpVerify(otp,mobNo))
     navigation.navigate('setProfile')
   }
 
@@ -43,11 +53,12 @@ const OtpVerify = () => {
     setOtp((prevOtp) => {
       const updatedOtp = [...prevOtp];
       updatedOtp[index] = value;
+      // console.log(updatedOtp)
       return updatedOtp;
     });
 
-    if (value !== "" && index < 5) {
-      otpInputs[index + 1].focus();
+    if (value !== "" && index < 3) {
+      otpInputs[index + 1].focus;
     }
   };
 
@@ -59,7 +70,7 @@ const OtpVerify = () => {
   };
 
   return (
-    <View className="flex flex-1 bg-white">
+    <KeyboardAvoidingView behavior="position" className="flex flex-1 bg-white">
       
       {/* <Text>Login</Text> */}
       <StatusBar
@@ -142,7 +153,7 @@ const OtpVerify = () => {
         <CustomButton text="Verify" width={windowWidth * 0.8}  handlePress={handlePress}/>
       </View>
       
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

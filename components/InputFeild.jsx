@@ -1,9 +1,10 @@
 import { View, Text,TextInput } from 'react-native'
 import React from 'react'
 
-const InputFeild = ({width,placeHolder}) => {
+const InputFeild = ({width,placeHolder,onChangeText ,text}) => {
   return (
-      <TextInput placeholder={placeHolder} style={{width:width}} className="bg-lightgray border border-bordergray rounded-md p-2 w-full" keyboardType="numeric"/>
+    text==true?<TextInput onChangeText={onChangeText} placeholder={placeHolder} style={{width:width}} className="bg-lightgray border border-bordergray rounded-md p-2 w-full"/>:
+      <TextInput onChangeText={onChangeText} placeholder={placeHolder} style={{width:width}} className="bg-lightgray border border-bordergray rounded-md p-2 w-full" keyboardType="numeric"/>
   )
 }
 

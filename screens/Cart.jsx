@@ -14,6 +14,7 @@ import React, { useState,useEffect } from "react";
 
 import CustomHeader from "../components/CustomHeader.jsx";
 import CustomButton from "../components/CustomButton.jsx";
+import SkeletonComponent from "../components/SkeletonComponent.jsx";
 
 const bg = require("./../assets/bg-texture.png");
 
@@ -49,6 +50,12 @@ const Cart = () => {
       />
 
       <View className="flex w-full justify-center items-center">
+      {isLoading?
+            <>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.2}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.2}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.2}/>
+            </>:
       <FlatList
          className = ""
          style={{width:windowWidth*0.9}}
@@ -56,6 +63,7 @@ const Cart = () => {
          renderItem={item=><CartItem item={item?.item}/>}
          keyExtractor={item => item._id}
     />
+      }
       </View>
     </View>
   );

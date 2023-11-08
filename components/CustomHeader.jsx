@@ -11,7 +11,7 @@ import {useNavigation} from '@react-navigation/native'
 const CustomHeader = ({title,backButton,height,headerBar,parentHeader}) => {
   const navigation = useNavigation()
   return (
-    <View style={{width:windowWidth,minHeight:windowHeight*height}} className="bg-green rounded-b-3xl flex flex-row">
+    <View style={{width:windowWidth,minHeight:windowHeight*height}} className="bg-green rounded-b-3xl flex flex-row z-10">
      <StatusBar
         barStyle = "light-content" backgroundColor = "#54B175" translucent = {true}
       />

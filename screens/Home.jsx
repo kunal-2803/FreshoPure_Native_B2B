@@ -2,6 +2,7 @@ import { View, Text, FlatList, Dimensions, Image, StatusBar, ScrollView, Touchab
 import React, { useState, useEffect } from 'react'
 
 import CustomHeader from '../components/CustomHeader.jsx'
+import SkeletonComponent from '../components/SkeletonComponent.jsx'
 
 const bg = require('./../assets/bg-texture.png')
 const apple = require('./../assets/apple.png')
@@ -66,7 +67,14 @@ const Home = () => {
 
         {/* item list */}
         <SafeAreaView style={{ height: windowHeight * 0.6 }} className="flex justify-center items-center w-full">
-
+        {isLoading?
+            <>
+            {/* <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.1}/> */}
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.1}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.1}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.1}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.1}/>
+            </>:
           <FlatList
             className=""
             style={{ width: windowWidth * 0.9 }}
@@ -74,6 +82,7 @@ const Home = () => {
             renderItem={item => <ItemList item={item?.item} />}
             keyExtractor={item => item._id}
           />
+        }
 
         </SafeAreaView>
 
@@ -85,6 +94,10 @@ const Home = () => {
 
 const ItemList = ({ item }) => {
   const dispatch = useDispatch()
+  // if(selectedCategory == "Local Vegetables"){
+  //    const filterItems = item.filter((item)=>item.category =="Local Vegetables")
+  //    console.log(filterItems)
+  // }
   function func(img) {
     let image = img.substr(12)
     const retImage = 'https://letusfarm-image-storage.s3.ap-south-1.amazonaws.com' + image

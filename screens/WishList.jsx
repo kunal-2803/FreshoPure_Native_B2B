@@ -2,6 +2,7 @@ import { View, Text , Dimensions,Image,StatusBar,ScrollView,TouchableOpacity,Saf
 import React,{useState, useEffect } from 'react'
 import CustomHeader from '../components/CustomHeader.jsx'
 import CustomButton from '../components/CustomButton.jsx'
+import SkeletonComponent from '../components/SkeletonComponent.jsx'
 const bg = require('./../assets/bg-texture.png')
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -14,7 +15,7 @@ import { addToCart } from '../redux/slices/Cart/index.js'
 
 const Wishlist = () => {
   const [selectedCategory,setSelectedCategory] = useState('All')
-  const data = useSelector(state=>state.wishlistItems.data)
+  const {data,isError,isLoading} = useSelector(state=>state.wishlistItems)
   const dispatch = useDispatch()
   console.log(data?.wishlistData,"wishlist")
   
@@ -28,38 +29,16 @@ const Wishlist = () => {
     <CustomHeader title={'Profile'} backButton={true} height={0.18} headerBar={true} parentHeader={'wishlist'}/>
     <Image source={bg} className="absolute" style={{height:windowHeight*1.4}} resizeMode="repeat"/>
 
-    {/* filter list */}
-    {/* <View className="my-2 flex">
-    <Text className="my-2 mx-2 font-semibold text-xl">Categories</Text>
-    <ScrollView
-      pagingEnabled
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      >
-        <View className="flex flex-row">
-        <TouchableOpacity onPress={()=>setSelectedCategory('All')}  className={`mx-2 bg-${selectedCategory === 'All' ? 'green': 'white'} flex items-start px-4 py-1 rounded-xl`}>
-          <Text style={{color:selectedCategory === 'All' ? '#fff' : '#000'}}>All</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={()=>setSelectedCategory('Local Vegetables')} className={`mx-2 bg-${selectedCategory === 'Local Vegetables' ? 'green': 'white'} flex items-start px-4 py-1 rounded-xl`}>
-          <Text style={{color:selectedCategory === 'Local Vegetables' ? '#fff' : '#000'}}>Local Vegetables</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={()=>setSelectedCategory('Frozen Vegetables')}  className={`mx-2 bg-${selectedCategory === 'Frozen Vegetables' ? 'green': 'white'} flex items-start px-4 py-1 rounded-xl`}>
-          <Text style={{color:selectedCategory === 'Frozen Vegetables' ? '#fff' : '#000'}}>Frozen Vegetables</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={()=>setSelectedCategory('Exotic Vegetables')}  className={`mx-2 bg-${selectedCategory === 'Exotic Vegetables' ? 'green': 'white'} flex items-start px-4 py-1 rounded-xl`}>
-          <Text style={{color:selectedCategory === 'Exotic Vegetables' ? '#fff' : '#000'}}>Exotic Vegetables</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={()=>setSelectedCategory('Local & Imported Fruits')}  className={`mx-2 bg-${selectedCategory === 'Local & Imported Fruits' ? 'green': 'white'} flex items-start px-4 py-1 rounded-xl`}>
-          <Text style={{color:selectedCategory === 'Local & Imported Fruits' ? '#fff' : '#000'}}>Local & Imported Fruits</Text>
-        </TouchableOpacity>
-        </View>
-        </ScrollView>
-        </View> */}
-
 
         {/* item list */}
          <SafeAreaView style={{height:windowHeight*0.5}} className="flex justify-center items-center w-full">
-       
+         {isLoading?
+            <>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
+            </>:
 
          <FlatList
          className = ""
@@ -68,7 +47,7 @@ const Wishlist = () => {
          renderItem={item=><ItemList item={item?.item}/>}
          keyExtractor={item => item._id}
     />
-
+         }
           
           
          </SafeAreaView>

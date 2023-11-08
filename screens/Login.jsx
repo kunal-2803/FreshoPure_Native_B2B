@@ -1,5 +1,5 @@
-import { View, Text ,Image,StatusBar,Dimensions} from 'react-native'
-import React from 'react'
+import { View, Text ,Image,StatusBar,Dimensions ,KeyboardAvoidingView} from 'react-native'
+import React,{useState} from 'react'
 const images = require('./../assets/logins.png')
 const logo = require('../assets/logo.png')
 const windowHeight = Dimensions.get('window').height;
@@ -9,16 +9,29 @@ import CustomButton from '../components/CustomButton.jsx'
 import CustomButton2 from '../components/CustomButton2.jsx'
 import {useNavigation} from '@react-navigation/native'
 
+import { loginApi } from '../redux/slices/Mobile/index.js';
+import { useDispatch } from 'react-redux';
+
 
 
 const Login = () => {
   const navigation = useNavigation()
+  const dispatch = useDispatch();
+
+  const [mobile, setMobile] = useState(null);
+  // console.log(mobile);
+
+  const onChangeText = (text)=>{
+    // console.log(text)
+    setMobile(text);
+  }
 
   const handlePress=()=>{
+    dispatch(loginApi(mobile));
     navigation.navigate('otp')
   }
   return (
-    <View className ="flex flex-1 bg-white">
+    <KeyboardAvoidingView behavior='position' className ="flex flex-1 bg-white">
       {/* <Text>Login</Text> */}
       <StatusBar
         barStyle = "light-content" hidden = {false} backgroundColor = "transparent" translucent = {true}
@@ -30,13 +43,13 @@ const Login = () => {
         <Text className="font-bold text-2xl text-brown mt-2">Login <Text className="font-bold text-2xl" style={{color:'#000'}}>or</Text> Sign Up</Text>
       </View>
       <View style={{width:windowWidth}} className="flex justify-center items-center my-4">
-        <InputFeild width={windowWidth*0.8}/>
+        <InputFeild width={windowWidth*0.8} value={mobile} onChangeText={(text)=>onChangeText(text)}/>
         <Text className="my-2 font-urban">By continuing, I agree to the <Text className="font-semibold text-brown">Terms of Use</Text>{'\n'} & <Text className="font-semibold text-brown">Privacy Policy</Text></Text>
         <CustomButton text="Login" width={windowWidth*0.8}  handlePress={handlePress}/>
           <Text className="text-lightText">or continue with</Text>
           <CustomButton2 width={windowWidth*0.8}/>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   )
 }
 
