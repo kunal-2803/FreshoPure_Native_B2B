@@ -1,5 +1,6 @@
 import { View, Text ,Image,StatusBar,Dimensions ,KeyboardAvoidingView} from 'react-native'
 import React,{useState} from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 const images = require('./../assets/logins.png')
 const logo = require('../assets/logo.png')
 const windowHeight = Dimensions.get('window').height;
@@ -19,7 +20,15 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const [mobile, setMobile] = useState(null);
-  // console.log(mobile);
+ 
+  const saveData =async ()=>{
+    try{
+      await AsyncStorage.setItem('MobileNo',mobile);
+      console.log("saved")
+    }catch(error){
+
+    }
+  }
 
   const onChangeText = (text)=>{
     // console.log(text)
@@ -28,6 +37,7 @@ const Login = () => {
 
   const handlePress=()=>{
     dispatch(loginApi(mobile));
+    saveData();
     navigation.navigate('otp')
   }
   return (

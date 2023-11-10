@@ -1,4 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const loginApi = createAsyncThunk('loginApi', async (mobileNo) => {
   const response = await fetch(`http://15.206.181.239/user/login`, {
@@ -12,15 +13,22 @@ export const loginApi = createAsyncThunk('loginApi', async (mobileNo) => {
 });
 
 
-export const otpVerify = createAsyncThunk('otpVerify', async (mobNo,otpRec) => {
+export const otpVerify = createAsyncThunk('otpVerify', async (data, { rejectWithValue }) => {
+  const otpRec = data.otp;
+  const mobNo = data.mobNo;
   const response = await fetch(`http://15.206.181.239/user/verify`, {
     method: 'post',
-    body: JSON.stringify({ otpRec, mobile:mobNo }),
+    body: JSON.stringify({ otpRec, mobile: mobNo }),
     headers: {
-        'Content-Type': 'application/json'
+      'Content-Type': 'application/json'
     }
-});
-  return response.json();
+  });
+  try {
+    const res = await response.json();
+    return res;
+  } catch (error) {
+    rejectWithValue(error)
+  }
 });
 
 
@@ -38,7 +46,7 @@ export const mobileNumberSlice = createSlice({
     });
     builder.addCase(loginApi.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.data = action.payload;
+      state.mobile = action.payload;
     });
     builder.addCase(loginApi.rejected, (state, action) => {
       console.log("Error", action.payload);
@@ -49,10 +57,15 @@ export const mobileNumberSlice = createSlice({
     builder.addCase(otpVerify.pending, (state, action) => {
       state.isLoading = true;
     });
-    builder.addCase(otpVerify.fulfilled, (state, action) => {
+    builder.addCase(otpVerify.fulfilled, async (state, action) => {
       state.isLoading = false;
+      console.log(action.payload.token,"ret token")
       state.data = action.payload;
-      console.log(action.payload)
+      try {
+        await AsyncStorage.setItem('token', action.payload.token);
+      } catch (error) {
+        console.log(error);
+      }
     });
     builder.addCase(otpVerify.rejected, (state, action) => {
       console.log("Error", action.payload);

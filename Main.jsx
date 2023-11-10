@@ -1,6 +1,7 @@
-import { View, Text,StatusBar } from 'react-native'
-import React from 'react'
+import { View, Text, StatusBar } from 'react-native'
+import React,{useState,useEffect} from 'react'
 import * as SecureStore from 'expo-secure-store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -28,48 +29,82 @@ import Checkout from './screens/Checkout';
 
 const Stack = createNativeStackNavigator();
 
-const Main = () => {
+const AuthStack = () => {
     return (
-        <>
-        <StatusBar
-        barStyle = "light-content" backgroundColor = "transparent" translucent = {true}
-      />
-        <NavigationContainer>
-
-            <Stack.Navigator >
-<<<<<<< HEAD
-            {/* <Stack.Screen name='address' component={Address} options={{headerShown:false}}/> */}
-=======
->>>>>>> efb9a4dd8efd360627124a95718aaca3e619679e
-
-            <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
-            <Stack.Screen name='splashScreen2' component={SplashScreen2} options={{headerShown:false}}/>
-            <Stack.Screen name='splashScreen3' component={SplashScreen3} options={{headerShown:false}}/>
-            <Stack.Screen name='login' component={Login} options={{headerShown:false}}/>
-            <Stack.Screen name='otp' component={OtpVerify} options={{headerShown:false}}/>
-            <Stack.Screen name='setProfile' component={SetProfile} options={{headerShown:false}}/>
-            <Stack.Screen name='parent' component={Parent} options={{headerShown:false}}/>
-
-
-            <Stack.Screen name='addAddress' component={AddAddress} options={{headerShown:false}}/>
-            <Stack.Screen name='address' component={Address} options={{headerShown:false}}/>
-
-            <Stack.Screen name='orderHistory' component={OrderHistory} options={{headerShown:false}}/>
-
-
-            <Stack.Screen name='faq' component={FAQ} options={{headerShown:false}}/>
-            <Stack.Screen name='orderHistoryItems' component={OrderHistoryItems} options={{headerShown:false}}/>
-            <Stack.Screen name='analytics' component={Analytics} options={{headerShown:false}}/>
-
-                
-                <Stack.Screen name='orderConfirm' component={OrderConfirm} options={{headerShown:false}}/>
-                <Stack.Screen name='payment' component={Payment} options={{headerShown:false}}/>
-
-                <Stack.Screen name='userProfile' component={UserProfile} options={{headerShown:false}}/>
-            </Stack.Navigator>
-        </NavigationContainer>
-        </>
+        <Stack.Navigator>
+            <Stack.Screen name='login' component={Login} options={{ headerShown: false }} />
+            <Stack.Screen name='otp' component={OtpVerify} options={{ headerShown: false }} />
+        </Stack.Navigator>
     )
 }
+
+const RootNavigation = () => {
+
+    return (
+        <>
+
+            <Stack.Navigator >
+                {/* <Stack.Screen name='address' component={Address} options={{headerShown:false}}/> */}
+
+                {/* <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
+            <Stack.Screen name='splashScreen2' component={SplashScreen2} options={{headerShown:false}}/>
+            <Stack.Screen name='splashScreen3' component={SplashScreen3} options={{headerShown:false}}/> */}
+                <Stack.Screen name='parent' component={Parent} options={{ headerShown: false }} />
+                <Stack.Screen name='setProfile' component={SetProfile} options={{ headerShown: false }} />
+
+
+
+                <Stack.Screen name='addAddress' component={AddAddress} options={{ headerShown: false }} />
+                <Stack.Screen name='address' component={Address} options={{ headerShown: false }} />
+
+                <Stack.Screen name='orderHistory' component={OrderHistory} options={{ headerShown: false }} />
+
+
+                <Stack.Screen name='faq' component={FAQ} options={{ headerShown: false }} />
+                <Stack.Screen name='orderHistoryItems' component={OrderHistoryItems} options={{ headerShown: false }} />
+                <Stack.Screen name='analytics' component={Analytics} options={{ headerShown: false }} />
+
+
+                <Stack.Screen name='orderConfirm' component={OrderConfirm} options={{ headerShown: false }} />
+                <Stack.Screen name='payment' component={Payment} options={{ headerShown: false }} />
+
+                <Stack.Screen name='userProfile' component={UserProfile} options={{ headerShown: false }} />
+            </Stack.Navigator>
+
+        </>
+    )
+
+}
+
+
+const Main = () => {
+    const [isAuthenticated, setIsAuthenticated] = useState(null);
+
+    useEffect(() => {
+        const checkToken = async () => {
+            const token = await AsyncStorage.getItem('token');
+            setIsAuthenticated(token !== null);
+        };
+
+        checkToken();
+    }, []);
+
+    if (isAuthenticated === null) {
+        // Loading state, you can show a loading spinner or another component
+        return null;
+    }
+
+    return (
+        <NavigationContainer>
+            <StatusBar
+                barStyle="light-content" backgroundColor="transparent" translucent={true}
+            />
+            {isAuthenticated ? <RootNavigation /> : <AuthStack />}
+        </NavigationContainer>
+    );
+};
+
+
+
 
 export default Main
