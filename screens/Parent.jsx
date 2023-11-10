@@ -1,6 +1,6 @@
 import { View, Text ,SafeAreaView,Platform,StatusBar,Dimensions } from 'react-native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react'
+import React,{useEffect} from 'react'
 import Icon from 'react-native-vector-icons/Ionicons'
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 
@@ -13,8 +13,13 @@ const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 const ios = Platform.OS == 'ios';
 const Tab = createBottomTabNavigator();
+import { fetchWishlistItems} from '../redux/slices/Wishlist/index.js'
+import { fetchCartItems } from '../redux/slices/Cart/index.js'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Parent = () => {
+
+
   return (
     <View  className="flex-1" style={{paddingTop:Platform.OS ==='android'?StatusBar.currentHeight:0}}>
       <Tab.Navigator initialRouteName='home'
@@ -47,7 +52,15 @@ const Parent = () => {
 }
 
 const menuIcons = (route, focused)=> {
+  const dispatch = useDispatch()
+  const {data} = useSelector(state=>state.cartItems)
+  const wishlist = useSelector(state=>state.wishlistItems.data)
   let icon;
+
+  useEffect(()=>{
+    dispatch(fetchCartItems())
+    dispatch(fetchWishlistItems())
+  },[])
   
 
   if (route.name === 'home') {
@@ -63,8 +76,8 @@ const menuIcons = (route, focused)=> {
   
   return (
     <View style={{display:'flex',justifyContent:'center',alignItems:'center',borderRadius:360,padding:10,width:45,height:45,backgroundColor:focused ? '#fff' : '' }}>
-      {route.name === 'cart' &&  <View style={{position:'absolute',right:0,top:5,backgroundColor:'red',width:15,height:15,zIndex:10,justifyContent:'center',alignItems:'center',borderRadius:360}}><Text style={{color:'#fff',fontSize:8}}>2</Text></View>}
-      {route.name === 'wishList' && <View style={{position:'absolute',right:0,top:5,backgroundColor:'red',width:15,height:15,zIndex:10,justifyContent:'center',alignItems:'center',borderRadius:360}}><Text style={{color:'#fff',fontSize:8}}>2</Text></View>}
+      {data?.cartData?.length > 0 && route.name === 'cart' &&  <View style={{position:'absolute',right:0,top:5,backgroundColor:'red',width:15,height:15,zIndex:10,justifyContent:'center',alignItems:'center',borderRadius:360}}><Text style={{color:'#fff',fontSize:8}}>{data?.cartData?.length}</Text></View>}
+      {wishlist?.wishlistData?.length > 0 && route.name === 'wishList' && <View style={{position:'absolute',right:0,top:5,backgroundColor:'red',width:15,height:15,zIndex:10,justifyContent:'center',alignItems:'center',borderRadius:360}}><Text style={{color:'#fff',fontSize:8}}>{wishlist?.wishlistData?.length}</Text></View>}
       {icon}
     </View>
   )

@@ -8,25 +8,33 @@ const apple = require('./../assets/apple.png')
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
-
+import ButtonLoader from '../components/ButtonLoader.js'
 
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchItems } from '../redux/slices/HotelItems/index.js'
-import { addToWishlist } from '../redux/slices/Wishlist/index.js'
-import { addToCart } from '../redux/slices/Cart/index.js'
+import { addToWishlist ,fetchWishlistItems,removefromWishlist} from '../redux/slices/Wishlist/index.js'
+import { addToCart,fetchCartItems } from '../redux/slices/Cart/index.js'
 
 const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState('All')
-  const { data, isLoading, isError } = useSelector(state => state.hotelItems)
+  const {data,isLoading,isError} = useSelector(state=>state.hotelItems)
+  const {addLoading} = useSelector(state=>state.cartItems)
+
+
   const dispatch = useDispatch()
 
+  useEffect(()=>{
+    dispatch(fetchCartItems())
+    dispatch(fetchWishlistItems())
+  },[])
 
 
   useEffect(() => {
     dispatch(fetchItems())
   }, [])
+
 
 
   return (
@@ -67,13 +75,13 @@ const Home = () => {
         {/* item list */}
         <SafeAreaView style={{ height: windowHeight * 0.6 }} className="flex justify-center items-center w-full">
 
-          <FlatList
+          {<FlatList
             className=""
             style={{ width: windowWidth * 0.9 }}
             data={data?.hotelItems?.items}
             renderItem={item => <ItemList item={item?.item} />}
             keyExtractor={item => item._id}
-          />
+          />}
 
         </SafeAreaView>
 
@@ -85,12 +93,22 @@ const Home = () => {
 
 const ItemList = ({ item }) => {
   const dispatch = useDispatch()
+  const {data,addLoading} = useSelector(state=>state.cartItems)
+  const wishlist = useSelector(state=>state.wishlistItems.data)
+
+  useEffect(()=>{
+    dispatch(fetchCartItems())
+    dispatch(fetchWishlistItems())
+  },[])
+
   function func(img) {
     let image = img.substr(12)
     const retImage = 'https://letusfarm-image-storage.s3.ap-south-1.amazonaws.com' + image
 
     return retImage
   }
+
+
   return (
     <View className=" h-14 my-2 rounded-md flex flex-row justify-between px-2 items-center shadow-freshoxl bg-white" style={{
       shadowColor: 'rgba(0, 0, 0,1)',
@@ -106,8 +124,9 @@ const ItemList = ({ item }) => {
       </View>
 
       <View className="flex flex-row items-center">
-        <Ionicons name="heart-outline" size={24} onPress={() => dispatch(addToWishlist(item?._id))} />
-        <TouchableOpacity className="flex justify-center items-center border-linegray border px-4 py-2 rounded-md ml-4" onPress={() => dispatch(addToCart(item?._id))}><Text className="text-green uppercase">Add</Text></TouchableOpacity>
+        {wishlist?.addWishlistLoading ? 'true' : wishlist?.wishlistData?.find(wishlist=>wishlist?._id === item?._id) ? <Ionicons name="heart" color="#DC143C" size={24} onPress={() => dispatch(removefromWishlist(item?._id))} />: <Ionicons name="heart-outline" size={24} onPress={() => dispatch(addToWishlist(item?._id))} />}
+        {data?.cartData?.find(cart=> cart._id === item?._id )? <TouchableOpacity className={`flex justify-center items-center border-green bg-green border px-4 py-2 rounded-md ml-4`} ><Text className="text-white uppercase">Added</Text></TouchableOpacity>:
+        <TouchableOpacity className={`flex justify-center items-center border-linegray border px-4 py-2 rounded-md ml-4`} onPress={() => {dispatch(addToCart(item?._id)); }}><Text className="text-green uppercase">{addLoading ? <ButtonLoader color="#54B175"/> : 'Add'}</Text></TouchableOpacity>}
       </View>
     </View>
 

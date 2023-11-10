@@ -10,13 +10,12 @@ import Ionicons from 'react-native-vector-icons/Ionicons'
 
 import {useDispatch,useSelector} from 'react-redux'
 import { fetchWishlistItems,removefromWishlist } from '../redux/slices/Wishlist/index.js'
-import { addToCart } from '../redux/slices/Cart/index.js'
+import { addToCart,fetchCartItems } from '../redux/slices/Cart/index.js'
 
 const Wishlist = () => {
   const [selectedCategory,setSelectedCategory] = useState('All')
   const data = useSelector(state=>state.wishlistItems.data)
   const dispatch = useDispatch()
-  console.log(data?.wishlistData,"wishlist")
   
   useEffect(()=>{
     dispatch(fetchWishlistItems())
@@ -83,6 +82,12 @@ const Wishlist = () => {
 
 const ItemList = ({item})=>{
   const dispatch = useDispatch()
+  const {data} = useSelector(state=>state.cartItems)
+
+  useEffect(()=>{
+    dispatch(fetchCartItems())
+    dispatch(fetchWishlistItems())
+  },[])
 
   function func(img) {
     let image = img.substr(12)
@@ -98,13 +103,14 @@ const ItemList = ({item})=>{
            elevation: 6,}}>
             <View className="flex flex-row items-center">
             <Image source={{uri:func(item?.image)}} className="w-10 h-10"></Image>
-              <Text className="font-semibold ml-2">{item.itemName}</Text>
+              <Text className="font-semibold ml-2 capitalize">{item.itemName}</Text>
             </View>
 
             <View className="flex flex-row items-center">
-              <Ionicons name="heart-outline" size={28} onPress={()=>dispatch(removefromWishlist(item?._id))}/>
-              <TouchableOpacity className="flex justify-center items-center border-linegray border px-4 py-2 rounded-md ml-4 " onPress={()=>dispatch(addToCart(item?._id))}><Text className="text-green uppercase">Add</Text></TouchableOpacity>
-            </View>
+            <Ionicons name="heart" color="#DC143C" size={24} onPress={() => dispatch(removefromWishlist(item?._id))} />
+            {data?.cartData?.find(cart=> cart._id === item?._id )? <TouchableOpacity className={`flex justify-center items-center border-green bg-green border px-4 py-2 rounded-md ml-4`} ><Text className="text-white uppercase">Added</Text></TouchableOpacity>:
+              <TouchableOpacity className={`flex justify-center items-center border-linegray border px-4 py-2 rounded-md ml-4`} onPress={() => dispatch(addToCart(item?._id))}><Text className="text-green uppercase">Add</Text></TouchableOpacity>}
+              </View>
           </View> 
           
   )

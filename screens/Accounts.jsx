@@ -1,20 +1,28 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Dimensions, TouchableWithoutFeedback, Keyboard, Image, ScrollView } from 'react-native'
-import React from 'react'
+import React,{useEffect} from 'react'
 import CustomHeader from '../components/CustomHeader';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 // import FontAwesome6 from 'react-native-vector-icons/FontAwesome6'
-
+import {getProfile} from '../redux/slices/UserProfile/index.js'
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 import {useNavigation} from '@react-navigation/native'
 const profile = require('./../assets/profile.png')
 const bg = require('./../assets/bg-texture.png')
+import {useDispatch,useSelector} from 'react-redux'
 
 const Accounts = () => {
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+  const {data} = useSelector(state=>state.profile)
+
+
+  useEffect(()=>{
+   dispatch(getProfile())
+  },[])
 
 
   return (
@@ -28,9 +36,9 @@ const Accounts = () => {
       <Image source={bg} className="absolute" style={{ height: height * 1.4 }} resizeMode="repeat" />
 
       <View className="mt-12 items-center space-y-2">
-        <Text className="font-bold text-xl">Bimal Shrestha</Text>
-        <Text className="font-light">bimalstha291@gmail.com</Text>
-        <Text className="font-light">Tipsy Family restaurant Vidhya Dhar Nagar </Text>
+        <Text className="font-bold text-xl capitalize">{data?.hotelData?.fullName}</Text>
+        <Text className="font-light capitalize">{data?.hotelData?.email}</Text>
+        <Text className="font-light capitalize">{data?.hotelData?.hotelName}</Text>
       </View>
 
       <ScrollView style={{ height: height * 0.47, width: width * 0.86 }} showsVerticalScrollIndicator={false} className=" mt-12 space-y-3  mx-auto">

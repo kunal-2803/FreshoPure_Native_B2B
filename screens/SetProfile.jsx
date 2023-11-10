@@ -1,5 +1,5 @@
 import { View, Text,Image,Dimensions,ScrollView } from 'react-native'
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import CustomHeader from '../components/CustomHeader.jsx'
 import CustomButton from '../components/CustomButton.jsx'
 import InputFeild from '../components/InputFeild.jsx'
@@ -11,9 +11,16 @@ import {useNavigation} from '@react-navigation/native'
 
 const SetProfile = () => {
   const navigation = useNavigation()
+  const [profileData,setProfileData] = useState({fullName:'',hotelName:'',email:'',mobileNo:'',alternateMobileNo:'',addressLine1:'',addressLine2:'',city:'',state:'',pinCode:''})
 
+  console.log(profileData)
   const handlePress=()=>{
     navigation.navigate('parent')
+  }
+
+  const handleInputChange =(name,value)=>{
+    setProfileData({...profileData,[name]:value})
+
   }
 
   return (
@@ -28,35 +35,35 @@ const SetProfile = () => {
     <ScrollView alwaysBounceVertical={true} className="flex" style={{height:windowHeight*0.84}} showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
       
     <View className="flex w-full justify-center items-center my-2 mt-14">
-      <InputFeild width={windowWidth*0.85} placeHolder='Full Name'/>
+      <InputFeild width={windowWidth*0.85} handleChange={(text)=>handleInputChange('fullName',text)} name="fullName" keyboardType='default' placeHolder='Full Name'/>
       </View>
       <View className="flex w-full justify-center items-center my-2">
-      <InputFeild width={windowWidth*0.85} placeHolder='Hotel Name'/>
+      <InputFeild width={windowWidth*0.85} handleChange={(text)=>handleInputChange('hotelName',text)} name="hotelName" keyboardType='default' placeHolder='Hotel Name'/>
       </View>
       <View className="flex w-full justify-center items-center my-2">
-      <InputFeild width={windowWidth*0.85} placeHolder='Email'/>
+      <InputFeild width={windowWidth*0.85} handleChange={(text)=>handleInputChange('email',text)} name="email" keyboardType='email-address' placeHolder='Email'/>
       </View>
       <View className="flex w-full justify-center items-center my-2">
-      <InputFeild width={windowWidth*0.85} placeHolder='Phone Number'/>
+      <InputFeild width={windowWidth*0.85} handleChange={(text)=>handleInputChange('mobileNo',text)} name="mobileNo" keyboardType='phone-pad' maxLength={10} placeHolder='Phone Number'/>
       </View>
       <View className="flex w-full justify-center items-center my-2">
-      <InputFeild width={windowWidth*0.85} placeHolder='Alternate Number'/>
+      <InputFeild width={windowWidth*0.85} handleChange={(text)=>handleInputChange('alternateMobileNo',text)} name="alternateMobileNo" keyboardType='phone-pad' maxLength={10} placeHolder='Alternate Number'/>
       </View>
 
       <View className="flex w-full justify-center items-center my-2">
-      <InputFeild width={windowWidth*0.85} placeHolder='Address Line 1'/>
+      <InputFeild width={windowWidth*0.85} handleChange={(text)=>handleInputChange('addressLine1',text)} name="addressLine1" keyboardType='default' placeHolder='Address Line 1'/>
       </View>
       <View className="flex w-full justify-center items-center my-2">
-      <InputFeild width={windowWidth*0.85} placeHolder='Address Line 2'/>
+      <InputFeild width={windowWidth*0.85} handleChange={(text)=>handleInputChange('addressLine2',text)} name="addressLine2" keyboardType='default' placeHolder='Address Line 2'/>
       </View>
       <View className="flex w-full justify-center items-center my-2">
-      <InputFeild width={windowWidth*0.85} placeHolder='City'/>
+      <InputFeild width={windowWidth*0.85} handleChange={(text)=>handleInputChange('city',text)} name="city" keyboardType='default' placeHolder='City'/>
       </View>
       <View className="flex w-full justify-center items-center my-2">
-      <InputFeild width={windowWidth*0.85} placeHolder='State'/>
+      <InputFeild width={windowWidth*0.85} handleChange={(text)=>handleInputChange('state',text)} name="state" keyboardType='default' placeHolder='State'/>
       </View>
       <View className="flex w-full justify-center items-center my-2">
-      <InputFeild width={windowWidth*0.85} placeHolder='Pin Code'/>
+      <InputFeild width={windowWidth*0.85} handleChange={(text)=>handleInputChange('pinCode',text)} name="pinCode" keyboardType='decimal-pad' placeHolder='Pin Code'/>
       </View>
 
       <View className="flex w-full justify-center items-center my-2">

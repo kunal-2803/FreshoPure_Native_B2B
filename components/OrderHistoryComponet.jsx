@@ -17,7 +17,7 @@ const OrderHistoryComponet = ({item}) => {
     const navigation = useNavigation()
 
     const handlePress=()=>{
-      navigation.navigate('orderHistoryItems',{data:item?._id})
+      navigation.navigate('orderHistoryItems',{data:item})
     }
 
     return (

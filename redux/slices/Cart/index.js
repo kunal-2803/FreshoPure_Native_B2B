@@ -1,6 +1,7 @@
 import React from 'react';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 const baseUrl = 'http://15.206.181.239'
+
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s'
 
 //Action
@@ -14,7 +15,6 @@ export const fetchCartItems = createAsyncThunk("fetchCartItems", async () => {
     const res = await response.json()
     return res;
 });
-
 export const addToCart = createAsyncThunk("addToCart", async (itemId, { rejectWithValue }) => {
     const orderedItem = [
         {
@@ -99,7 +99,8 @@ const cartSlice = createSlice({
         added:null,
         removed:null,
         updated:null,
-        isError: false
+        isError: false,
+        addLoading:false,
     },
     extraReducers: (builder) => {
         builder.addCase(fetchCartItems.pending, (state, action) => {
@@ -120,10 +121,10 @@ const cartSlice = createSlice({
 
 
         builder.addCase(addToCart.pending, (state, action) => {
-            state.isLoading = true;
+            state.addLoading = true;
         });
         builder.addCase(addToCart.fulfilled, (state, action) => {
-            state.isLoading = false;
+            state.addLoading = false;
             state.added = action.payload;
             state.price = state.data.cartData.reduce(function (previousValue, currentValue) {
                     return previousValue + (currentValue.costPrice * (currentValue.quantity.kg+(currentValue.quantity.gram/1000)))},0)

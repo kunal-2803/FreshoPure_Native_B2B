@@ -8,13 +8,14 @@ import {
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
-  FlatList
+  FlatList,
+  KeyboardAvoidingView
 } from "react-native";
 import React, { useState,useEffect } from "react";
 
 import CustomHeader from "../components/CustomHeader.jsx";
 import CustomButton from "../components/CustomButton.jsx";
-
+import {useNavigation} from '@react-navigation/native'
 const bg = require("./../assets/bg-texture.png");
 
 const windowHeight = Dimensions.get("window").height;
@@ -27,13 +28,14 @@ import {useDispatch,useSelector} from 'react-redux';
 
 const Cart = () => {
   const dispatch=useDispatch();
+  const navigation = useNavigation()
   const {data,isError,isLoading} = useSelector(state=>state.cartItems)
   
   useEffect(()=>{
     dispatch(fetchCartItems())
   },[])
   return (
-    <View className="flex">
+    <View className="flex relative h-full">
       <CustomHeader
         title={"Profile"}
         backButton={true}
@@ -48,7 +50,7 @@ const Cart = () => {
         resizeMode="repeat"
       />
 
-      <View className="flex w-full justify-center items-center">
+      <KeyboardAvoidingView behavior="padding" className="flex w-full justify-center items-center">
       <FlatList
          className = ""
          style={{width:windowWidth*0.9}}
@@ -56,6 +58,9 @@ const Cart = () => {
          renderItem={item=><CartItem item={item?.item}/>}
          keyExtractor={item => item._id}
     />
+      </KeyboardAvoidingView>
+      <View className="flex justify-center absolute bottom-0 w-full items-center" style={{marginBottom:windowHeight*0.08}}>
+      <CustomButton text='Checkout' handlePress={()=>navigation.navigate('checkout')} width={windowWidth*0.9}/>
       </View>
     </View>
   );

@@ -1,12 +1,15 @@
 import React from 'react';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+const baseUrl = 'http://15.206.181.239'
+
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s'
 
 //Action
 export const getProfile = createAsyncThunk("getProfile", async () => {
-    const response = await fetch(`${process.env.REACT_APP_URL}/user/getprofile`, {
+    const response = await fetch(`${baseUrl}/user/getprofile`, {
         method: 'get',
         headers: {
-            'token': localStorage.getItem("token")
+            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s'
         }
     });
     const res = await response.json()
@@ -15,7 +18,7 @@ export const getProfile = createAsyncThunk("getProfile", async () => {
 
 export const setUserProfile = createAsyncThunk("setUserProfile", async (userData, { rejectWithValue }) => {
     console.log("userData", userData);
-    const response = await fetch(`${process.env.REACT_APP_URL}/user/setprofile`, {
+    const response = await fetch(`${baseUrl}/user/setprofile`, {
         method: 'post',
         body: JSON.stringify({ userData }),
         headers: {
@@ -33,7 +36,7 @@ export const setUserProfile = createAsyncThunk("setUserProfile", async (userData
 
 export const setUserProfileImage = createAsyncThunk("setUserProfileImage", async (userData, { rejectWithValue }) => {
     console.log("userData", userData);
-    const response = await fetch(`${process.env.REACT_APP_URL}/user/uploads`, {
+    const response = await fetch(`${baseUrl}/user/uploads`, {
         method: 'post',
         body: JSON.stringify({ userData }),
         headers: {

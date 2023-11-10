@@ -10,7 +10,6 @@ export const fetchWishlistItems = createAsyncThunk("fetchWishlistItems", async (
         }
     });
     const res = await response.json()
-    console.log(res)
     return res;
 });
 
@@ -66,7 +65,8 @@ const wishlistSlice = createSlice({
         data: null,
         added:null,
         removed:null,
-        isError: false
+        isError: false,
+        addWishlistLoading:false,
     },
     extraReducers: (builder) => {
         builder.addCase(fetchWishlistItems.pending, (state, action) => {
@@ -83,11 +83,11 @@ const wishlistSlice = createSlice({
 
 
         builder.addCase(addToWishlist.pending, (state, action) => {
-            state.isLoading = true;
+            state.addWishlistLoading = true;
         });
         builder.addCase(addToWishlist.fulfilled, (state, action) => {
             state.isLoading = false;
-            state.added= action.payload;
+            state.addWishlistLoading= action.payload;
         });
         builder.addCase(addToWishlist.rejected, (state, action) => {
             console.log("Error", action.payload);
