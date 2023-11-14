@@ -43,6 +43,7 @@ const Home = () => {
             pagingEnabled
             horizontal
             showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
           >
             <View className="flex flex-row">
               <TouchableOpacity onPress={() => setSelectedCategory('All')} className={`mx-1 bg-${selectedCategory === 'All' ? 'green' : 'white'} flex items-start px-4 py-1 rounded-xl`}>
@@ -81,6 +82,7 @@ const Home = () => {
             data={data?.hotelItems?.items}
             renderItem={item => <ItemList item={item?.item} />}
             keyExtractor={item => item._id}
+            showsVerticalScrollIndicator ={false}
           />
         }
 

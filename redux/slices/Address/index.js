@@ -28,7 +28,7 @@ export const selectedAddress = createAsyncThunk("selectedAddress", async () => {
   });
   try {
     const result = await response.json();
-    console.log(result,'res')
+    console.log(result,'resulttt')
     return result;
   } catch (error) {
     return error;

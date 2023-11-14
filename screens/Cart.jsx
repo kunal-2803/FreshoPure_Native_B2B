@@ -11,6 +11,7 @@ import {
   FlatList
 } from "react-native";
 import React, { useState,useEffect } from "react";
+import {useNavigation} from '@react-navigation/native'
 
 import CustomHeader from "../components/CustomHeader.jsx";
 import CustomButton from "../components/CustomButton.jsx";
@@ -23,16 +24,25 @@ const windowWidth = Dimensions.get("window").width;
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import {fetchCartItems ,removefromCart} from '../redux/slices/Cart/index.js'
+import {fetchCartItems ,removefromCart,updateCartItems} from '../redux/slices/Cart/index.js'
+
 import {useDispatch,useSelector} from 'react-redux';   
 
 const Cart = () => {
   const dispatch=useDispatch();
+  const navigation = useNavigation()
   const {data,isError,isLoading} = useSelector(state=>state.cartItems)
   
   useEffect(()=>{
     dispatch(fetchCartItems())
   },[])
+
+  const handlePress=()=>{
+    // dispatch(loginApi(mobile));
+    // saveData();
+    navigation.navigate('checkout')
+  }
+
   return (
     <View className="flex">
       <CustomHeader
@@ -49,22 +59,33 @@ const Cart = () => {
         resizeMode="repeat"
       />
 
-      <View className="flex w-full justify-center items-center">
+        <SafeAreaView style={{ height: windowHeight * 0.76 }} className="flex w-full justify-center items-center">
       {isLoading?
             <>
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.2}/>
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.2}/>
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.2}/>
             </>:
+            <>
       <FlatList
          className = ""
          style={{width:windowWidth*0.9}}
          data={data?.cartData}
          renderItem={item=><CartItem item={item?.item}/>}
          keyExtractor={item => item._id}
+         showsVerticalScrollIndicator = {false}
     />
+    
+    </>
       }
+      <View className="mb-5 mt-5" >
+      <CustomButton  text={"Proceed to pay"} width={windowWidth*0.7} height={windowHeight*0.2} handlePress={handlePress}/>
       </View>
+     
+      </SafeAreaView>
+  
+      
+      
     </View>
   );
 };
@@ -76,6 +97,24 @@ const CartItem = ({item})=>{
     const retImage = 'https://letusfarm-image-storage.s3.ap-south-1.amazonaws.com' + image
     
     return retImage
+  }
+  const [kg,setKg] = useState(1);
+  const [gram,setGram] = useState(0);
+
+  const onChangeKg = (text)=>{
+    // console.log(text)
+    setKg(text);
+  }
+  const onChangeGram = (text)=>{
+    // console.log(text)
+    setGram(text);
+  }
+  const handleSave =(id)=>{
+    const data ={}
+    data.kg =kg;
+    data.gram = gram
+    data.itemId = id
+    dispatch(updateCartItems(data))
   }
 
   return (
@@ -103,12 +142,14 @@ const CartItem = ({item})=>{
       <View className="flex flex-row items-center">
         <TextInput
           className="border w-10 rounded-md mx-1 border-linegray flex justify-center items-center px-2"
-          placeholder="00"
+          placeholder='00'
+          onChangeText={(text)=>onChangeKg(text)}
         />
         <Text className="text-xs text-lightText">Kg</Text>
         <TextInput
           className="border w-10 rounded-md mx-1 border-linegray flex justify-center items-center px-2"
           placeholder="000"
+          onChangeText={(text)=>onChangeGram(text)}
         />
         <Text className="text-xs text-lightText">Gram</Text>
       </View>
@@ -129,6 +170,7 @@ const CartItem = ({item})=>{
         <TouchableOpacity
           style={{ width: windowWidth * 0.35 }}
           className="bg-green p-2 rounded-lg flex justify-center items-center my-2"
+          onPress={()=>handleSave(item?._id)}
         >
           <Text className="text-white uppercase text-xs">Save</Text>
         </TouchableOpacity>

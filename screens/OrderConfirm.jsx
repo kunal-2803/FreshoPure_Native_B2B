@@ -5,8 +5,12 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
 const confirmImage = require('./../assets/orderConfirmed.png')
+import {useNavigation} from '@react-navigation/native'
 
 const OrderConfirm = () => {
+  const navigation = useNavigation()
+
+
   return (
     <View className="flex justify-center items-center">
        <Image 
@@ -16,11 +20,11 @@ const OrderConfirm = () => {
       <Text className="mt-6 font-bold text-2xl">Order Confirmed!</Text>
       <Text className="mt-3 text-center">Your order has been confirmed, we will send {'\n'} you confirmation email shortly.</Text>
 
-      <TouchableOpacity style={{marginTop:100}}>
+      <TouchableOpacity style={{marginTop:100}} onPress={()=>navigation.navigate('orderHistory')}>
         <Text className="border py-2 items-center text-center rounded-md" style={{width:width*0.8}}>Go to Orders</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={{marginTop:10}}>
+      <TouchableOpacity style={{marginTop:10}} onPress={()=>navigation.navigate('home')}>
         <Text className="border py-2 items-center text-center rounded-md" style={{width:width*0.8}}>Continue Shopping</Text>
       </TouchableOpacity>
       
