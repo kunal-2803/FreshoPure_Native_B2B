@@ -26,7 +26,8 @@ const windowWidth = Dimensions.get("window").width;
 
 import Ionicons from "react-native-vector-icons/Ionicons";
 
-import {fetchCartItems ,removefromCart} from '../redux/slices/Cart/index.js'
+import {fetchCartItems ,removefromCart,updateCartItems} from '../redux/slices/Cart/index.js'
+
 import {useDispatch,useSelector} from 'react-redux';   
 
 const Cart = () => {
@@ -37,6 +38,12 @@ const Cart = () => {
   useEffect(()=>{
     dispatch(fetchCartItems())
   },[dispatch])
+
+  const handlePress=()=>{
+    // dispatch(loginApi(mobile));
+    // saveData();
+    navigation.navigate('checkout')
+  }
 
   return (
     <View className="flex relative h-screen">
@@ -77,6 +84,8 @@ const Cart = () => {
       <View className="flex justify-center absolute bottom-20 w-full items-center">
       {data?.cartData?.length > 0 && <CustomButton text='Checkout' handlePress={()=>navigation.navigate('checkout')} width={windowWidth*0.9}/>}
       </View>
+     
+      
     </View>
   );
 };
@@ -88,6 +97,24 @@ const CartItem = ({item})=>{
     const retImage = 'https://letusfarm-image-storage.s3.ap-south-1.amazonaws.com' + image
     
     return retImage
+  }
+  const [kg,setKg] = useState(1);
+  const [gram,setGram] = useState(0);
+
+  const onChangeKg = (text)=>{
+    // console.log(text)
+    setKg(text);
+  }
+  const onChangeGram = (text)=>{
+    // console.log(text)
+    setGram(text);
+  }
+  const handleSave =(id)=>{
+    const data ={}
+    data.kg =kg;
+    data.gram = gram
+    data.itemId = id
+    dispatch(updateCartItems(data))
   }
 
   return (
@@ -115,12 +142,14 @@ const CartItem = ({item})=>{
       <View className="flex flex-row items-center">
         <TextInput
           className="border w-10 rounded-md mx-1 border-linegray flex justify-center items-center px-2"
-          placeholder="00"
+          placeholder='00'
+          onChangeText={(text)=>onChangeKg(text)}
         />
         <Text className="text-xs text-lightText">Kg</Text>
         <TextInput
           className="border w-10 rounded-md mx-1 border-linegray flex justify-center items-center px-2"
           placeholder="000"
+          onChangeText={(text)=>onChangeGram(text)}
         />
         <Text className="text-xs text-lightText">Gram</Text>
       </View>
@@ -141,6 +170,7 @@ const CartItem = ({item})=>{
         <TouchableOpacity
           style={{ width: windowWidth * 0.35 }}
           className="bg-green p-2 rounded-lg flex justify-center items-center my-2"
+          onPress={()=>handleSave(item?._id)}
         >
           <Text className="text-white uppercase text-xs">Save</Text>
         </TouchableOpacity>

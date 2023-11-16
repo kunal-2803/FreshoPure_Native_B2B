@@ -19,6 +19,9 @@ const OrderHistory = () => {
   const { isError, isLoading, orderhistorty } = useSelector(state => state.order)
   console.log(isLoading);
 
+  // const sortedOrderArray = orderhistorty?.orderHistory?.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn));
+
+
   useEffect(() => {
     dispatch(orderHistory())
   }, [])

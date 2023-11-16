@@ -47,7 +47,7 @@ const Wishlist = () => {
          renderItem={item=><ItemList item={item?.item}/>}
          keyExtractor={item => item._id}
     /> : <View className="flex justify-center items-center text-center mt-6"><Image source={wishlistEmpty} className="p-4 border" style={{width:windowWidth*0.34,resizeMode:'contain'}}/>
-    <Text className="font-semibold text-lightText">There is no item added to your Wishlist. you can add your items anytime is your Wishlist</Text><Text className="font-semibold text-lightText"> But you can add it to cart</Text></View>
+    <Text className="font-semibold text-lightText text-center">There is no item added to your Wishlist.</Text><Text className="font-semibold text-lightText">You can add your items anytime is your Wishlist</Text></View>
          }
           
           

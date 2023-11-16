@@ -1,5 +1,5 @@
-import { View, Text, FlatList, Dimensions, Image, StatusBar, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native'
-import React, { useState, useEffect,useRef,useMemo } from 'react'
+import { View, Text, FlatList, Dimensions, Image, StatusBar, ScrollView, TouchableOpacity, SafeAreaView,RefreshControl } from 'react-native'
+import React, { useState, useEffect,useRef,useMemo,useCallback } from 'react'
 
 import CustomHeader from '../components/CustomHeader.jsx'
 import SkeletonComponent from '../components/SkeletonComponent.jsx'
@@ -13,31 +13,51 @@ const windowWidth = Dimensions.get('window').width;
 import ButtonLoader from '../components/ButtonLoader.js'
 
 import Ionicons from 'react-native-vector-icons/Ionicons'
-
+import useNetworkStatus from '../utils/useNetworkStatus.js'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchItems } from '../redux/slices/HotelItems/index.js'
 import { addToWishlist ,fetchWishlistItems,removefromWishlist} from '../redux/slices/Wishlist/index.js'
 import { addToCart,fetchCartItems } from '../redux/slices/Cart/index.js'
+import NoInternet from '../components/NoInternet.js'
 
 const Home = () => {
+  const isConnected = useNetworkStatus()
   const [selectedCategory, setSelectedCategory] = useState('All')
   const {data,isLoading,isError} = useSelector(state=>state.hotelItems)
   const {addLoading} = useSelector(state=>state.cartItems)
+  const [refreshing, setRefreshing] = useState(false);
+  const [filteredByCategory,setFilterByCategory] = useState([])
+
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['1%', '80%'], []);
 
   const dispatch = useDispatch()
 
+  const onRefresh = useCallback(async()=>{
+    setRefreshing(true)
+    {isConnected && dispatch(fetchItems()); dispatch(fetchCartItems()); dispatch(fetchWishlistItems()) }
+    setRefreshing(false)
+    },[refreshing])
+
   useEffect(()=>{
-    dispatch(fetchCartItems())
-    dispatch(fetchWishlistItems())
+    {isConnected &&  dispatch(fetchCartItems())}
+    {isConnected &&  dispatch(fetchWishlistItems())}
   },[])
 
 
   useEffect(() => {
-    dispatch(fetchItems())
-    bottomSheetRef.current?.snapToIndex(1)
+    {isConnected &&  dispatch(fetchItems())}
   }, [])
+
+  useEffect(() => {
+    if(selectedCategory === 'All' ){
+      setFilterByCategory(data?.hotelItems?.items)
+    }else{
+      const filtered = data?.hotelItems?.items?.filter(product => product.category === selectedCategory);
+      setFilterByCategory(filtered);
+    }
+ 
+  }, [selectedCategory, data]);
 
 
 
@@ -54,6 +74,7 @@ const Home = () => {
             pagingEnabled
             horizontal
             showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
           >
             <View className="flex flex-row">
               <TouchableOpacity onPress={() => setSelectedCategory('All')} className={`mx-1 bg-${selectedCategory === 'All' ? 'green' : 'white'} flex items-start px-4 py-1 rounded-xl`}>
@@ -89,13 +110,21 @@ const Home = () => {
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
             </>:
-          <FlatList
+           isConnected ? <FlatList
             className=""
             style={{ width: windowWidth * 0.9 }}
-            data={data?.hotelItems?.items}
+            data={filteredByCategory}
             renderItem={item => <ItemList item={item?.item} />}
             keyExtractor={item => item._id}
-          />
+            showsVerticalScrollIndicator ={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} 
+              onRefresh={onRefresh} 
+              // colors={[themeColors.bgMid]} 
+              // tintColor={themeColors.bgMid} 
+              />
+            }
+          /> : <Text>No Internet</Text>
         }
 
         </SafeAreaView>
@@ -114,7 +143,7 @@ const ItemList = ({ item }) => {
 
 
   const handleAddToCart=(item)=>{
-    // bottomSheetRef.current?.snapToIndex(1)
+    dispatch(addToCart(item?._id))
 
   }
 

@@ -71,7 +71,7 @@ export const updateCartItems = createAsyncThunk("updateCartItems", async (data) 
         method: 'post',
         body: JSON.stringify({ itemId, quantity }),
         headers: {
-            'token': localStorage.getItem("token"),
+            'token': token,
             'Content-Type': 'application/json'
         }
     });
@@ -79,11 +79,12 @@ export const updateCartItems = createAsyncThunk("updateCartItems", async (data) 
     const responseItems = await fetch(`${baseUrl}/cart/getcartitems`, {
         method: 'get',
         headers: {
-            'token': localStorage.getItem("token")
+            'token': token
         }
     });
     try {
         const result = await responseItems.json();
+        console.log(result)
         return result;
     } catch (error) {
         return error;
