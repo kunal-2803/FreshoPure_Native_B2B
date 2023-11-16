@@ -1,7 +1,9 @@
 import { View, Text, FlatList, Dimensions, Image, StatusBar, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect,useRef,useMemo } from 'react'
 
 import CustomHeader from '../components/CustomHeader.jsx'
+import SkeletonComponent from '../components/SkeletonComponent.jsx'
+import BottomSheet from '../components/BottomSheet.js'
 
 const bg = require('./../assets/bg-texture.png')
 const apple = require('./../assets/apple.png')
@@ -21,7 +23,8 @@ const Home = () => {
   const [selectedCategory, setSelectedCategory] = useState('All')
   const {data,isLoading,isError} = useSelector(state=>state.hotelItems)
   const {addLoading} = useSelector(state=>state.cartItems)
-
+  const bottomSheetRef = useRef(null);
+  const snapPoints = useMemo(() => ['1%', '80%'], []);
 
   const dispatch = useDispatch()
 
@@ -33,6 +36,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(fetchItems())
+    bottomSheetRef.current?.snapToIndex(1)
   }, [])
 
 
@@ -73,19 +77,31 @@ const Home = () => {
 
 
         {/* item list */}
-        <SafeAreaView style={{ height: windowHeight * 0.6 }} className="flex justify-center items-center w-full">
-
-          {<FlatList
+        <SafeAreaView style={{ height: windowHeight * 0.6 }} className="flex items-center w-full">
+        {isLoading || addLoading ?
+            <>
+            {/* <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.1}/> */}
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
+            </>:
+          <FlatList
             className=""
             style={{ width: windowWidth * 0.9 }}
             data={data?.hotelItems?.items}
             renderItem={item => <ItemList item={item?.item} />}
             keyExtractor={item => item._id}
-          />}
+          />
+        }
 
         </SafeAreaView>
-
-
+        {/* <View className="border h-screen w-screen absolute"> */}
+    {/* <BottomSheet bottomSheetRef={bottomSheetRef} snapPoints={snapPoints} index={0}/> */}
+    {/* </View> */}
       </View>
     </>
   )
@@ -95,6 +111,12 @@ const ItemList = ({ item }) => {
   const dispatch = useDispatch()
   const {data,addLoading} = useSelector(state=>state.cartItems)
   const wishlist = useSelector(state=>state.wishlistItems.data)
+
+
+  const handleAddToCart=(item)=>{
+    // bottomSheetRef.current?.snapToIndex(1)
+
+  }
 
   useEffect(()=>{
     dispatch(fetchCartItems())
@@ -110,6 +132,7 @@ const ItemList = ({ item }) => {
 
 
   return (
+    <>
     <View className=" h-14 my-2 rounded-md flex flex-row justify-between px-2 items-center shadow-freshoxl bg-white" style={{
       shadowColor: 'rgba(0, 0, 0,1)',
       shadowOffset: { width: 0, height: 10 },
@@ -118,6 +141,8 @@ const ItemList = ({ item }) => {
       width: windowWidth * 0.9,
       elevation: 6
     }}>
+              
+
       <View className="flex flex-row items-center">
         <Image source={{ uri: func(item?.image) }} className="w-10 h-10"></Image>
         <Text className="font-semibold ml-2 capitalize">{item?.itemName}</Text>
@@ -126,11 +151,14 @@ const ItemList = ({ item }) => {
       <View className="flex flex-row items-center">
         {wishlist?.addWishlistLoading ? 'true' : wishlist?.wishlistData?.find(wishlist=>wishlist?._id === item?._id) ? <Ionicons name="heart" color="#DC143C" size={24} onPress={() => dispatch(removefromWishlist(item?._id))} />: <Ionicons name="heart-outline" size={24} onPress={() => dispatch(addToWishlist(item?._id))} />}
         {data?.cartData?.find(cart=> cart._id === item?._id )? <TouchableOpacity className={`flex justify-center items-center border-green bg-green border px-4 py-2 rounded-md ml-4`} ><Text className="text-white uppercase">Added</Text></TouchableOpacity>:
-        <TouchableOpacity className={`flex justify-center items-center border-linegray border px-4 py-2 rounded-md ml-4`} onPress={() => {dispatch(addToCart(item?._id)); }}><Text className="text-green uppercase">{addLoading ? <ButtonLoader color="#54B175"/> : 'Add'}</Text></TouchableOpacity>}
+        <TouchableOpacity className={`flex justify-center items-center border-linegray border px-4 py-2 rounded-md ml-4`} onPress={() =>handleAddToCart(item)}><Text className="text-green uppercase">{addLoading ? <ButtonLoader color="#54B175"/> : 'Add'}</Text></TouchableOpacity>}
       </View>
     </View>
+   
+    </>
 
   )
 }
+ 
 
 export default Home

@@ -6,8 +6,11 @@ import {
   TextInput,
   Dimensions,
   TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native";
 import React, { useState, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const images = require("./../assets/logins.png");
 const logo = require("../assets/logo.png");
 const windowHeight = Dimensions.get("window").height;
@@ -15,15 +18,37 @@ const windowWidth = Dimensions.get("window").width;
 import InputFeild from "../components/InputFeild.jsx";
 import CustomButton from "../components/CustomButton.jsx";
 import CustomButton2 from "../components/CustomButton2.jsx";
-import {useNavigation} from '@react-navigation/native'
+import { useNavigation } from '@react-navigation/native'
+
+import { useDispatch, useSelector } from "react-redux";
+import { otpVerify } from "../redux/slices/Mobile/index.js";
 
 const OtpVerify = () => {
+  const dispatch = useDispatch();
+  // const mobNo = useSelector((state) => state.mobile)
+
   const [otp, setOtp] = useState("");
   const [timer, setTimer] = useState(60);
+  // console.log(otp.join("").toString(),'otp')
 
   const navigation = useNavigation()
 
-  const handlePress=()=>{
+  const getData = async () => {
+    try {
+      const mobile = await AsyncStorage.getItem('MobileNo');
+      return mobile;
+    } catch (error) {
+
+    }
+  }
+
+  const handlePress =async () => {
+    const mobNo =await getData();
+    let Otp =await otp.join("")
+    const data ={}
+    data.mobNo =mobNo
+    data.otp = Otp
+    dispatch(otpVerify(data))
     navigation.navigate('setProfile')
   }
 
@@ -43,11 +68,12 @@ const OtpVerify = () => {
     setOtp((prevOtp) => {
       const updatedOtp = [...prevOtp];
       updatedOtp[index] = value;
+      // console.log(updatedOtp)
       return updatedOtp;
     });
 
-    if (value !== "" && index < 5) {
-      otpInputs[index + 1].focus();
+    if (value !== "" && index < 3) {
+      otpInputs[index + 1].focus;
     }
   };
 
@@ -59,8 +85,8 @@ const OtpVerify = () => {
   };
 
   return (
-    <View className="flex flex-1 bg-white">
-      
+    <KeyboardAvoidingView behavior="position" className="flex flex-1 bg-white">
+
       {/* <Text>Login</Text> */}
       <StatusBar
         barStyle="light-content"
@@ -139,10 +165,10 @@ const OtpVerify = () => {
           )}
         </View>
 
-        <CustomButton text="Verify" width={windowWidth * 0.8}  handlePress={handlePress}/>
+        <CustomButton text="Verify" width={windowWidth * 0.8} handlePress={handlePress} />
       </View>
-      
-    </View>
+
+    </KeyboardAvoidingView>
   );
 };
 

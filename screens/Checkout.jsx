@@ -19,6 +19,7 @@ import {
   import Ionicons from "react-native-vector-icons/Ionicons";
   import EvilIcons from 'react-native-vector-icons/EvilIcons';
   const address = require('./../assets/address.png')
+  import Icon from 'react-native-vector-icons/AntDesign'
 
 
   const Cart = () => {
@@ -67,7 +68,7 @@ import {
               <Text className="text-xs text-lightText">43, Electronics City Phase 1, Electronic City</Text>
             </View>
           </View>
-          <TouchableOpacity className="border-2 mr-2 border-lightText rounded-full bg-white p-2"></TouchableOpacity>
+          <TouchableOpacity className="border-2 mr-2 rounded-full bg-green p-1 border-white"><Icon name="check" color={'#fff'}/></TouchableOpacity>
         </View>
           </View>
 

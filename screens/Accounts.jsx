@@ -1,5 +1,7 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Dimensions, TouchableWithoutFeedback, Keyboard, Image, ScrollView } from 'react-native'
 import React,{useEffect} from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import CustomHeader from '../components/CustomHeader';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -22,7 +24,12 @@ const Accounts = () => {
 
   useEffect(()=>{
    dispatch(getProfile())
-  },[])
+  },[dispatch])
+
+  async function handleLogout(){
+    await AsyncStorage.removeItem('token');
+    // navigation.navigate('login')
+  }
 
 
   return (
@@ -84,7 +91,7 @@ const Accounts = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={()=>navigation.navigate('analytics')}>
+        {/* <TouchableOpacity onPress={()=>navigation.navigate('analytics')}>
           <View className="flex flex-row   items-center justify-between">
             <View className="flex flex-row  items-center">
               <View className="rounded-md shadow-md  bg-white  w-10 items-center" style={[styles.shadowProp, styles.space]}>
@@ -96,9 +103,9 @@ const Accounts = () => {
               <MaterialIcons name='keyboard-arrow-right' size={24} />
             </View>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
-        <TouchableOpacity onPress={()=>navigation.navigate('address')}>
+        {/* <TouchableOpacity onPress={()=>navigation.navigate('address')}>
           <View className="flex flex-row   items-center justify-between">
             <View className="flex flex-row  items-center">
               <View className="rounded-md shadow-md  bg-white w-10 items-center" style={[styles.shadowProp, styles.space]}>
@@ -110,7 +117,7 @@ const Accounts = () => {
               <MaterialIcons name='keyboard-arrow-right' size={24} />
             </View>
           </View>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
 
         <TouchableOpacity onPress={()=>navigation.navigate('faq')}>
           <View className="flex flex-row   items-center justify-between">
@@ -126,7 +133,7 @@ const Accounts = () => {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>{handleLogout()}}>
           <View className="flex flex-row   items-center justify-between">
             <View className="flex flex-row  items-center">
               <View className="rounded-md shadow-md  bg-white w-10 items-center" style={[styles.shadowProp, styles.space]}>

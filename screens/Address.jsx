@@ -18,12 +18,14 @@ import { useNavigation } from "@react-navigation/native";
 import { selectedAddress, allAddress, selectDiffAddress, deleteaddress } from "../redux/slices/Address/index.js";
 import { useDispatch, useSelector } from "react-redux";
 import Icon from 'react-native-vector-icons/AntDesign'
+import SkeletonComponent from '../components/SkeletonComponent.jsx'
 
 const Address = () => {
   const dispatch = useDispatch();
   const { AllAddress, isLoading, selected, isError } = useSelector(
     (state) => state.address
   );
+  console.log(selected)
 
   const [selectedAddressId,setSelectedAddressId] = useState(selected?.address?._id)
   const navigation = useNavigation();
@@ -65,7 +67,11 @@ const Address = () => {
           <Text className="font-semibold capitalize text-md my-2">
             Selected Address
           </Text>
-          <AddressComponent item={selected?.address} setSelectedAddressId={setSelectedAddressId} selectedAddressId={selectedAddressId}/>
+          {isLoading ?
+            <>
+              <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.08} />
+            </> 
+          :<AddressComponent item={selected?.address} setSelectedAddressId={setSelectedAddressId} selectedAddressId={selectedAddressId}/>}
         </View>
       </View>
 
@@ -84,7 +90,14 @@ const Address = () => {
          renderItem={item=><AddressComponent item={item?.item}/>}
          keyExtractor={item => item._id}
     /> */}
-          {AllAddress?.hotelAddresses?.map((item, index) => (
+          
+          {isLoading ?
+            <>
+              <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.08} />
+              <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.08} />
+              <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.08} />
+            </> 
+            :AllAddress?.hotelAddresses?.map((item, index) => (
             <AddressComponent item={item} key={index} setSelectedAddressId={setSelectedAddressId} selectedAddressId={selectedAddressId}/>
           ))}
         </View>

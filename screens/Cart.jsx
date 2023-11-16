@@ -16,7 +16,10 @@ import React, { useState,useEffect } from "react";
 import CustomHeader from "../components/CustomHeader.jsx";
 import CustomButton from "../components/CustomButton.jsx";
 import {useNavigation} from '@react-navigation/native'
+import SkeletonComponent from "../components/SkeletonComponent.jsx";
+
 const bg = require("./../assets/bg-texture.png");
+const cartEmpty = require("./../assets/empty-cart.png");
 
 const windowHeight = Dimensions.get("window").height;
 const windowWidth = Dimensions.get("window").width;
@@ -33,9 +36,10 @@ const Cart = () => {
   
   useEffect(()=>{
     dispatch(fetchCartItems())
-  },[])
+  },[dispatch])
+
   return (
-    <View className="flex relative h-full">
+    <View className="flex relative h-screen">
       <CustomHeader
         title={"Profile"}
         backButton={true}
@@ -50,17 +54,28 @@ const Cart = () => {
         resizeMode="repeat"
       />
 
-      <KeyboardAvoidingView behavior="padding" className="flex w-full justify-center items-center">
-      <FlatList
-         className = ""
-         style={{width:windowWidth*0.9}}
+      <View className="flex w-full items-center">
+      {isLoading?
+            <>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.15}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.15}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.15}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.15}/>
+            </>
+            :
+            (data?.cartData?.length > 0 ? <FlatList
+         showsVerticalScrollIndicator={false}
+         style={{width:windowWidth*0.9,height:windowHeight*0.62}}
          data={data?.cartData}
          renderItem={item=><CartItem item={item?.item}/>}
          keyExtractor={item => item._id}
-    />
-      </KeyboardAvoidingView>
-      <View className="flex justify-center absolute bottom-0 w-full items-center" style={{marginBottom:windowHeight*0.08}}>
-      <CustomButton text='Checkout' handlePress={()=>navigation.navigate('checkout')} width={windowWidth*0.9}/>
+    /> : <View className="flex justify-center items-center text-center mt-12"><Image source={cartEmpty} style={{width:windowWidth*0.5,resizeMode:'contain'}}/>
+         <Text className="font-semibold text-lightText">Opps! We can’t find your product!</Text><Text className="font-semibold text-lightText"> But you can add it to cart</Text></View>)
+      }
+        
+      </View>
+      <View className="flex justify-center absolute bottom-20 w-full items-center">
+      {data?.cartData?.length > 0 && <CustomButton text='Checkout' handlePress={()=>navigation.navigate('checkout')} width={windowWidth*0.9}/>}
       </View>
     </View>
   );
@@ -88,7 +103,7 @@ const CartItem = ({item})=>{
   >
     <View className="flex flex-row justify-between w-full">
       <View className="flex flex-row items-center">
-        <Image source={{uri:func(item?.image)}} className="w-10 h-10"></Image>
+        <Image source={{uri:func(item?.image)}} className="w-10 h-10"/>
         <View>
           <Text className="font-semibold ml-2 capitalize">{item?.itemName}</Text>
           <Text className="ml-2 text-xs text-lightText mt-1">

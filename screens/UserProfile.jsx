@@ -19,6 +19,7 @@ const UserProfile = () => {
 
   const user = data?.hotelData;
 
+
   const [profileData,setProfileData] = useState({fullName:user?.fullName,hotelName:user?.hotelName,email:user?.email,mobileNo:user?.mobileNo,alternateMobileNo:user?.alternateMobileNo})
 
   const handlePress=()=>{
@@ -42,21 +43,21 @@ const UserProfile = () => {
     <ScrollView alwaysBounceVertical={true} className="flex" style={{height:windowHeight*0.84}} showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}>
       
     <View className="flex w-full justify-center items-center my-2 mt-14">
-      <InputFeild width={windowWidth*0.85} keyboardType='text' value={profileData?.fullName} placeHolder='Full Name'/>
+      <InputFeild width={windowWidth*0.85} keyboardType='default' value={profileData?.fullName} placeHolder='Full Name'/>
       </View>
       <View className="flex w-full justify-center items-center my-2">
-      <InputFeild width={windowWidth*0.85} keyboardType='text' value={profileData?.hotelName} placeHolder='Hotel Name'/>
+      <InputFeild width={windowWidth*0.85} keyboardType='default' value={profileData?.hotelName} placeHolder='Hotel Name'/>
       </View>
       <View className="flex w-full justify-center items-center my-2">
-      <InputFeild width={windowWidth*0.85} keyboardType='text' value={profileData?.email} placeHolder='Email'/>
+      <InputFeild width={windowWidth*0.85} keyboardType='email-address' value={profileData?.email} placeHolder='Email'/>
       </View>
       <View className="flex w-full justify-center items-center my-2">
-      <InputFeild width={windowWidth*0.85} keyboardType='numeric' value={profileData?.mobileNo} placeHolder='Phone Number'/>
+      <InputFeild width={windowWidth*0.85} keyboardType='number-pad' value={profileData?.mobileNo} placeHolder='Phone Number'/>
       </View>
       <View className="flex w-full justify-center items-center my-2">
-      <InputFeild width={windowWidth*0.85} keyboardType='numeric' value={profileData?.alternateMobileNo} placeHolder='Alternate Number'/>
+      <InputFeild width={windowWidth*0.85} keyboardType='number-pad' value={profileData?.alternateMobileNo} placeHolder='Alternate Number'/>
       </View>
-
+ 
       <View className="flex w-full justify-center items-center my-2">
       <CustomButton width={windowWidth*0.85} text={'Update'} handlePress={handlePress} isLoading={false}/>
       </View>
