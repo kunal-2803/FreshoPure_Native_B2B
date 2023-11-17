@@ -25,12 +25,12 @@ const Address = () => {
   const { AllAddress, isLoading, selected, isError } = useSelector(
     (state) => state.address
   );
-  console.log(selected)
+  console.log(AllAddress?.hotelAddresses)
 
   const [selectedAddressId,setSelectedAddressId] = useState(selected?.address?._id)
   const navigation = useNavigation();
 
-  console.log(selectedAddressId)
+  console.log(selected)
 
   const handleRemoveAddress =()=>{
     dispatch(deleteaddress(selectedAddressId))
@@ -63,7 +63,7 @@ const Address = () => {
 
       <ScrollView showsVerticalScrollIndicator={false}>
       <View className="flex justify-center items-center w-full mt-4">
-        <View style={{ width: windowWidth * 0.9 }} className="">
+        {selected?.address === null ? <Text>No Address</Text> :<View style={{ width: windowWidth * 0.9 }} className="">
           <Text className="font-semibold capitalize text-md my-2">
             Selected Address
           </Text>
@@ -72,16 +72,16 @@ const Address = () => {
               <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.08} />
             </> 
           :<AddressComponent item={selected?.address} setSelectedAddressId={setSelectedAddressId} selectedAddressId={selectedAddressId}/>}
-        </View>
+        </View>}
       </View>
 
       {/* othet address */}
 
       <View className="flex justify-center items-center w-full mt-4">
         <View style={{ width: windowWidth * 0.9 }} className="">
-          <Text className="font-semibold capitalize text-md my-2">
+          {AllAddress?.hotelAddresses?.length > 0 && <Text className="font-semibold capitalize text-md my-2">
             Other Addresses
-          </Text>
+          </Text>}
 
           {/* <FlatList
          className = ""
@@ -103,7 +103,11 @@ const Address = () => {
         </View>
       </View>
 
-      <View className="flex items-center w-full mt-4">
+       {selected?.address === null ?  <View className="flex justify-center items-center w-full">
+        <CustomButton width={windowWidth * 0.9} text="Add New Address" handlePress={() => navigation.navigate('addAddress')}/>
+      </View>: 
+      <>
+           <View className="flex items-center w-full mt-4">
         <View
           className="flex-row justify-between"
           style={{ width: windowWidth * 0.9 }}
@@ -129,7 +133,7 @@ const Address = () => {
 
       <View className="flex justify-center items-center w-full">
         <CustomButton width={windowWidth * 0.9} text="Save Address" handlePress={handleDiffAddress}/>
-      </View>
+      </View></>}
       </ScrollView>
     </View>
   );

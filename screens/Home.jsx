@@ -27,7 +27,7 @@ const Home = () => {
   const {addLoading} = useSelector(state=>state.cartItems)
   const [refreshing, setRefreshing] = useState(false);
   const [filteredByCategory,setFilterByCategory] = useState([])
-
+  const extraData={'data':"value"}
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['1%', '80%'], []);
 
@@ -99,7 +99,7 @@ const Home = () => {
 
         {/* item list */}
         <SafeAreaView style={{ height: windowHeight * 0.6 }} className="flex items-center w-full">
-        {isLoading || addLoading ?
+        {isLoading ?
             <>
             {/* <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.1}/> */}
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
@@ -114,7 +114,7 @@ const Home = () => {
             className=""
             style={{ width: windowWidth * 0.9 }}
             data={filteredByCategory}
-            renderItem={item => <ItemList item={item?.item} />}
+            renderItem={item => <ItemList item={item?.item} loading={addLoading} />}
             keyExtractor={item => item._id}
             showsVerticalScrollIndicator ={false}
             refreshControl={
@@ -124,6 +124,7 @@ const Home = () => {
               // tintColor={themeColors.bgMid} 
               />
             }
+            extraData={[extraData]}
           /> : <Text>No Internet</Text>
         }
 
@@ -136,7 +137,7 @@ const Home = () => {
   )
 }
 
-const ItemList = ({ item }) => {
+const ItemList = ({ item,loading}) => {
   const dispatch = useDispatch()
   const {data,addLoading} = useSelector(state=>state.cartItems)
   const wishlist = useSelector(state=>state.wishlistItems.data)
@@ -180,7 +181,7 @@ const ItemList = ({ item }) => {
       <View className="flex flex-row items-center">
         {wishlist?.addWishlistLoading ? 'true' : wishlist?.wishlistData?.find(wishlist=>wishlist?._id === item?._id) ? <Ionicons name="heart" color="#DC143C" size={24} onPress={() => dispatch(removefromWishlist(item?._id))} />: <Ionicons name="heart-outline" size={24} onPress={() => dispatch(addToWishlist(item?._id))} />}
         {data?.cartData?.find(cart=> cart._id === item?._id )? <TouchableOpacity className={`flex justify-center items-center border-green bg-green border px-4 py-2 rounded-md ml-4`} ><Text className="text-white uppercase">Added</Text></TouchableOpacity>:
-        <TouchableOpacity className={`flex justify-center items-center border-linegray border px-4 py-2 rounded-md ml-4`} onPress={() =>handleAddToCart(item)}><Text className="text-green uppercase">{addLoading ? <ButtonLoader color="#54B175"/> : 'Add'}</Text></TouchableOpacity>}
+        <TouchableOpacity className={`flex justify-center items-center border-linegray border px-4 py-2 rounded-md ml-4`} onPress={() =>handleAddToCart(item)}><Text className="text-green uppercase">{loading ? <ButtonLoader color="#54B175"/> : 'Add'}</Text></TouchableOpacity>}
       </View>
     </View>
    

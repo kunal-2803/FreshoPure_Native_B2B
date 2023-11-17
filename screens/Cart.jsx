@@ -148,7 +148,7 @@ const CartItem = ({item})=>{
         <Text className="text-xs text-lightText">Kg</Text>
         <TextInput
           className="border w-10 rounded-md mx-1 border-linegray flex justify-center items-center px-2"
-          placeholder="000"
+          placeholder={item?.quantity?.gram}
           onChangeText={(text)=>onChangeGram(text)}
         />
         <Text className="text-xs text-lightText">Gram</Text>

@@ -127,8 +127,10 @@ const cartSlice = createSlice({
         builder.addCase(addToCart.fulfilled, (state, action) => {
             state.addLoading = false;
             state.added = action.payload;
+            if(action.payload?.cartData){
             state.price = state.data.cartData.reduce(function (previousValue, currentValue) {
                     return previousValue + (currentValue.costPrice * (currentValue.quantity.kg+(currentValue.quantity.gram/1000)))},0)
+            }
         });
         builder.addCase(addToCart.rejected, (state, action) => {
             console.log("Error", action.payload);
@@ -146,8 +148,10 @@ const cartSlice = createSlice({
             const itemId = action.payload;
             state.removed = action.payload;
             state.data.cartData = state.data.cartData.filter(item => item._id !== itemId);
+            if(action.payload?.cartData){
             state.price = state.data.cartData.reduce(function (previousValue, currentValue) {
                 return previousValue + (currentValue.costPrice * (currentValue.quantity.kg+(currentValue.quantity.gram/1000)))},0)
+            }
         });
         builder.addCase(removefromCart.rejected, (state, action) => {
             console.log("Error", action.payload);
@@ -162,8 +166,10 @@ const cartSlice = createSlice({
         builder.addCase(updateCartItems.fulfilled, (state, action) => {
             state.isLoading = false;
             state.updated = action.payload
+            if(action.payload?.cartData){
             state.price = action.payload.cartData.reduce(function (previousValue, currentValue) {
                 return previousValue + (currentValue.costPrice * (currentValue.quantity.kg+(currentValue.quantity.gram/1000)))},0)
+            }
         });
         builder.addCase(updateCartItems.rejected, (state, action) => {
             console.log("Error", action.payload);

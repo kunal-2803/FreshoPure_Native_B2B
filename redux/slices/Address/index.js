@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 const baseUrl = 'http://15.206.181.239'
 
-export const addAddress = createAsyncThunk("addAddress", async (newAddress) => {
+export const addAddress = createAsyncThunk("addAddress", async ({newAddress}) => {
   const response = await fetch(`${baseUrl}/address/addaddress`, {
     method: 'post',
-    body: JSON.stringify({ ...newAddress }),
+    body: JSON.stringify(newAddress),
     headers: {
       'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
       'Content-Type': 'application/json'
