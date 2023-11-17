@@ -74,7 +74,6 @@ const Home = () => {
             pagingEnabled
             horizontal
             showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
           >
             <View className="flex flex-row">
               <TouchableOpacity onPress={() => setSelectedCategory('All')} className={`mx-1 bg-${selectedCategory === 'All' ? 'green' : 'white'} flex items-start px-4 py-1 rounded-xl`}>
@@ -101,7 +100,6 @@ const Home = () => {
         <SafeAreaView style={{ height: windowHeight * 0.6 }} className="flex items-center w-full">
         {isLoading || addLoading ?
             <>
-            {/* <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.1}/> */}
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
@@ -140,10 +138,12 @@ const ItemList = ({ item }) => {
   const dispatch = useDispatch()
   const {data,addLoading} = useSelector(state=>state.cartItems)
   const wishlist = useSelector(state=>state.wishlistItems.data)
+  // console.log(wishlist,"WiahLiat Data")
 
 
   const handleAddToCart=(item)=>{
     dispatch(addToCart(item?._id))
+    // console.log(wishlist,"WiahLiat Data")
 
   }
 
@@ -178,7 +178,7 @@ const ItemList = ({ item }) => {
       </View>
 
       <View className="flex flex-row items-center">
-        {wishlist?.addWishlistLoading ? 'true' : wishlist?.wishlistData?.find(wishlist=>wishlist?._id === item?._id) ? <Ionicons name="heart" color="#DC143C" size={24} onPress={() => dispatch(removefromWishlist(item?._id))} />: <Ionicons name="heart-outline" size={24} onPress={() => dispatch(addToWishlist(item?._id))} />}
+        {wishlist?.addWishlistLoading ? 'true' : wishlist?.wishlistData?.find(wishlist=>wishlist?._id === item?._id) ? <Ionicons name="heart" color="#DC143C" size={24} onPress={() => dispatch(removefromWishlist(item?._id))} />: <Ionicons name="heart-outline" size={24} onPress={() => {dispatch(addToWishlist(item?._id));console.log("Item added to woshlisy")}} />}
         {data?.cartData?.find(cart=> cart._id === item?._id )? <TouchableOpacity className={`flex justify-center items-center border-green bg-green border px-4 py-2 rounded-md ml-4`} ><Text className="text-white uppercase">Added</Text></TouchableOpacity>:
         <TouchableOpacity className={`flex justify-center items-center border-linegray border px-4 py-2 rounded-md ml-4`} onPress={() =>handleAddToCart(item)}><Text className="text-green uppercase">{addLoading ? <ButtonLoader color="#54B175"/> : 'Add'}</Text></TouchableOpacity>}
       </View>

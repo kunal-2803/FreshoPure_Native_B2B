@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Dimensions, TouchableWithoutFeedback, Keyboard, Image, ScrollView } from 'react-native'
-import React from 'react'
+import React,{useEffect} from 'react'
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
@@ -8,17 +8,39 @@ const height = Dimensions.get('window').height;
 
 const OrderImg = require('./../assets/orderimg.png')
 import {useNavigation} from '@react-navigation/native'
+import { orderAgain } from '../redux/slices/Order';
+import { selectedAddress } from '../redux/slices/Address';
+import { useDispatch,useSelector } from 'react-redux';
 
 
 
 const OrderHistoryComponet = ({item}) => {
+    const dispatch = useDispatch();
+    console.log(item,"itemmmm")
 
 
     const navigation = useNavigation()
+    
+    const { selected } = useSelector(state => state.address)
 
     const handlePress=()=>{
       navigation.navigate('orderHistoryItems',{data:item})
     }
+    const handleOrderAgain=(orderId, addressId)=>{
+        const data ={}
+        data.orderId =orderId;
+        data.addressId =selected?.address._id;
+        dispatch(orderAgain(data))
+        navigation.navigate('cart')
+    }
+
+
+    useEffect(()=>{
+        dispatch(selectedAddress())
+      },[dispatch])
+
+   
+
 
     return (
         <View>
@@ -55,7 +77,7 @@ const OrderHistoryComponet = ({item}) => {
                             <TouchableOpacity style={{ width: width * 0.36 }} className="bg-white border-linegray border p-2 rounded-lg flex justify-center items-center mb-4">
                                 <Text className="text-green uppercase text-xs">Leave a Review</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{ width: width * 0.36 }} className="bg-green p-2 rounded-lg flex justify-center items-center mb-4">
+                            <TouchableOpacity style={{ width: width * 0.36 }} className="bg-green p-2 rounded-lg flex justify-center items-center mb-4" onPress={()=>handleOrderAgain(item?._id,item?.addressId)}>
                                 <Text className="text-white uppercase text-xs">Order again</Text>
                             </TouchableOpacity>
                         </View>

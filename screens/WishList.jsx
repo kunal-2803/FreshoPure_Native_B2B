@@ -1,8 +1,9 @@
-import { View, Text , Dimensions,Image,StatusBar,ScrollView,TouchableOpacity,SafeAreaView, FlatList} from 'react-native'
-import React,{useState, useEffect } from 'react'
+import { View, Text , Dimensions,Image,StatusBar,ScrollView,TouchableOpacity,SafeAreaView, FlatList ,RefreshControl} from 'react-native'
+import React,{useState, useEffect,useCallback } from 'react'
 import CustomHeader from '../components/CustomHeader.jsx'
 import CustomButton from '../components/CustomButton.jsx'
 import SkeletonComponent from '../components/SkeletonComponent.jsx'
+import useNetworkStatus from '../utils/useNetworkStatus.js'
 const bg = require('./../assets/bg-texture.png')
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -18,10 +19,18 @@ const Wishlist = () => {
   const [selectedCategory,setSelectedCategory] = useState('All')
   const {data,isError,isLoading} = useSelector(state=>state.wishlistItems)
   const dispatch = useDispatch()
+  const isConnected = useNetworkStatus()
+  const [refreshing, setRefreshing] = useState(false);
   
   useEffect(()=>{
     dispatch(fetchWishlistItems())
    },[dispatch])
+
+   const onRefresh = useCallback(async()=>{
+    setRefreshing(true)
+    {isConnected && dispatch(fetchWishlistItems()) }
+    setRefreshing(false)
+    },[refreshing])
 
   return (
     <>
@@ -31,7 +40,7 @@ const Wishlist = () => {
 
 
         {/* item list */}
-         <SafeAreaView style={{height:windowHeight*0.5}} className="flex justify-center items-center w-full">
+         <SafeAreaView style={{height:windowHeight*0.74}} className="flex justify-center items-center w-full">
          {isLoading?
             <>
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
@@ -46,6 +55,13 @@ const Wishlist = () => {
          data={data?.wishlistData}
          renderItem={item=><ItemList item={item?.item}/>}
          keyExtractor={item => item._id}
+         refreshControl={
+          <RefreshControl refreshing={refreshing} 
+          onRefresh={onRefresh} 
+          // colors={[themeColors.bgMid]} 
+          // tintColor={themeColors.bgMid} 
+          />
+        }
     /> : <View className="flex justify-center items-center text-center mt-6"><Image source={wishlistEmpty} className="p-4 border" style={{width:windowWidth*0.34,resizeMode:'contain'}}/>
     <Text className="font-semibold text-lightText text-center">There is no item added to your Wishlist.</Text><Text className="font-semibold text-lightText">You can add your items anytime is your Wishlist</Text></View>
          }

@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity,TextInput,Dimensions,Image } from 'react-native'
-import React from 'react'
+import { View, Text, TouchableOpacity,TextInput,Dimensions,Image,BackHandler } from 'react-native'
+import React,{useEffect} from 'react'
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -9,6 +9,16 @@ import {useNavigation} from '@react-navigation/native'
 
 const OrderConfirm = () => {
   const navigation = useNavigation()
+
+  useEffect(() => {
+    const backAction = () => {
+      navigation.navigate('home'); // Navigate to the "Home" tab
+      return true; // Return true to prevent default back button behavior
+    };
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
+
+    return () => backHandler.remove();// Clean up the event listener when the component is unmounted
+  }, []);
 
 
   return (
