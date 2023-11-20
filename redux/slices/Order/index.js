@@ -55,13 +55,43 @@ export const placeOrder = createAsyncThunk("placeOrder", async (data) => {
 })
 
 
+export const orderAgain = createAsyncThunk("orderAgain", async (data) => {
+    const order_id=data.orderId;
+    const addressId=data.addressId;
+    console.log(order_id, addressId, "dataaaa")
+    let response = await fetch(`${baseUrl}/order/orderagain`, {
+        method: 'post',
+        body: JSON.stringify({order_id, addressId }),
+        headers: {
+            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+            'Content-Type': 'application/json'
+        }
+    });
+    try {
+        const result = await response.json();
+        console.log(result,"orders Again ka data")
+        return result;
+    } catch (error) {
+        return error;
+    }
+})
+
+
 const orderSlice = createSlice({
     name: "order",
     initialState: {
         isLoading: false,
         orderhistorty: null,
         orderItems: null,
-        isError: false
+        isError: false,
+        isSuccess:false
+    },
+    reducers:{
+        clearData:(state)=>{
+          state.isSuccess=false;
+          state.isError=false;
+
+        }
     },
     extraReducers: (builder) => {
         builder.addCase(orderHistory.pending, (state, action) => {
@@ -74,6 +104,7 @@ const orderSlice = createSlice({
         builder.addCase(orderHistory.rejected, (state, action) => {
             console.log("Error", action.payload);
             state.isError = true;
+            state.isLoading=false;
         });
 
 
@@ -89,6 +120,21 @@ const orderSlice = createSlice({
             state.isError = true;
         });
 
+
+
+        builder.addCase(placeOrder.pending, (state, action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(placeOrder.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+        });
+        builder.addCase(placeOrder.rejected, (state, action) => {
+            console.log("Error", action.payload);
+            state.isError = true;
+        });
+
     },
 });
+export const {clearData}=orderSlice.actions;
 export default orderSlice.reducer;

@@ -30,7 +30,7 @@ export const addToWishlist = createAsyncThunk("addToWishlist", async (itemId, { 
     });
     try {
         const result = await response.json();
-        console.log(result)
+        // console.log(result)
         return result;
     } catch (error) {
         return rejectWithValue(error);

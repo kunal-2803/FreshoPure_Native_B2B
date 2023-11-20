@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Dimensions, Image, StatusBar, ScrollView, TouchableOpacity, SafeAreaView,RefreshControl } from 'react-native'
+import { View, Text, FlatList, Dimensions, Image, StatusBar, ScrollView, TouchableOpacity, SafeAreaView,RefreshControl,KeyboardAvoidingView } from 'react-native'
 import React, { useState, useEffect,useRef,useMemo,useCallback } from 'react'
 
 import CustomHeader from '../components/CustomHeader.jsx'
@@ -7,6 +7,7 @@ import BottomSheet from '../components/BottomSheet.js'
 
 const bg = require('./../assets/bg-texture.png')
 const apple = require('./../assets/apple.png')
+const NoItems = require('./../assets/NoItems.png')
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -26,7 +27,10 @@ const Home = () => {
   const {data,isLoading,isError} = useSelector(state=>state.hotelItems)
   const {addLoading} = useSelector(state=>state.cartItems)
   const [refreshing, setRefreshing] = useState(false);
-  const [filteredByCategory,setFilterByCategory] = useState([])
+  const [searchQuery,setSearchQuery] = useState('')
+  const [filteredByCategory,setFilterByCategory] = useState(data?.hotelItems?.items)
+  const [searchItems,setSearchItems] = useState(filteredByCategory)
+  const [filteredData,setFilteredData] = useState([])
   const extraData={'data':"value"}
   const bottomSheetRef = useRef(null);
   const snapPoints = useMemo(() => ['1%', '80%'], []);
@@ -37,34 +41,54 @@ const Home = () => {
     setRefreshing(true)
     {isConnected && dispatch(fetchItems()); dispatch(fetchCartItems()); dispatch(fetchWishlistItems()) }
     setRefreshing(false)
-    },[refreshing])
+    },[refreshing,dispatch])
 
   useEffect(()=>{
     {isConnected &&  dispatch(fetchCartItems())}
     {isConnected &&  dispatch(fetchWishlistItems())}
-  },[])
+  },[dispatch])
 
 
   useEffect(() => {
     {isConnected &&  dispatch(fetchItems())}
   }, [])
 
-  useEffect(() => {
-    if(selectedCategory === 'All' ){
-      setFilterByCategory(data?.hotelItems?.items)
-    }else{
-      const filtered = data?.hotelItems?.items?.filter(product => product.category === selectedCategory);
-      setFilterByCategory(filtered);
-    }
+
+  // useEffect(() => {
+  //   if(selectedCategory === 'All' ){
+  //     setFilterByCategory(data?.hotelItems?.items)
+  //   }else{
+  //     const filtered = data?.hotelItems?.items?.filter(product => product.category === selectedCategory);
+  //     setFilterByCategory(filtered);
+  //   }
  
-  }, [selectedCategory, data]);
+  // }, [selectedCategory]);
+
+
+  // useEffect(()=>{
+
+  //   if(searchQuery?.length === 0){
+  //     setSearchItems(filteredByCategory)
+  //   }else{
+  //     let searchItemsData = filteredByCategory?.filter(item=> item.itemName.toLowerCase().includes(searchQuery.toLowerCase()))
+  //     setSearchItems(searchItemsData)
+  //   }
+
+  // },[searchQuery])
+
+  const filteredItems = data?.hotelItems?.items?.filter(item => {
+    const categoryMatch = selectedCategory === 'All' || item.category === selectedCategory;
+    const searchMatch = item.itemName.toLowerCase().includes(searchQuery.toLowerCase());
+    return categoryMatch && searchMatch;
+  });
+
 
 
 
   return (
     <>
-      <View className="flex">
-        <CustomHeader title={'Profile'} backButton={true} height={0.18} headerBar={true} />
+      <KeyboardAvoidingView className="flex">
+        <CustomHeader title={'Profile'} backButton={true} height={0.24} headerBar={true} isSearchBar={true} searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
         <Image source={bg} className="absolute" style={{ height: windowHeight * 1.4 }} resizeMode="repeat" />
 
         {/* filter list */}
@@ -74,7 +98,6 @@ const Home = () => {
             pagingEnabled
             horizontal
             showsHorizontalScrollIndicator={false}
-            showsVerticalScrollIndicator={false}
           >
             <View className="flex flex-row">
               <TouchableOpacity onPress={() => setSelectedCategory('All')} className={`mx-1 bg-${selectedCategory === 'All' ? 'green' : 'white'} flex items-start px-4 py-1 rounded-xl`}>
@@ -101,7 +124,6 @@ const Home = () => {
         <SafeAreaView style={{ height: windowHeight * 0.6 }} className="flex items-center w-full">
         {isLoading ?
             <>
-            {/* <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.1}/> */}
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
@@ -110,10 +132,10 @@ const Home = () => {
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
             </>:
-           isConnected ? <FlatList
+           isConnected ? (filteredItems?.length > 0 ? <FlatList
             className=""
             style={{ width: windowWidth * 0.9 }}
-            data={filteredByCategory}
+            data={filteredItems}
             renderItem={item => <ItemList item={item?.item} loading={addLoading} />}
             keyExtractor={item => item._id}
             showsVerticalScrollIndicator ={false}
@@ -125,28 +147,32 @@ const Home = () => {
               />
             }
             extraData={[extraData]}
-          /> : <Text>No Internet</Text>
+          /> : <View className="flex h-fit justify-center mt-12 items-center text-center"><Image source={NoItems} style={{width:windowWidth*0.5,resizeMode:'contain'}}/>
+          <Text className="font-semibold text-lightText">Opps! No Item Found!</Text></View>) : <Text>No Internet</Text>
         }
 
         </SafeAreaView>
         {/* <View className="border h-screen w-screen absolute"> */}
     {/* <BottomSheet bottomSheetRef={bottomSheetRef} snapPoints={snapPoints} index={0}/> */}
     {/* </View> */}
-      </View>
+      </KeyboardAvoidingView>
     </>
   )
 }
 
 const ItemList = ({ item,loading}) => {
   const dispatch = useDispatch()
-  const {data,addLoading} = useSelector(state=>state.cartItems)
+  const {data} = useSelector(state=>state.cartItems)
   const wishlist = useSelector(state=>state.wishlistItems.data)
+  const isConnected = useNetworkStatus()
 
 
   const handleAddToCart=(item)=>{
-    dispatch(addToCart(item?._id))
+    {isConnected && dispatch(addToCart(item?._id))}
+    {isConnected &&  dispatch(fetchItems())}
 
   }
+
 
   useEffect(()=>{
     dispatch(fetchCartItems())
@@ -179,7 +205,7 @@ const ItemList = ({ item,loading}) => {
       </View>
 
       <View className="flex flex-row items-center">
-        {wishlist?.addWishlistLoading ? 'true' : wishlist?.wishlistData?.find(wishlist=>wishlist?._id === item?._id) ? <Ionicons name="heart" color="#DC143C" size={24} onPress={() => dispatch(removefromWishlist(item?._id))} />: <Ionicons name="heart-outline" size={24} onPress={() => dispatch(addToWishlist(item?._id))} />}
+        {wishlist?.addWishlistLoading ? 'true' : wishlist?.wishlistData?.find(wishlist=>wishlist?._id === item?._id) ? <Ionicons name="heart" color="#DC143C" size={24} onPress={() => dispatch(removefromWishlist(item?._id))} />: <Ionicons name="heart-outline" size={24} onPress={() => {dispatch(addToWishlist(item?._id));console.log("Item added to woshlisy")}} />}
         {data?.cartData?.find(cart=> cart._id === item?._id )? <TouchableOpacity className={`flex justify-center items-center border-green bg-green border px-4 py-2 rounded-md ml-4`} ><Text className="text-white uppercase">Added</Text></TouchableOpacity>:
         <TouchableOpacity className={`flex justify-center items-center border-linegray border px-4 py-2 rounded-md ml-4`} onPress={() =>handleAddToCart(item)}><Text className="text-green uppercase">{loading ? <ButtonLoader color="#54B175"/> : 'Add'}</Text></TouchableOpacity>}
       </View>

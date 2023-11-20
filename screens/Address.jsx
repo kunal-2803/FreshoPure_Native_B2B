@@ -19,36 +19,46 @@ import { selectedAddress, allAddress, selectDiffAddress, deleteaddress } from ".
 import { useDispatch, useSelector } from "react-redux";
 import Icon from 'react-native-vector-icons/AntDesign'
 import SkeletonComponent from '../components/SkeletonComponent.jsx'
+import NoInternet from '../components/NoInternet.js'
+import useNetworkStatus from '../utils/useNetworkStatus.js'
 
 const Address = () => {
+  const isConnected = useNetworkStatus()
   const dispatch = useDispatch();
   const { AllAddress, isLoading, selected, isError } = useSelector(
     (state) => state.address
   );
-  console.log(AllAddress?.hotelAddresses)
 
   const [selectedAddressId,setSelectedAddressId] = useState(selected?.address?._id)
   const navigation = useNavigation();
 
-  console.log(selected)
 
   const handleRemoveAddress =()=>{
     dispatch(deleteaddress(selectedAddressId))
+    {isConnected && dispatch(allAddress())}
   }
 
 
   const handleDiffAddress = () => {
     dispatch(selectDiffAddress(selectedAddressId))
+    {isConnected && dispatch(allAddress())}
+    {isConnected && dispatch(selectedAddress())}
+
   };
 
   useEffect(() => {
-    dispatch(selectedAddress());
-    dispatch(allAddress());
+    if(isConnected){dispatch(selectedAddress());}
+    if(isConnected){dispatch(allAddress())}
   }, []);
 
-  useEffect(()=>{
-    setSelectedAddressId(selected?.address?._id)
-  },[selected])
+  if(!isConnected){
+    return(
+      <>
+     <CustomHeader title={'My Addresses'} backButton={true} height={0.16} headerBar={false}/>
+      <NoInternet />
+      </>
+    )
+  }
 
   return (
     <View className="flex mb-2" style={{ height: windowHeight*1.045 }}>
@@ -61,9 +71,9 @@ const Address = () => {
         resizeMode="repeat"
       />
 
-      <ScrollView showsVerticalScrollIndicator={false}>
+      <View>
       <View className="flex justify-center items-center w-full mt-4">
-        {selected?.address === null ? <Text>No Address</Text> :<View style={{ width: windowWidth * 0.9 }} className="">
+        <View style={{ width: windowWidth * 0.9 }} className="">
           <Text className="font-semibold capitalize text-md my-2">
             Selected Address
           </Text>
@@ -72,7 +82,7 @@ const Address = () => {
               <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.08} />
             </> 
           :<AddressComponent item={selected?.address} setSelectedAddressId={setSelectedAddressId} selectedAddressId={selectedAddressId}/>}
-        </View>}
+        </View>
       </View>
 
       {/* othet address */}
@@ -83,13 +93,7 @@ const Address = () => {
             Other Addresses
           </Text>}
 
-          {/* <FlatList
-         className = ""
-         style={{width:windowWidth*0.9}}
-         data={AllAddress?.hotelAddresses}
-         renderItem={item=><AddressComponent item={item?.item}/>}
-         keyExtractor={item => item._id}
-    /> */}
+          
           
           {isLoading ?
             <>
@@ -97,16 +101,19 @@ const Address = () => {
               <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.08} />
               <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.08} />
             </> 
-            :AllAddress?.hotelAddresses?.map((item, index) => (
-            <AddressComponent item={item} key={index} setSelectedAddressId={setSelectedAddressId} selectedAddressId={selectedAddressId}/>
-          ))}
+            :
+            <FlatList
+         className = ""
+         style={{width:windowWidth*0.9}}
+         data={AllAddress?.hotelAddresses}
+         renderItem={item=><AddressComponent item={item?.item} setSelectedAddressId={setSelectedAddressId} selectedAddressId={selectedAddressId}/>}
+         keyExtractor={item => item._id}
+    />
+    }
         </View>
       </View>
 
-       {selected?.address === null ?  <View className="flex justify-center items-center w-full">
-        <CustomButton width={windowWidth * 0.9} text="Add New Address" handlePress={() => navigation.navigate('addAddress')}/>
-      </View>: 
-      <>
+       
            <View className="flex items-center w-full mt-4">
         <View
           className="flex-row justify-between"
@@ -115,7 +122,7 @@ const Address = () => {
           <TouchableOpacity
             style={{ width: windowWidth * 0.42 }}
             className="bg-white border-linegray border p-2 rounded-lg flex justify-center items-center my-2"
-            onPress={handleRemoveAddress}
+            onPress={()=>handleRemoveAddress()}
           >
             <Text className="text-green uppercase text-xs">Remove Address</Text>
           </TouchableOpacity>
@@ -133,8 +140,8 @@ const Address = () => {
 
       <View className="flex justify-center items-center w-full">
         <CustomButton width={windowWidth * 0.9} text="Save Address" handlePress={handleDiffAddress}/>
-      </View></>}
-      </ScrollView>
+      </View>
+      </View>
     </View>
   );
 };

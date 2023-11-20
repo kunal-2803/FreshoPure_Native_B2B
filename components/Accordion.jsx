@@ -22,7 +22,7 @@ const Accordion = ({ title, content }) => {
         </View>
       </TouchableOpacity>
 
-      {isExpanded && <View className="p-4 bg-linegray"><Text>{content}</Text></View>}
+      {isExpanded && <View className="p-2 bg-gray"><Text className="text-lightText text-xs">{content}</Text></View>}
     </View>
   );
 };

@@ -1,12 +1,13 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Dimensions, TouchableWithoutFeedback, Keyboard, Image, FlatList } from 'react-native'
-import React, { useState, useEffect } from 'react'
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Dimensions, TouchableWithoutFeedback, Keyboard, Image, FlatList,RefreshControl } from 'react-native'
+import React, { useState, useEffect ,useCallback} from 'react'
 
 import CustomHeader from '../components/CustomHeader';
 import OrderHistoryComponet from '../components/OrderHistoryComponet';
 import SkeletonComponent from '../components/SkeletonComponent'
+import useNetworkStatus from '../utils/useNetworkStatus.js'
 
 import { orderHistory } from '../redux/slices/Order/index.js'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -16,15 +17,25 @@ const bg = require('./../assets/bg-texture.png')
 
 const OrderHistory = () => {
   const dispatch = useDispatch();
+  const isConnected = useNetworkStatus()
   const { isError, isLoading, orderhistorty } = useSelector(state => state.order)
-  console.log(isLoading);
+  const [refreshing, setRefreshing] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageLoading, setpageLoading] = useState(false);
+  // console.log(isLoading);
 
   // const sortedOrderArray = orderhistorty?.orderHistory?.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn));
 
 
   useEffect(() => {
-    dispatch(orderHistory())
-  }, [])
+    {isConnected && dispatch(orderHistory())}
+  }, [dispatch])
+
+  const onRefresh = useCallback(async()=>{
+    setRefreshing(true)
+    {isConnected && dispatch(orderHistory()) }
+    setRefreshing(false)
+    },[refreshing])
 
   return (
     <View>
@@ -49,6 +60,14 @@ const OrderHistory = () => {
             data={orderhistorty?.orderHistory}
             renderItem={item => <OrderHistoryComponet item={item?.item} />}
             keyExtractor={item => item._id}
+            showsVerticalScrollIndicator ={false}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} 
+              onRefresh={onRefresh} 
+              // colors={[themeColors.bgMid]} 
+              // tintColor={themeColors.bgMid} 
+              />
+            }
           />
 
         </View>

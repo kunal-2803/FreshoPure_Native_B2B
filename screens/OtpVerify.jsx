@@ -19,13 +19,16 @@ import InputFeild from "../components/InputFeild.jsx";
 import CustomButton from "../components/CustomButton.jsx";
 import CustomButton2 from "../components/CustomButton2.jsx";
 import { useNavigation } from '@react-navigation/native'
-
+import { useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from "react-redux";
 import { otpVerify } from "../redux/slices/Mobile/index.js";
 
 const OtpVerify = () => {
   const dispatch = useDispatch();
   // const mobNo = useSelector((state) => state.mobile)
+  const route = useRoute();
+  const mobile = route?.params?.data; 
+  
 
   const [otp, setOtp] = useState("");
   const [timer, setTimer] = useState(60);
@@ -33,23 +36,15 @@ const OtpVerify = () => {
 
   const navigation = useNavigation()
 
-  const getData = async () => {
-    try {
-      const mobile = await AsyncStorage.getItem('MobileNo');
-      return mobile;
-    } catch (error) {
 
-    }
-  }
 
   const handlePress =async () => {
-    const mobNo =await getData();
     let Otp =await otp.join("")
-    const data ={}
-    data.mobNo =mobNo
-    data.otp = Otp
-    dispatch(otpVerify(data))
-    navigation.navigate('setProfile')
+
+    console.log(mobile,Otp)
+    
+    dispatch(otpVerify({mobile:mobile,otpRec:Otp}))
+    // navigation.navigate('setProfile')
   }
 
   useEffect(() => {
@@ -64,21 +59,19 @@ const OtpVerify = () => {
     };
   }, [timer]);
 
-  const handleOtpChange = (value, index) => {
-    setOtp((prevOtp) => {
-      const updatedOtp = [...prevOtp];
-      updatedOtp[index] = value;
-      // console.log(updatedOtp)
-      return updatedOtp;
-    });
+  
 
-    if (value !== "" && index < 3) {
-      otpInputs[index + 1].focus;
+
+  const handleOtpChange = (value, index) => {
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+    // Move focus to the next box if the current one has a value
+    if (value && index < newOtp.length - 1) {
+      this.inputs[index + 1].focus();
     }
   };
-
-  // Array to store references to each OTP input field
-  const otpInputs = [];
+  const inputs = [];
 
   const handleSendOTP = () => {
     setTimer(60);
@@ -147,7 +140,7 @@ const OtpVerify = () => {
               value={otp[index] || ""}
               maxLength={1}
               keyboardType="numeric"
-              ref={(ref) => (otpInputs[index] = ref)}
+              ref={(ref) => (inputs[index] = ref)}
             />
           ))}
         </View>

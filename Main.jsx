@@ -26,6 +26,8 @@ import Accounts from './screens/Accounts';
 import Analytics from './screens/Analytics';
 import FAQ from './screens/FAQ';
 import Checkout from './screens/Checkout';
+import {useDispatch,useSelector} from 'react-redux'
+import {getProfile} from './redux/slices/UserProfile/index.js'
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +41,11 @@ const AuthStack = () => {
 }
 
 const RootNavigation = () => {
+    const {data} = useSelector(state=>state.profile)
+    const dispatch = useDispatch()
+    const user = data?.hotelData;  
+
+    console.log(data)
 
     return (
         <>
@@ -106,8 +113,7 @@ const Main = () => {
             <StatusBar
                 barStyle="light-content" backgroundColor="transparent" translucent={true}
             />
-            {/* {isAuthenticated ? <RootNavigation /> : <AuthStack />} */}
-            <RootNavigation/>
+            {isAuthenticated ? <RootNavigation /> : <AuthStack />}
         </NavigationContainer>
     );
 };

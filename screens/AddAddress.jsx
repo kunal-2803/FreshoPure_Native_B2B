@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity,TextInput,Dimensions,TouchableWithoutFeedback, Keyboard,Image } from 'react-native'
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import HeaderComponent from '../components/HeaderComponent'
 import InputFeild from '../components/InputFeild';
 import CustomHeader from '../components/CustomHeader';
@@ -7,16 +7,19 @@ import CustomButton from '../components/CustomButton';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
-import { addAddress } from "../redux/slices/Address/index.js";
+import { addAddress ,clearData} from "../redux/slices/Address/index.js";
 import { useDispatch, useSelector } from "react-redux";
-
+import { StackActions } from '@react-navigation/native'
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
+import { useNavigation } from '@react-navigation/native'
 
 const bg = require('./../assets/bg-texture.png')
 
 const AddAddress = () => {
   const dispatch = useDispatch()
+  const navigation = useNavigation()
+  const {isLoading,isError,isSuccess} = useSelector(state=>state.address)
   const [profileData,setProfileData] = useState({addressLine1:'',addressLine2:'',city:'',state:'',pinCode:'',mobileNo:''})
   
   const [formErrors, setFormErrors] = useState({
@@ -83,12 +86,29 @@ const AddAddress = () => {
   const handleSubmit = () => {
     if (validateForm()) {
       // All fields are valid, proceed with submission
-      dispatch(addAddress({newAddress:profileData}))
+      console.log(profileData,"profile Data")
+      dispatch(addAddress(profileData))
     } else {
       // Display an error or take appropriate action
       console.log('Form validation failed!');
     }
   };
+
+  
+  useEffect(()=>{
+   if(isSuccess){
+    navigation.dispatch(
+      StackActions.replace('address')
+    );
+    dispatch(clearData())
+   }
+
+   if(isError){
+    console.log('error')
+    dispatch(clearData())
+   }
+
+  },[isError,dispatch,isSuccess])
 
   return (
     <View className="flex justify-center items-center">
@@ -121,12 +141,12 @@ const AddAddress = () => {
 
       <View className="flex flex-row justify-between" style={{width:windowWidth*0.85}}>
       <View  className="flex justify-center  my-2">
-      <InputFeild width={windowWidth*0.41} handleChange={(text)=>handleInputChange('pinCode',text)} name="pinCode" keyboardType='default' placeHolder='Pin Code'/>
+      <InputFeild width={windowWidth*0.41} handleChange={(text)=>handleInputChange('pinCode',text)} name="pinCode" keyboardType='numeric' placeHolder='Pin Code'/>
       <Text className="text-left text-xs text-red">{formErrors.pinCode}</Text>
       </View>
 
       <View  className="flex justify-center  my-2">
-      <InputFeild width={windowWidth*0.41} handleChange={(text)=>handleInputChange('mobileNo',text)} name="mobileNo" keyboardType='default' placeHolder='Phone Number'/>
+      <InputFeild width={windowWidth*0.41} handleChange={(text)=>handleInputChange('mobileNo',text)} name="mobileNo" keyboardType='numeric' placeHolder='Phone Number'/>
       <Text className="text-left text-xs text-red">{formErrors.mobileNo}</Text>
       </View>
       </View>
@@ -138,7 +158,7 @@ const AddAddress = () => {
       {/* <CustomButton  text={"Use My Location"} width={width*0.8} ></CustomButton> */}
       
       
-      <CustomButton text={"Save Address"} width={width*0.9} handlePress={handleSubmit}/>
+      <CustomButton text={"Save Address"} width={width*0.9} handlePress={handleSubmit} isLoading={isLoading}/>
       </View>
       
     </View>

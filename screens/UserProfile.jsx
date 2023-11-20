@@ -52,10 +52,10 @@ const UserProfile = () => {
       <InputFeild width={windowWidth*0.85} keyboardType='email-address' value={profileData?.email} placeHolder='Email'/>
       </View>
       <View className="flex w-full justify-center items-center my-2">
-      <InputFeild width={windowWidth*0.85} keyboardType='number-pad' value={profileData?.mobileNo} placeHolder='Phone Number'/>
+      <InputFeild width={windowWidth*0.85} keyboardType='phone-pad' value={profileData?.mobileNo} placeHolder='Phone Number'/>
       </View>
       <View className="flex w-full justify-center items-center my-2">
-      <InputFeild width={windowWidth*0.85} keyboardType='number-pad' value={profileData?.alternateMobileNo} placeHolder='Alternate Number'/>
+      <InputFeild width={windowWidth*0.85} keyboardType='phone-pad' value={profileData?.alternateMobileNo} placeHolder='Alternate Number'/>
       </View>
  
       <View className="flex w-full justify-center items-center my-2">

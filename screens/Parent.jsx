@@ -16,8 +16,10 @@ const Tab = createBottomTabNavigator();
 import { fetchWishlistItems} from '../redux/slices/Wishlist/index.js'
 import { fetchCartItems } from '../redux/slices/Cart/index.js'
 import { useDispatch, useSelector } from 'react-redux'
+import useNetworkStatus from '../utils/useNetworkStatus.js'
 
 const Parent = () => {
+  const isConnected = useNetworkStatus()
 
 
   return (
@@ -25,7 +27,8 @@ const Parent = () => {
       <Tab.Navigator initialRouteName='home'
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarShowLabel: false,        
+        tabBarShowLabel: false,  
+        tabBarHideOnKeyboard: true,     
         tabBarIcon: ({ focused }) => menuIcons(route, focused),
         tabBarStyle: {
           height: 55,
@@ -56,10 +59,11 @@ const menuIcons = (route, focused)=> {
   const {data} = useSelector(state=>state.cartItems)
   const wishlist = useSelector(state=>state.wishlistItems.data)
   let icon;
+  const isConnected = useNetworkStatus()
 
   useEffect(()=>{
-    dispatch(fetchCartItems())
-    dispatch(fetchWishlistItems())
+    {isConnected && dispatch(fetchCartItems())
+    dispatch(fetchWishlistItems())}
   },[])
   
 

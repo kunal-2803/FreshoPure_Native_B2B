@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, TextInput, Dimensions, TouchableWithoutFeedback, Keyboard, Image, ScrollView } from 'react-native'
-import React from 'react'
+import React,{useEffect} from 'react'
 
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
@@ -8,17 +8,37 @@ const height = Dimensions.get('window').height;
 
 const OrderImg = require('./../assets/orderimg.png')
 import {useNavigation} from '@react-navigation/native'
+import { orderAgain } from '../redux/slices/Order';
+import { selectedAddress } from '../redux/slices/Address';
+import { useDispatch,useSelector } from 'react-redux';
+import useNetworkStatus from '../utils/useNetworkStatus.js'
 
 
 
 const OrderHistoryComponet = ({item}) => {
-
-
+    const dispatch = useDispatch();
+    const isConnected = useNetworkStatus()
     const navigation = useNavigation()
+    const { selected } = useSelector(state => state.address)
 
     const handlePress=()=>{
       navigation.navigate('orderHistoryItems',{data:item})
     }
+    const handleOrderAgain=(orderId, addressId)=>{
+        const data ={}
+        data.orderId =orderId;
+        data.addressId =selected?.address._id;
+        {isConnected && dispatch(orderAgain(data))}
+        navigation.navigate('cart')
+    }
+
+
+    useEffect(()=>{
+        {isConnected && dispatch(selectedAddress())}
+      },[dispatch])
+
+   
+
 
     return (
         <View>
@@ -31,7 +51,7 @@ const OrderHistoryComponet = ({item}) => {
                                 <Image source={OrderImg} className="h-20 m-4" style={{ width: width * 0.23 }} />
                             </View>
                             <View className="w-fit">
-                                <Text className="text-lightText text-xs">{item?.time} AM</Text>
+                                <Text className="text-lightText text-xs uppercase">{item?.time}</Text>
                                 <Text className="font-bold">Order Id:{item?.orderId}</Text> 
                                 <View className="flex flex-row">
                                     <Text className="text-lightText text-xs ">{item?.totalItems} Items </Text>
@@ -55,7 +75,7 @@ const OrderHistoryComponet = ({item}) => {
                             <TouchableOpacity style={{ width: width * 0.36 }} className="bg-white border-linegray border p-2 rounded-lg flex justify-center items-center mb-4">
                                 <Text className="text-green uppercase text-xs">Leave a Review</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={{ width: width * 0.36 }} className="bg-green p-2 rounded-lg flex justify-center items-center mb-4">
+                            <TouchableOpacity style={{ width: width * 0.36 }} className="bg-green p-2 rounded-lg flex justify-center items-center mb-4" onPress={()=>handleOrderAgain(item?._id,item?.addressId)}>
                                 <Text className="text-white uppercase text-xs">Order again</Text>
                             </TouchableOpacity>
                         </View>
