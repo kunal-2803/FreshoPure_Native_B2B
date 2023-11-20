@@ -8,11 +8,12 @@ import profileReducer from './slices/UserProfile'
 import OrderReducer from './slices/Order'
 import {combineReducers } from '@reduxjs/toolkit'
 import persistReducer from 'redux-persist/es/persistReducer'
-import storage from 'redux-persist/lib/storage'
+// import storage from 'redux-persist/lib/storage'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let persistConfig = {
   key:'root',
-  storage
+  storage:AsyncStorage
 }
 let rootReducer = combineReducers({
   hotelItems:itemReducer,
