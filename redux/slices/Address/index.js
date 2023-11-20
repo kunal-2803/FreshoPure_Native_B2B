@@ -2,15 +2,18 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 const baseUrl = 'http://15.206.181.239'
 
 export const addAddress = createAsyncThunk("addAddress", async (newAddress) => {
+
+  console.log(newAddress,"New address");
   const response = await fetch(`${baseUrl}/address/addaddress`, {
     method: 'post',
-    body: JSON.stringify({ ...newAddress }),
+    body: JSON.stringify({...newAddress}),
     headers: {
       'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
       'Content-Type': 'application/json'
     } 
   });
   try {
+    console.log(await response.status)
     const result = await response.json();
     return result;
   } catch (error) {
@@ -97,15 +100,22 @@ const addressSlice = createSlice({
     isLoading: false,
     selected: null,
     AllAddress: null,
-    isError: false
+    isError: false,
+    isSuccess:false,
   },
+  reducers:{
+    clearData:(state)=>{
+      state.isSuccess=false;
+      state.isError=false;
+    }
+   },
   extraReducers: (builder) => {
     builder.addCase(addAddress.pending, (state, action) => {
       state.isLoading = true;
     });
     builder.addCase(addAddress.fulfilled, (state, action) => {
       state.isLoading = false;
-      // state.selected = action.payload;
+      state.isSuccess = true;
     });
     builder.addCase(addAddress.rejected, (state, action) => {
       console.log("Error", action.payload);
@@ -166,5 +176,6 @@ const addressSlice = createSlice({
     });
   }
 })
+export const {clearData}=addressSlice.actions;
 
 export default addressSlice.reducer;

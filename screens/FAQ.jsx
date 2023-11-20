@@ -42,15 +42,15 @@ const FAQ = () => {
       </View>
 
       <View><Text className="ml-4 mt-8 font-bold text-lg">FAQ</Text>
-      <Accordion title="What is Viral Pitch?" content="Content for section 1" />
-      <Accordion title="What is Viral Pitch?" content="Content for section 1" />
-      <Accordion title="What is Viral Pitch?" content="Content for section 1" />
+      <Accordion title="What products do you offer?" content="We offer a wide variety of fresh fruits and vegetables, including seasonal and year-round options." />
+      <Accordion title="Where do you source your produce?" content="We source our produce from local farmers, as well as regional and international suppliers to ensure the highest quality and variety." />
+      <Accordion title="Are your products organic or conventional?" content="We offer both organic and conventional options. You can choose according to your preferences." />
 
-      <Accordion title="What is Viral Pitch?" content="Content for section 1" />
+      <Accordion title="How do you ensure the freshness of your products?" content="Our products are carefully harvested, stored, and transported in temperature-controlled environments to maintain freshness. We also have a quick turnover to ensure you receive the freshest produce." />
 
-      <Accordion title="What is Viral Pitch?" content="Content for section 1" />
+      <Accordion title="How can I place an order?" content="You can place an order through our website, mobile app, or by contacting our customer service. We also accept orders through phone and email." />
 
-      <Accordion title="What is Viral Pitch?" content="Content for section 1" />
+      <Accordion title="What is your return or refund policy?" content="We have a customer-friendly return and refund policy. If you are not satisfied with your order, please contact us within 2 days, and we will assist you with returns or refunds." />
             </View>
     </View>
   );

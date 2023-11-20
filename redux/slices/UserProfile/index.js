@@ -16,18 +16,19 @@ export const getProfile = createAsyncThunk("getProfile", async () => {
     return res;
 });
 
-export const setUserProfile = createAsyncThunk("setUserProfile", async (userData, { rejectWithValue }) => {
+export const setUserProfile = createAsyncThunk("setUserProfile", async ({userData}, { rejectWithValue }) => {
     console.log("userData", userData);
     const response = await fetch(`${baseUrl}/user/setprofile`, {
         method: 'post',
-        body: JSON.stringify({ userData }),
+        body: JSON.stringify( userData ),
         headers: {
-            'token': localStorage.getItem("token"),
+            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
             'Content-Type': 'application/json'
         }
     });
     try {
         const result = await response.json();
+        console.log(result)
         return result;
     } catch (error) {
         return rejectWithValue(error);
@@ -36,16 +37,18 @@ export const setUserProfile = createAsyncThunk("setUserProfile", async (userData
 
 export const setUserProfileImage = createAsyncThunk("setUserProfileImage", async (userData, { rejectWithValue }) => {
     console.log("userData", userData);
-    const response = await fetch(`${baseUrl}/user/uploads`, {
+    const response = await fetch(`${baseUrl}/user/upload`, {
         method: 'post',
-        body: JSON.stringify({ userData }),
+        body: JSON.stringify(userData ),
         headers: {
-            'token': localStorage.getItem("token"),
-            'Content-Type': 'application/json'
+            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+            'Content-Type': 'multipart/form-data'
         }
     });
     try {
+        console.log(response)
         const result = await response.json();
+        console.log(result)
         return result;
     } catch (error) {
         return rejectWithValue(error);

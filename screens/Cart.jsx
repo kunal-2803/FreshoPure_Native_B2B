@@ -32,12 +32,13 @@ import {fetchCartItems ,removefromCart,updateCartItems} from '../redux/slices/Ca
 
 import {useDispatch,useSelector} from 'react-redux';   
 import NoInternet from "../components/NoInternet.js";
+import ButtonLoader from "../components/ButtonLoader.js";
 
 const Cart = () => {
   const dispatch=useDispatch();
   const navigation = useNavigation()
   const isConnected = useNetworkStatus()
-  const {data,isError,isLoading} = useSelector(state=>state.cartItems)
+  const {data,isError,isLoading, addLoading} = useSelector(state=>state.cartItems)
   const [refreshing, setRefreshing] = useState(false);
   
   useEffect(()=>{
@@ -84,7 +85,7 @@ const Cart = () => {
          showsVerticalScrollIndicator={false}
          style={{width:windowWidth*0.9,height:windowHeight*0.68}}
          data={data?.cartData}
-         renderItem={item=><CartItem item={item?.item}/>}
+         renderItem={item=><CartItem item={item?.item} addLoading={addLoading}/>}
          keyExtractor={item => item._id}
          refreshControl={
           <RefreshControl refreshing={refreshing} 
@@ -107,8 +108,10 @@ const Cart = () => {
   );
 };
 
-const CartItem = ({item})=>{
+const CartItem = ({item,addLoading})=>{
   const dispatch=useDispatch();
+  const isConnected = useNetworkStatus()
+
   function func(img) {
     let image = img.substr(12)
     const retImage = 'https://letusfarm-image-storage.s3.ap-south-1.amazonaws.com' + image
@@ -131,7 +134,13 @@ const CartItem = ({item})=>{
     data.kg =kg;
     data.gram = gram
     data.itemId = id
-    dispatch(updateCartItems(data))
+    {isConnected && dispatch(updateCartItems(data))}
+    {isConnected && dispatch(fetchCartItems()) }
+  }
+
+  const handleRemoveCart =(id)=>{
+    {isConnected && dispatch(removefromCart(id))}
+    {isConnected && dispatch(fetchCartItems()) }
   }
 
   return (
@@ -182,7 +191,7 @@ const CartItem = ({item})=>{
         <TouchableOpacity
           style={{ width: windowWidth * 0.35 }}
           className="bg-white border-linegray border p-2 rounded-lg flex justify-center items-center my-2"
-          onPress={()=>dispatch(removefromCart(item?._id))}
+          onPress={()=>handleRemoveCart(item?._id)}
         >
           <Text className="text-green uppercase text-xs">Remove</Text>
         </TouchableOpacity>

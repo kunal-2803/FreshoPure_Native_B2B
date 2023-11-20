@@ -21,13 +21,19 @@ const OrderHistory = () => {
   const isConnected = useNetworkStatus()
   const { isError, isLoading, orderhistorty } = useSelector(state => state.order)
   const [refreshing, setRefreshing] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageLoading, setpageLoading] = useState(false);
   // console.log(isLoading);
 
   // const sortedOrderArray = orderhistorty?.orderHistory?.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn));
 
 
   useEffect(() => {
+<<<<<<< HEAD
     isConnected && dispatch(orderHistory())
+=======
+    {isConnected && dispatch(orderHistory())}
+>>>>>>> 779de014a89b1fa82babb8d72388562a3b99f24b
   }, [dispatch])
 
   const onRefresh = useCallback(async()=>{

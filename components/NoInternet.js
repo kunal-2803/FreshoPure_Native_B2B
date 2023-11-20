@@ -3,7 +3,7 @@ import React from 'react'
 
 const NoInternet = () => {
   return (
-    <View>
+    <View className="flex justify-center items-center">
       <Text>NoInternet</Text>
     </View>
   )

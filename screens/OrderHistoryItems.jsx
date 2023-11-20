@@ -13,15 +13,17 @@ import {orderHistoryItems} from '../redux/slices/Order/index.js'
 import {useDispatch,useSelector} from 'react-redux';   
 import { useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign'
+import useNetworkStatus from '../utils/useNetworkStatus.js'
 
 const OrderHistoryItem = () => {
   const dispatch=useDispatch();
   const {orderItems,isError,isLoading} = useSelector(state=>state.order)
   const route = useRoute();
   const order = route.params.data; 
+  const isConnected = useNetworkStatus()
 
   useEffect(()=>{
-    dispatch(orderHistoryItems(order?._id))
+    {isConnected && dispatch(orderHistoryItems(order?._id))}
   },[])
 
   return (
@@ -39,9 +41,9 @@ const OrderHistoryItem = () => {
         resizeMode="repeat"
       />
 {isLoading?
-            <>
-            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.1}/>
-            </>:
+            <View className="mt-4">
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
+            </View >:
       <View className="flex justify-center items-center w-full mt-4">
         <View style={{ width: windowWidth * 0.9 }} className="">
           <View className="bg-lightgray h-14 rounded-lg flex flex-row px-2 justify-between items-center my-1" style={{ shadowColor: 'rgba(0, 0, 0,1)',
@@ -61,7 +63,7 @@ const OrderHistoryItem = () => {
 
 
             <View className="flex items-end mr-2">
-              <Text className="text-xs text-lightText">{order?.time} AM</Text>
+              <Text className="text-xs text-lightText uppercase">{order?.time}</Text>
               <Text className="text-xs text-lightText">{order?.date}</Text>
             </View>
 
@@ -76,11 +78,11 @@ const OrderHistoryItem = () => {
       <View className="flex justify-center items-center w-full mt-4">
         <View style={{ width: windowWidth * 0.9 }} className="">
           <Text className="font-semibold capitalize text-md my-2">
-            Other Addresses
+            Address
           </Text>
           {isLoading?
             <>
-            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.1}/>
+            <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
             </>:
           <View className="bg-lightgray h-14 rounded-lg flex flex-row px-1 justify-between items-center my-1" style={{ shadowColor: 'rgba(0, 0, 0,1)',
            shadowOffset: { width: 0, height: 10 },

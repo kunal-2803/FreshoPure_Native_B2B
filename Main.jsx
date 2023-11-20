@@ -26,6 +26,8 @@ import Accounts from './screens/Accounts';
 import Analytics from './screens/Analytics';
 import FAQ from './screens/FAQ';
 import Checkout from './screens/Checkout';
+import {useDispatch,useSelector} from 'react-redux'
+import {getProfile} from './redux/slices/UserProfile/index.js'
 
 const Stack = createNativeStackNavigator();
 
@@ -39,6 +41,11 @@ const AuthStack = () => {
 }
 
 const RootNavigation = () => {
+    const {data} = useSelector(state=>state.profile)
+    const dispatch = useDispatch()
+    const user = data?.hotelData;  
+
+    console.log(data)
 
     return (
         <>
@@ -50,22 +57,27 @@ const RootNavigation = () => {
                 {/* <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
             <Stack.Screen name='splashScreen2' component={SplashScreen2} options={{headerShown:false}}/>
             <Stack.Screen name='splashScreen3' component={SplashScreen3} options={{headerShown:false}}/> */}
+
+            
+            {/* <Stack.Screen name='analytics' component={Analytics} options={{ headerShown: false }} /> */}
+
+
+
                <Stack.Screen name='parent' component={Parent} options={{ headerShown: false }} />
             <Stack.Screen name='checkout' component={Checkout} options={{ headerShown: false }} />
-             
-                <Stack.Screen name='setProfile' component={SetProfile} options={{ headerShown: false }} />
+            <Stack.Screen name='setProfile' component={SetProfile} options={{ headerShown: false }} />
 
 
 
-                <Stack.Screen name='addAddress' component={AddAddress} options={{ headerShown: false }} />
+
                 <Stack.Screen name='address' component={Address} options={{ headerShown: false }} />
+                <Stack.Screen name='addAddress' component={AddAddress} options={{ headerShown: false }} />
 
                 <Stack.Screen name='orderHistory' component={OrderHistory} options={{ headerShown: false }} />
 
 
                 <Stack.Screen name='faq' component={FAQ} options={{ headerShown: false }} />
                 <Stack.Screen name='orderHistoryItems' component={OrderHistoryItems} options={{ headerShown: false }} />
-               
 
 
                 <Stack.Screen name='orderConfirm' component={OrderConfirm} options={{ headerShown: false }} />
@@ -102,8 +114,7 @@ const Main = () => {
             <StatusBar
                 barStyle="light-content" backgroundColor="transparent" translucent={true}
             />
-            {/* {isAuthenticated ? <RootNavigation /> : <AuthStack />} */}
-            <RootNavigation/>
+            {isAuthenticated ? <RootNavigation /> : <AuthStack />}
         </NavigationContainer>
     );
 };
