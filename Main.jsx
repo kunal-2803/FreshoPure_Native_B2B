@@ -44,6 +44,7 @@ const RootNavigation = () => {
         <>
 
             <Stack.Navigator >
+            <Stack.Screen name='analytics' component={Analytics} options={{ headerShown: false }} />
                 {/* <Stack.Screen name='address' component={Address} options={{headerShown:false}}/> */}
 
                 {/* <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
@@ -64,7 +65,7 @@ const RootNavigation = () => {
 
                 <Stack.Screen name='faq' component={FAQ} options={{ headerShown: false }} />
                 <Stack.Screen name='orderHistoryItems' component={OrderHistoryItems} options={{ headerShown: false }} />
-                <Stack.Screen name='analytics' component={Analytics} options={{ headerShown: false }} />
+               
 
 
                 <Stack.Screen name='orderConfirm' component={OrderConfirm} options={{ headerShown: false }} />
