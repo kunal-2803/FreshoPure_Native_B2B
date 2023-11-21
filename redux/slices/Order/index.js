@@ -77,6 +77,28 @@ export const orderAgain = createAsyncThunk("orderAgain", async (data) => {
 })
 
 
+export const analyticsAPI = createAsyncThunk("analyticsAPI", async (duration) => {
+    
+    // console.log(duration, "dataaaa")
+    // const duration = data.duration
+    let response = await fetch(`${baseUrl}/order/orderanalytics`, {
+        method: 'post',
+        body: JSON.stringify({duration}),
+        headers: {
+            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+            'Content-Type': 'application/json'
+        }
+    });
+    try {
+        const result = await response.json();
+        console.log(result,"orders Analytics ka data")
+        return result;
+    } catch (error) {
+        return error;
+    }
+})
+
+
 const orderSlice = createSlice({
     name: "order",
     initialState: {
@@ -84,7 +106,8 @@ const orderSlice = createSlice({
         orderhistorty: null,
         orderItems: null,
         isError: false,
-        isSuccess:false
+        isSuccess:false,
+        analytics:null
     },
     reducers:{
         clearData:(state)=>{
@@ -130,6 +153,20 @@ const orderSlice = createSlice({
             state.isSuccess = true;
         });
         builder.addCase(placeOrder.rejected, (state, action) => {
+            console.log("Error", action.payload);
+            state.isError = true;
+        });
+
+
+
+        builder.addCase(analyticsAPI.pending, (state, action) => {
+            state.isLoading = true;
+        });
+        builder.addCase(analyticsAPI.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.analytics = action.payload;
+        });
+        builder.addCase(analyticsAPI.rejected, (state, action) => {
             console.log("Error", action.payload);
             state.isError = true;
         });

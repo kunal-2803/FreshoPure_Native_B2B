@@ -30,6 +30,7 @@ import { selectedAddress } from "../redux/slices/Address/index.js";
 import { useNavigation } from '@react-navigation/native'
 import { StackActions } from '@react-navigation/native'
 import SkeletonComponent from "../components/SkeletonComponent.jsx";
+// import { fetchCartItems } from "../redux/slices/Cart/index.js";
 
 
 const Cart = () => {
@@ -75,6 +76,8 @@ console.log(isSuccess,"isSuccess Kiv alue");
     data.address = selected?.address._id
     data.price = totalPrice
     dispatch(placeOrder(data));
+    dispatch(fetchCartItems())
+
 
 
   }

@@ -29,11 +29,7 @@ const OrderHistory = () => {
 
 
   useEffect(() => {
-<<<<<<< HEAD
-    isConnected && dispatch(orderHistory())
-=======
     {isConnected && dispatch(orderHistory())}
->>>>>>> 779de014a89b1fa82babb8d72388562a3b99f24b
   }, [dispatch])
 
   const onRefresh = useCallback(async()=>{

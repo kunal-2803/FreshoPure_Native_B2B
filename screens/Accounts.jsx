@@ -91,7 +91,7 @@ const Accounts = () => {
           </View>
         </TouchableOpacity>
 
-        {/* <TouchableOpacity onPress={()=>navigation.navigate('analytics')}>
+        <TouchableOpacity onPress={()=>navigation.navigate('analytics')}>
           <View className="flex flex-row   items-center justify-between">
             <View className="flex flex-row  items-center">
               <View className="rounded-md shadow-md  bg-white  w-10 items-center" style={[styles.shadowProp, styles.space]}>
@@ -103,7 +103,7 @@ const Accounts = () => {
               <MaterialIcons name='keyboard-arrow-right' size={24} />
             </View>
           </View>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
 
         {/* <TouchableOpacity onPress={()=>navigation.navigate('address')}>
           <View className="flex flex-row   items-center justify-between">

@@ -51,7 +51,7 @@ const RootNavigation = () => {
         <>
 
             <Stack.Navigator >
-            <Stack.Screen name='analytics' component={Analytics} options={{ headerShown: false }} />
+            
                 {/* <Stack.Screen name='address' component={Address} options={{headerShown:false}}/> */}
 
                 {/* <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
@@ -66,6 +66,7 @@ const RootNavigation = () => {
                <Stack.Screen name='parent' component={Parent} options={{ headerShown: false }} />
             <Stack.Screen name='checkout' component={Checkout} options={{ headerShown: false }} />
             <Stack.Screen name='setProfile' component={SetProfile} options={{ headerShown: false }} />
+            <Stack.Screen name='analytics' component={Analytics} options={{ headerShown: false }} />
 
 
 
@@ -114,7 +115,8 @@ const Main = () => {
             <StatusBar
                 barStyle="light-content" backgroundColor="transparent" translucent={true}
             />
-            {isAuthenticated ? <RootNavigation /> : <AuthStack />}
+            {/* {isAuthenticated ? <RootNavigation /> : <AuthStack />} */}
+            <RootNavigation /> 
         </NavigationContainer>
     );
 };
