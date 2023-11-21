@@ -31,7 +31,7 @@ const PieCharts = () => {
   const widthAndHeight = windowWidth * 0.57
 
   const series = [analytics?.catagory[0].LocalVegetables, analytics?.catagory[1].LocalImportedFruits, analytics?.catagory[2].LocalExoticFruits]
-  const sliceColor = ['#fbd203', '#ffb300', '#ff9100']
+  const sliceColor = ['#7CFC00', '#228B22', '#006400']
 
 
 
@@ -55,15 +55,15 @@ const PieCharts = () => {
 
           <View className="flex flex-row space-x-2 mt-3">
             <View className="flex flex-row items-center space-x-1">
-              <View className="w-3 h-3 rounded-full bg-[#fbd203]" />
+              <View className="w-3 h-3 rounded-full bg-[#7CFC00]" />
               <Text className="text-sm">Vegetables</Text>
             </View>
             <View className="flex flex-row items-center space-x-1">
-              <View className="w-3 h-3 rounded-full bg-[#ffb300]" />
+              <View className="w-3 h-3 rounded-full bg-[#228B22]" />
               <Text className="text-sm">Fruits</Text>
             </View>
             <View className="flex flex-row items-center space-x-1">
-              <View className="w-3 h-3 rounded-full bg-[#ff9100]" />
+              <View className="w-3 h-3 rounded-full bg-[#006400]" />
               <Text className="text-sm">Exotic Fruits</Text>
             </View>
           </View>
