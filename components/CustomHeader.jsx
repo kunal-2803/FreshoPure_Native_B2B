@@ -25,6 +25,7 @@ const CustomHeader = ({title,backButton,height,headerBar,parentHeader,isSearchBa
   );
   const {data} = useSelector(state=>state.profile)
   const user = data?.hotelData;
+  // const userImage = data?.image
 
   useEffect(() => {
     const getCurrentGreeting = () => {
@@ -60,10 +61,12 @@ const CustomHeader = ({title,backButton,height,headerBar,parentHeader,isSearchBa
       </View>}
       {headerBar && <View className="w-full flex items-center">
         <View style={{width:windowWidth*0.9}} className="bg-white mt-4 h-12 rounded-lg flex flex-row items-center justify-between px-2">
-          <Image source={Avatar}/>
+          <Image source={{
+          uri: user.image,
+        }} className=" w-8 h-8 rounded-full"/>
           <View className="flex items-center flex-row justify-center">
             
-            {isLoading ? <SkeletonComponent width={windowWidth*0.5} height={windowHeight*0.04}/> :<><EvilIcons name="location" size={24}/><Text className="flex items-center">{selected?.address?.city + ',' + selected?.address?.state}</Text><EvilIcons name="chevron-down" size={26}/></>}
+            {isLoading ? <SkeletonComponent width={windowWidth*0.5} height={windowHeight*0.04}/> :<><EvilIcons name="location" size={24}/><Text className="flex items-center">{selected?.address?.city + ',' + selected?.address?.state}</Text></>}
           </View>
           <EvilIcons name="bell" size={32}/> 
           </View>

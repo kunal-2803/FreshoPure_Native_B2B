@@ -43,7 +43,7 @@ const Accounts = () => {
     <CustomHeader backButton={false} height={0.14} headerBar={false}/>
 
     <View className="border-2 border-white rounded-full absolute left-1/2 top-10 z-10" style={{transform:[{translateX:-50}]}}>
-    <Image source={profile} className="w-24 h-24 bg-white rounded-full border"/>
+    <Image source={{uri:data?.hotelData?.image}} className="w-24 h-24 bg-white rounded-full border"/>
     </View>
 
       <Image source={bg} className="absolute" style={{ height: height * 1.4 }} resizeMode="repeat" />

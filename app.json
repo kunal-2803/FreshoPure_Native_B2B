@@ -21,14 +21,25 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.sunil_verma07.AwesomeProject"
     },
     "web": {
       "favicon": "./assets/favicon.png",
       "build": {
         "packagerOpts": {
-          "sourceExts": ["jsx", "js", "ts", "tsx"]
+          "sourceExts": [
+            "jsx",
+            "js",
+            "ts",
+            "tsx"
+          ]
         }
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0c5d81a2-27d4-4d71-906b-e984341da066"
       }
     }
   }

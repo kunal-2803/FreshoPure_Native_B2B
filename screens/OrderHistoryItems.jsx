@@ -93,7 +93,8 @@ const OrderHistoryItem = () => {
               <Image source={address} className="w-10 h-10" />
               <View className="ml-2 w-3/4">
                 <Text className="text-xs text-lightText">
-                  43, Electronics City Phase 1, Electronic City
+                  
+                  {orderItems?.OrderedAddress}
                 </Text>
               </View>
             </View>

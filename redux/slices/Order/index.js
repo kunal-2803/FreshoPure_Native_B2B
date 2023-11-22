@@ -12,14 +12,7 @@ export const orderHistory = createAsyncThunk("orderHistory", async () => {
         }
     });
     const res = await response.json()
-    function compareDates(a, b) {
-        const dateA = new Date(a.date.replace(/(\d{1,2})\/(\d{1,2})\/(\d{4})/, "$3-$2-$1"));
-        const dateB = new Date(b.date.replace(/(\d{1,2})\/(\d{1,2})\/(\d{4})/, "$3-$2-$1"));
-      
-        return dateB - dateA;
-      }
-      
-    res.orderHistory.sort(compareDates)
+   console.log(res,"orederHistory")
     return res;
 });
 
@@ -33,6 +26,7 @@ export const orderHistoryItems = createAsyncThunk("orderHistoryItems", async (or
         }
     });
     const res = await response.json()
+    console.log(res,"oredfe Histroy Itresm result")
     return res;
 });
 

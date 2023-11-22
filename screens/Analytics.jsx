@@ -20,6 +20,7 @@ const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 
 const bg = require('./../assets/bg-texture.png')
+const NoOrder = require('./../assets/NoOrder.png')
 
 const Analytics = () => {
     const dispatch = useDispatch();
@@ -38,73 +39,85 @@ const Analytics = () => {
         setRefreshing(false)
     }, [refreshing])
 
-    const orderData = [orderhistorty?.orderHistory[0], orderhistorty?.orderHistory[1]]
+    const orderData = [];
+
+    if(orderhistorty?.orderHistory[0]){
+        orderData.push(orderhistorty?.orderHistory[0])
+    }
+    if(orderhistorty?.orderHistory[1]){
+        orderData.push(orderhistorty?.orderHistory[1])
+    }
+        
+    
 
     return (
         <View>
-           { isConnected ?
-        <View className="flex">
-            <CustomHeader title={'Analytics'} backButton={true} height={0.14} headerBar={false} />
-            {/* <Image source={bg} className="absolute" style={{height:windowHeight*1.4}} resizeMode="repeat"/> */}
+            {isConnected ?
+                <View className="flex">
+                    <CustomHeader title={'Analytics'} backButton={true} height={0.14} headerBar={false} />
+                    {/* <Image source={bg} className="absolute" style={{height:windowHeight*1.4}} resizeMode="repeat"/> */}
 
 
-            {/* <PieCharts /> */}
+                    {/* <PieCharts /> */}
 
-            <View className="w-full flex justify-center items-center mt-2" style={{ height: windowHeight * 1 }}>
-                <ScrollView style={{ width: windowWidth * 0.9 }} className=" h-full" showsVerticalScrollIndicator={false}>
+                    <View className="w-full flex justify-center items-center mt-2" style={{ height: windowHeight * 1 }}>
+                        <ScrollView style={{ width: windowWidth * 0.9 }} className=" h-full" showsVerticalScrollIndicator={false}>
 
 
 
-                    <View className="flex mx-auto flex-row " style={{ width: windowWidth * 0.7 }}>
-                        <PieCharts />
+                            <View className="flex mx-auto flex-row " style={{ width: windowWidth * 0.7 }}>
+                                {orderhistorty.orderHistory.length >0 ?
+                                    <PieCharts /> : <><Image source={NoOrder} style={{ width: windowWidth * 0.6, resizeMode: 'contain' }} /></>
+                                }
+                            </View>
+
+                            <View className="flex flex-row mx-6 justify-between my-6 items-center">
+
+                                <Text className="font-semibold">Order History</Text>
+                                <TouchableOpacity onPress={() => navigation.navigate('orderHistory')}><Text className="font-light">View All</Text></TouchableOpacity>
+
+                            </View>
+                            {isLoading ?
+                                <>
+                                    <SkeletonComponent width={windowWidth * 0.9} height={windowWidth * 0.2} />
+
+                                    <SkeletonComponent width={windowWidth * 0.9} height={windowWidth * 0.2} />
+
+                                </>
+
+                                :
+                                isConnected ?
+                                    <View className="mt-4 flex justify-center items-center">
+
+                                        {orderhistorty.orderHistory.length >0 ?
+                                            <FlatList
+                                                className=""
+                                                style={{ width: windowWidth * 0.9 }}
+                                                data={orderData}
+                                                renderItem={item => <OrderHistoryComponet item={item?.item} />}
+                                                keyExtractor={item => item._id}
+                                                showsVerticalScrollIndicator={false}
+                                                refreshControl={
+                                                    <RefreshControl refreshing={refreshing}
+                                                        onRefresh={onRefresh}
+                                                    // colors={[themeColors.bgMid]} 
+                                                    // tintColor={themeColors.bgMid} 
+                                                    />
+                                                }
+                                            /> : <><Text>No Orders Yet !!</Text></>
+                                        }
+
+                                    </View> : <NoInternet />
+                            }
+
+                        </ScrollView>
                     </View>
 
-                    <View className="flex flex-row mx-6 justify-between my-6 items-center">
-
-                        <Text className="font-semibold">Order History</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate('orderHistory')}><Text className="font-light">View All</Text></TouchableOpacity>
-
-                    </View>
-                    {isLoading ?
-                        <>
-                            <SkeletonComponent width={windowWidth * 0.9} height={windowWidth * 0.2} />
-
-                            <SkeletonComponent width={windowWidth * 0.9} height={windowWidth * 0.2} />
-
-                        </>
-
-                        :
-                        isConnected ?
-                            <View className="mt-4 flex justify-center items-center">
 
 
-                                <FlatList
-                                    className=""
-                                    style={{ width: windowWidth * 0.9 }}
-                                    data={orderData}
-                                    renderItem={item => <OrderHistoryComponet item={item?.item} />}
-                                    keyExtractor={item => item._id}
-                                    showsVerticalScrollIndicator={false}
-                                    refreshControl={
-                                        <RefreshControl refreshing={refreshing}
-                                            onRefresh={onRefresh}
-                                        // colors={[themeColors.bgMid]} 
-                                        // tintColor={themeColors.bgMid} 
-                                        />
-                                    }
-                                />
-
-                            </View> : <NoInternet />
-                    }
-
-                </ScrollView>
-            </View>
-
-
-
-        </View>:
-        <View className="mt-48 "><NoInternet/></View>
-                }
+                </View> :
+                <View className="mt-48 "><NoInternet /></View>
+            }
         </View>
     )
 }

@@ -14,6 +14,7 @@ const height = Dimensions.get('window').height;
 
 
 const bg = require('./../assets/bg-texture.png')
+const NoOrder = require('./../assets/NoOrder.png')
 
 
 const OrderHistory = () => {
@@ -23,10 +24,8 @@ const OrderHistory = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [page, setPage] = useState(1);
   const [pageLoading, setpageLoading] = useState(false);
-  // console.log(isLoading);
 
-  // const sortedOrderArray = orderhistorty?.orderHistory?.sort((a, b) => new Date(b.createdOn) - new Date(a.createdOn));
-
+console.log(orderhistorty,"historyComponent")
 
   useEffect(() => {
     {isConnected && dispatch(orderHistory())}
@@ -55,7 +54,7 @@ const OrderHistory = () => {
        isConnected ?     
        <View className="mt-4 flex justify-center items-center">
 
-
+{orderhistorty.orderHistory.length >0 ?
            <FlatList
             className=""
             style={{ width: width * 0.9 }}
@@ -70,14 +69,10 @@ const OrderHistory = () => {
               // tintColor={themeColors.bgMid} 
               />
             }
-          />
+          />:<View className="justify-center items-center text-center"><Image source={NoOrder} style={{ width: width * 0.6, resizeMode: 'contain' }} /><Text className="mt-0 font-semibold opacity-60">No Order History Found</Text></View>}
 
         </View>:<NoInternet/>
       }
-
-
-
-
     </View>
   )
 }
