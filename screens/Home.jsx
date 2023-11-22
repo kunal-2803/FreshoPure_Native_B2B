@@ -180,10 +180,22 @@ const ItemList = ({ item,loading}) => {
 
   }
 
+  const handleAddWishlist = (item)=>{
+    {isConnected && dispatch(addToWishlist(item?._id))}
+      {isConnected &&  dispatch(fetchItems())}
+
+  }
+
+  const handleRemoveWishlist = (item)=>{
+    {isConnected && dispatch(removefromWishlist(item?._id))}
+      {isConnected &&  dispatch(fetchItems())}
+
+  }
+
 
   useEffect(()=>{
-    dispatch(fetchCartItems())
-    dispatch(fetchWishlistItems())
+    {isConnected && dispatch(fetchCartItems())}
+      {isConnected && dispatch(fetchWishlistItems())}
   },[])
 
   function func(img) {
@@ -212,7 +224,7 @@ const ItemList = ({ item,loading}) => {
       </View>
 
       <View className="flex flex-row items-center">
-        {wishlist?.addWishlistLoading ? 'true' : wishlist?.wishlistData?.find(wishlist=>wishlist?._id === item?._id) ? <Ionicons name="heart" color="#DC143C" size={24} onPress={() => dispatch(removefromWishlist(item?._id))} />: <Ionicons name="heart-outline" size={24} onPress={() => {dispatch(addToWishlist(item?._id));console.log("Item added to woshlisy")}} />}
+        {wishlist?.addWishlistLoading ? 'true' : wishlist?.wishlistData?.find(wishlist=>wishlist?._id === item?._id) ? <TouchableOpacity onPress={() =>handleRemoveWishlist(item)} ><Ionicons name="heart" color="#DC143C" size={24} /></TouchableOpacity> : <TouchableOpacity onPress={() => handleAddWishlist(item)} ><Ionicons name="heart-outline" size={24}/></TouchableOpacity>}
         {data?.cartData?.find(cart=> cart._id === item?._id )? <TouchableOpacity className={`flex justify-center items-center border-green bg-green border px-4 py-2 rounded-md ml-4`} ><Text className="text-white uppercase">Added</Text></TouchableOpacity>:
         <TouchableOpacity className={`flex justify-center items-center border-linegray border px-4 py-2 rounded-md ml-4`} onPress={() =>handleAddToCart(item)}><Text className="text-green uppercase">{loading ? <ButtonLoader color="#54B175"/> : 'Add'}</Text></TouchableOpacity>}
       </View>

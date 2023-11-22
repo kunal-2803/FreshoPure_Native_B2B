@@ -87,7 +87,7 @@ export const analyticsAPI = createAsyncThunk("analyticsAPI", async (duration) =>
         method: 'post',
         body: JSON.stringify({duration}),
         headers: {
-            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+            'token': await AsyncStorage.getItem('token'),
             'Content-Type': 'application/json'
         }
     });
@@ -105,6 +105,7 @@ const orderSlice = createSlice({
     name: "order",
     initialState: {
         isLoading: false,
+        loading:false,
         orderhistorty: null,
         orderItems: null,
         isError: false,
@@ -148,15 +149,17 @@ const orderSlice = createSlice({
 
 
         builder.addCase(placeOrder.pending, (state, action) => {
-            state.isLoading = true;
+            state.loading = true;
         });
         builder.addCase(placeOrder.fulfilled, (state, action) => {
-            state.isLoading = false;
+            state.loading = false;
             state.isSuccess = true;
         });
         builder.addCase(placeOrder.rejected, (state, action) => {
             console.log("Error", action.payload);
             state.isError = true;
+            state.loading = false;
+
         });
 
 

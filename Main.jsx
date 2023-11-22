@@ -6,7 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Parent from './screens/Parent';
-import Home from './screens/Home';
+import LoadingScreen from './components/LoadingScreen.js';
+
 import Login from './screens/Login';
 import OtpVerify from './screens/OtpVerify';
 import AddAddress from './screens/AddAddress';
@@ -26,7 +27,7 @@ import Accounts from './screens/Accounts';
 import Analytics from './screens/Analytics';
 import FAQ from './screens/FAQ';
 import Checkout from './screens/Checkout';
-import Loading from './components/LoadingScreen';
+import SplashScreen from './screens/SplashScreen';
 import {useDispatch,useSelector} from 'react-redux'
 import {getProfile} from './redux/slices/UserProfile/index.js'
 import { loadUser } from './redux/slices/Mobile/index.js';
@@ -66,8 +67,6 @@ const RootNavigation = () => {
     const dispatch = useDispatch()
     const {data} = useSelector(state=>state.profile)
 
-    console.log(data?.hotelData?.isProfieComplete,'profilecomplete')
-
     useEffect(() => {
         dispatch(getProfile())
     }, [dispatch]);
@@ -82,9 +81,7 @@ const RootNavigation = () => {
                 {/* <Stack.Screen name='address' component={Address} options={{headerShown:false}}/> */}
 
               
-
-            
-           {data?.hotelData?.isProfieComplete ? <Stack.Screen name='setProfile' component={SetProfile} options={{ headerShown: false }} />
+           {!data?.hotelData?.isProfieComplete ? <Stack.Screen name='setProfile' component={SetProfile} options={{ headerShown: false }} />
            :
               <><Stack.Screen name='parent' component={Parent} options={{ headerShown: false }} />
                <Stack.Screen name='checkout' component={Checkout} options={{ headerShown: false }} />
@@ -133,12 +130,21 @@ const Main = () => {
         }
     }, []);
 
-    console.log(isAuthenticated,data,'data')
+    const [loading, setLoading] = useState(true);
 
-      
-      
+    useEffect(() => {
+      const simulateLoading = async () => {
+        // Simulate a 2-second loading time
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+  
+        setLoading(false);
+  
+      };
+  
+      simulateLoading();
+    }, []);
+
     const Stack = createNativeStackNavigator();
-
 
     return (
         <NavigationContainer>
@@ -149,8 +155,8 @@ const Main = () => {
           headerShown: false,
           animation: 'slide_from_right', // Specify the animation here
         }}>
-                
-               {isAuthenticated ?   <Stack.Screen name="RootNavigator" component={RootNavigation}  options={{ headerShown: false }} />
+                {loading && <Stack.Screen name="splash" component={SplashScreen}  options={{ headerShown: false }} />}
+               {isAuthenticated ? <Stack.Screen name="RootNavigator" component={RootNavigation}  options={{ headerShown: false }} />
                :
                <Stack.Screen name="AuthNavigator" component={AuthStack}  options={{ headerShown: false }} />
     }

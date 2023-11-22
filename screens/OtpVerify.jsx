@@ -7,7 +7,8 @@ import {
   Dimensions,
   TouchableOpacity,
   KeyboardAvoidingView,
-  BackHandler
+  BackHandler,
+  ToastAndroid
 } from "react-native";
 import React, { useState, useEffect, useMemo,useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -24,16 +25,18 @@ import { useNavigation } from '@react-navigation/native'
 import { useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from "react-redux";
 import { otpVerify,clearData,loadUser,resendOtp } from "../redux/slices/Mobile/index.js";
+import Logo from 'react-native-vector-icons/AntDesign'
+
 
 const OtpVerify = () => {
   const dispatch = useDispatch();
   const route = useRoute();
   const mobile = route?.params?.data; 
-  const {isSuccess,isLoading} = useSelector(state=>state.mobile)
+  const {isSuccess,isLoading,isError} = useSelector(state=>state.mobile)
   const [seconds, setSeconds] = useState(59);
 
 
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState('');
  
 
   const navigation = useNavigation();
@@ -45,6 +48,7 @@ const OtpVerify = () => {
   const handleOTPChange = (otp) => {
     setOtp(otp);
   };
+
 
   const handleSendOTP = () => {
     setSeconds(59)
@@ -61,9 +65,7 @@ const OtpVerify = () => {
   }, []);
 
 
-
   useEffect(()=>{
-
 
     if(isSuccess){
       navigation.dispatch(
@@ -71,10 +73,9 @@ const OtpVerify = () => {
       );
       dispatch(clearData())
     }
-    if(!isSuccess){
-      console.log('Incorrect Otp')
-      dispatch(clearData())
-    }
+    // if(!isSuccess){
+    //   dispatch(clearData())
+    // }
 
   },[isSuccess,dispatch])
 
@@ -129,7 +130,7 @@ const OtpVerify = () => {
       >
         {/* otp feild */}
 
-        <View className="flex flex-row mb-4">
+        <View className="flex flex-col mb-2">
         <OTPTextInput
         handleTextChange={handleOTPChange}
         inputCount={4} // Specify the number of OTP digits
@@ -137,6 +138,7 @@ const OtpVerify = () => {
         offTintColor='#88653E'
         textInputStyle={{ borderBottomWidth: 1, color:'#000' }} 
       />
+      {/* {isSuccess === false && <Text className="text-red text-xs my-2"><Logo name="closecircle" size={12}/> Invalid OTP</Text>} */}
         </View>
 
         <View className="flex flex-row my-2">

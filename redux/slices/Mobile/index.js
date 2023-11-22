@@ -34,7 +34,6 @@ export const resendOtp = createAsyncThunk('resendOtp', async ({mobile}) => {
     }
   })
 
-  console.log(await response.json())
 });
 
 
@@ -57,7 +56,6 @@ export const logout = createAsyncThunk('logout', async () => {
 export const loadUser = createAsyncThunk('loadUser', async () => {
 
   const token = await AsyncStorage.getItem('token');
-  console.log(token,'token')
   if(!token){
     
     return {success:false}; 
@@ -76,7 +74,6 @@ export const loadUser = createAsyncThunk('loadUser', async () => {
 
       const res = await response.json()
 
-      console.log(res,'data')
 
       if(response?.status=== 200){
         return {success:true,user:res};

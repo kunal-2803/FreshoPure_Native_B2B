@@ -12,6 +12,8 @@ import { orderAgain } from '../redux/slices/Order';
 import { selectedAddress } from '../redux/slices/Address';
 import { useDispatch,useSelector } from 'react-redux';
 import useNetworkStatus from '../utils/useNetworkStatus.js'
+import { fetchCartItems } from "../redux/slices/Cart/index.js";
+import { StackActions } from '@react-navigation/native'
 
 
 
@@ -29,6 +31,7 @@ const OrderHistoryComponet = ({item}) => {
         data.orderId =orderId;
         data.addressId =selected?.address._id;
         {isConnected && dispatch(orderAgain(data))}
+        {isConnected && dispatch(fetchCartItems())}
         navigation.navigate('cart')
     }
 

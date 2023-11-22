@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export const addAddress = createAsyncThunk("addAddress", async (newAddress) => {
-
+   console.log(newAddress)
   const response = await fetch(`${baseUrl}/address/addaddress`, {
     method: 'post',
     body: JSON.stringify({...newAddress}),
@@ -14,9 +14,12 @@ export const addAddress = createAsyncThunk("addAddress", async (newAddress) => {
     } 
   });
   try {
-    console.log(await response.status)
-    const result = await response.json();
-    return result;
+    
+    if(await response.status === 200){
+      return true;
+    }else{
+      return false;
+    }
   } catch (error) {
     return error;
   }
@@ -116,11 +119,11 @@ const addressSlice = createSlice({
     });
     builder.addCase(addAddress.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.isSuccess = true;
+      state.isSuccess = action.payload;
     });
     builder.addCase(addAddress.rejected, (state, action) => {
       console.log("Error", action.payload);
-      state.isError = true;
+      state.isSuccess = action.payload;
     });
 
 

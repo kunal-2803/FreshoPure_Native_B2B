@@ -7,20 +7,23 @@ import CustomButton from '../components/CustomButton';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
-import { addAddress ,clearData} from "../redux/slices/Address/index.js";
+import { addAddress ,clearData,selectedAddress,allAddress} from "../redux/slices/Address/index.js";
 import { useDispatch, useSelector } from "react-redux";
 import { StackActions } from '@react-navigation/native'
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 import { useNavigation } from '@react-navigation/native'
-
+import useNetworkStatus from '../utils/useNetworkStatus.js'
 const bg = require('./../assets/bg-texture.png')
 
 const AddAddress = () => {
   const dispatch = useDispatch()
+  const isConnected = useNetworkStatus()
+
   const navigation = useNavigation()
   const {isLoading,isError,isSuccess} = useSelector(state=>state.address)
   const [profileData,setProfileData] = useState({addressLine1:'',addressLine2:'',city:'',state:'',pinCode:'',mobileNo:''})
+
   
   const [formErrors, setFormErrors] = useState({
     addressLine1:'',
@@ -86,7 +89,6 @@ const AddAddress = () => {
   const handleSubmit = () => {
     if (validateForm()) {
       // All fields are valid, proceed with submission
-      console.log(profileData,"profile Data")
       dispatch(addAddress(profileData))
     } else {
       // Display an error or take appropriate action
@@ -100,10 +102,11 @@ const AddAddress = () => {
     navigation.dispatch(
       StackActions.replace('address')
     );
+    if(isConnected){dispatch(selectedAddress());}
     dispatch(clearData())
    }
 
-   if(isError){
+   if(!isSuccess){
     console.log('error')
     dispatch(clearData())
    }

@@ -25,7 +25,7 @@ import useNetworkStatus from '../utils/useNetworkStatus.js'
 const Address = () => {
   const isConnected = useNetworkStatus()
   const dispatch = useDispatch();
-  const { AllAddress, isLoading, selected, isError } = useSelector(
+  const { AllAddress, isLoading, selected } = useSelector(
     (state) => state.address
   );
 
@@ -35,7 +35,7 @@ const Address = () => {
 
   const handleRemoveAddress =()=>{
     dispatch(deleteaddress(selectedAddressId))
-    {isConnected && dispatch(allAddress())}
+     dispatch(allAddress())
   }
 
 
@@ -50,10 +50,16 @@ const Address = () => {
     if(isConnected){dispatch(selectedAddress());}
     if(isConnected){dispatch(allAddress())}
     if(isConnected || !AllAddress){dispatch(allAddress())}
-
   }, []);
 
+
+  useEffect(()=>{
+  setSelectedAddressId(selected?.address?._id)
+
+  },[AllAddress,selected])
+
   if(!isConnected){
+    
     return(
       <>
      <CustomHeader title={'My Addresses'} backButton={true} height={0.16} headerBar={false}/>

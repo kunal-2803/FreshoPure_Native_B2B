@@ -45,6 +45,7 @@ const Cart = () => {
    isConnected && dispatch(fetchCartItems())
   },[])
 
+
   const onRefresh = useCallback(async()=>{
     setRefreshing(true)
     {isConnected && dispatch(fetchCartItems()) }
@@ -137,6 +138,8 @@ const CartItem = ({item,addLoading})=>{
     {isConnected && dispatch(updateCartItems(data))}
     {isConnected && dispatch(fetchCartItems()) }
   }
+
+
 
   const handleRemoveCart =(id)=>{
     {isConnected && dispatch(removefromCart(id))}

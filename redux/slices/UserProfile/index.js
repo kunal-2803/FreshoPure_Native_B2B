@@ -28,7 +28,6 @@ export const setUserProfile = createAsyncThunk("setUserProfile", async ({userDat
     });
     try {
         const result = await response.json();
-        console.log(result)
         return result;
     } catch (error) {
         return rejectWithValue(error);

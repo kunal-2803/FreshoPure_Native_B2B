@@ -38,7 +38,7 @@ const Cart = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation()
   const { data, isLoading } = useSelector(state => state.cartItems)
-  const { isSuccess,isError } = useSelector(state => state.order)
+  const { isSuccess,isError,loading } = useSelector(state => state.order)
   const { selected } = useSelector(state => state.address)
   let totalPrice = 0
   data?.cartData?.forEach((item) => {
@@ -49,13 +49,10 @@ const Cart = () => {
 
   useEffect(() => {
     dispatch(fetchCartItems()),
-      dispatch(selectedAddress())
+    dispatch(selectedAddress())
   }, [])
 
   
-
-
-console.log(isSuccess,"isSuccess Kiv alue");
   useEffect(() => {
     if (isSuccess) {
       navigation.dispatch(
@@ -105,9 +102,9 @@ console.log(isSuccess,"isSuccess Kiv alue");
           <SafeAreaView style={{ height: windowHeight * 0.28 }} className="flex w-full justify-center items-center">
             {isLoading ?
               <>
-                <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.03} />
-                <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.03} />
-                <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.03} />
+                <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.08} />
+                <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.08} />
+                <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.08} />
               </> :
               <>
                 <FlatList
@@ -193,7 +190,7 @@ console.log(isSuccess,"isSuccess Kiv alue");
 
           <View style={{ width: windowWidth * 0.9, height: 1 }} className="bg-linegray my-4 mt-4"></View>
 
-          <CustomButton text="Place Order" width={windowWidth * 0.9} handlePress={handlePress} />
+          <CustomButton text="Place Order" width={windowWidth * 0.9} handlePress={handlePress} isLoading={loading} />
 
         </View>
       </View>
