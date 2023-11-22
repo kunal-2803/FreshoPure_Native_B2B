@@ -43,7 +43,7 @@ const Cart = () => {
   
   useEffect(()=>{
    isConnected && dispatch(fetchCartItems())
-  },[dispatch])
+  },[])
 
   const onRefresh = useCallback(async()=>{
     setRefreshing(true)

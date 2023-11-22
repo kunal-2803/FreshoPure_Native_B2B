@@ -84,13 +84,11 @@ const RootNavigation = () => {
               
 
             
-            {/* <Stack.Screen name='analytics' component={Analytics} options={{ headerShown: false }} /> */}
            {data?.hotelData?.isProfieComplete ? <Stack.Screen name='setProfile' component={SetProfile} options={{ headerShown: false }} />
            :
               <><Stack.Screen name='parent' component={Parent} options={{ headerShown: false }} />
                <Stack.Screen name='checkout' component={Checkout} options={{ headerShown: false }} />
             
-
 
 
 
@@ -106,6 +104,7 @@ const RootNavigation = () => {
 
                 <Stack.Screen name='orderConfirm' component={OrderConfirm} options={{ headerShown: false }} />
                 <Stack.Screen name='payment' component={Payment} options={{ headerShown: false }} />
+                <Stack.Screen name='analytics' component={Analytics} options={{ headerShown: false }} />
 
                 <Stack.Screen name='userProfile' component={UserProfile} options={{ headerShown: false }} /></>
           

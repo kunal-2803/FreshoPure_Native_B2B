@@ -8,6 +8,7 @@ import useNetworkStatus from '../utils/useNetworkStatus.js'
 
 import { orderHistory } from '../redux/slices/Order/index.js'
 import { useDispatch, useSelector} from 'react-redux';
+import NoInternet from '../components/NoInternet.js';
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
@@ -50,11 +51,12 @@ const OrderHistory = () => {
       <SkeletonComponent width={width*0.9} height={height*0.2}/>
       </>
     
-       :      
+       : 
+       isConnected ?     
        <View className="mt-4 flex justify-center items-center">
 
 
-          <FlatList
+           <FlatList
             className=""
             style={{ width: width * 0.9 }}
             data={orderhistorty?.orderHistory}
@@ -70,7 +72,7 @@ const OrderHistory = () => {
             }
           />
 
-        </View>
+        </View>:<NoInternet/>
       }
 
 

@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity,TextInput,Dimensions,Image,BackHandler } from 'react-native'
-import React from 'react'
+import React,{useEffect} from 'react'
 const bg = require('./../assets/bg-texture.png')
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
