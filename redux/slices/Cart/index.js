@@ -1,15 +1,15 @@
 import React from 'react';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 const baseUrl = 'http://15.206.181.239'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s'
 
 //Action
 export const fetchCartItems = createAsyncThunk("fetchCartItems", async () => {
     const response = await fetch(`${baseUrl}/cart/getcartitems`, {
         method: 'get',
         headers: {
-            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s'
+            'token': await AsyncStorage.getItem('token')
         }
     });
     const res = await response.json()
@@ -30,7 +30,7 @@ export const addToCart = createAsyncThunk("addToCart", async (itemId, { rejectWi
         method: 'post',
         body: JSON.stringify({ orderedItem }),
         headers: {
-            'token': token,
+            'token': await AsyncStorage.getItem('token'),
             'Content-Type': 'application/json'
         }
     });
@@ -48,7 +48,7 @@ export const removefromCart = createAsyncThunk("removefromCart", async (itemId, 
         method: 'post',
         body: JSON.stringify({ Itemid: itemId }),
         headers: {
-            'token':token,
+            'token':await AsyncStorage.getItem('token'),
             'Content-Type': 'application/json'
         }
     });
@@ -71,7 +71,7 @@ export const updateCartItems = createAsyncThunk("updateCartItems", async (data) 
         method: 'post',
         body: JSON.stringify({ itemId, quantity }),
         headers: {
-            'token': token,
+            'token': await AsyncStorage.getItem('token'),
             'Content-Type': 'application/json'
         }
     });
@@ -79,7 +79,7 @@ export const updateCartItems = createAsyncThunk("updateCartItems", async (data) 
     const responseItems = await fetch(`${baseUrl}/cart/getcartitems`, {
         method: 'get',
         headers: {
-            'token': token
+            'token': await AsyncStorage.getItem('token')
         }
     });
     try {

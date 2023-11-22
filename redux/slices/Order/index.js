@@ -1,12 +1,14 @@
 import React from 'react';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const baseUrl = 'http://15.206.181.239'
 //Action
 export const orderHistory = createAsyncThunk("orderHistory", async () => {
     const response = await fetch(`${baseUrl}/order/orderhistory`, {
         method: 'get',
         headers: {
-            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s'
+            'token': await AsyncStorage.getItem('token')
         }
     });
     const res = await response.json()
@@ -26,7 +28,7 @@ export const orderHistoryItems = createAsyncThunk("orderHistoryItems", async (or
         method: 'post',
         body: JSON.stringify({ order_id }),
         headers: {
-            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+            'token': await AsyncStorage.getItem('token'),
             'Content-Type': 'application/json'
         }
     });
@@ -41,7 +43,7 @@ export const placeOrder = createAsyncThunk("placeOrder", async (data) => {
         method: 'post',
         body: JSON.stringify({ addressId, price }),
         headers: {
-            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+            'token': await AsyncStorage.getItem('token'),
             'Content-Type': 'application/json'
         }
     });
@@ -63,7 +65,7 @@ export const orderAgain = createAsyncThunk("orderAgain", async (data) => {
         method: 'post',
         body: JSON.stringify({order_id, addressId }),
         headers: {
-            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+            'token': await AsyncStorage.getItem('token'),
             'Content-Type': 'application/json'
         }
     });

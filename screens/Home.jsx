@@ -51,6 +51,10 @@ const Home = () => {
 
   useEffect(() => {
     {isConnected &&  dispatch(fetchItems())}
+
+    if(data === 'undefined'){
+      {isConnected &&  dispatch(fetchItems())}
+    }
   }, [])
 
 
@@ -88,6 +92,9 @@ const Home = () => {
   return (
     <>
       <KeyboardAvoidingView className="flex">
+      <StatusBar
+        barStyle = "light-content" backgroundColor = "#54B175" translucent = {true}
+      />
         <CustomHeader title={'Profile'} backButton={true} height={0.24} headerBar={true} isSearchBar={true} searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
         <Image source={bg} className="absolute" style={{ height: windowHeight * 1.4 }} resizeMode="repeat" />
 
@@ -132,7 +139,7 @@ const Home = () => {
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>
             </>:
-           isConnected ? (filteredItems?.length > 0 ? <FlatList
+           ( isConnected) ? (filteredItems?.length > 0 ? <FlatList
             className=""
             style={{ width: windowWidth * 0.9 }}
             data={filteredItems}
@@ -148,7 +155,7 @@ const Home = () => {
             }
             extraData={[extraData]}
           /> : <View className="flex h-fit justify-center mt-12 items-center text-center"><Image source={NoItems} style={{width:windowWidth*0.5,resizeMode:'contain'}}/>
-          <Text className="font-semibold text-lightText">Opps! No Item Found!</Text></View>) : <Text>No Internet</Text>
+          <Text className="font-semibold text-lightText">Opps! No Item Found!</Text></View>) : <NoInternet/>
         }
 
         </SafeAreaView>

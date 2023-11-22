@@ -1,14 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 const baseUrl = 'http://15.206.181.239'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export const addAddress = createAsyncThunk("addAddress", async (newAddress) => {
 
-  console.log(newAddress,"New address");
   const response = await fetch(`${baseUrl}/address/addaddress`, {
     method: 'post',
     body: JSON.stringify({...newAddress}),
     headers: {
-      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+      'token':  await AsyncStorage.getItem('token'),
       'Content-Type': 'application/json'
     } 
   });
@@ -26,7 +27,7 @@ export const selectedAddress = createAsyncThunk("selectedAddress", async () => {
   const response = await fetch(`${baseUrl}/address/getselectedaddress`, {
     method: 'get',
     headers: {
-      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+      'token':  await AsyncStorage.getItem('token'),
     }
   });
   try {
@@ -41,7 +42,7 @@ export const allAddress = createAsyncThunk("allAddress", async () => {
   const response = await fetch(`${baseUrl}/address/getalladdresses`, {
     method: 'get',
     headers: {
-      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+      'token':  await AsyncStorage.getItem('token'),
     }
   });
   try {
@@ -57,7 +58,7 @@ export const selectDiffAddress = createAsyncThunk("selectDiffAddress", async (ad
     method: 'post',
     body: JSON.stringify({ addressId }),
     headers: {
-      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+      'token': await AsyncStorage.getItem('token'),
       'Content-Type': 'application/json'
     }
   });
@@ -65,7 +66,7 @@ export const selectDiffAddress = createAsyncThunk("selectDiffAddress", async (ad
   const response = await fetch(`${baseUrl}/address/getselectedaddress`, {
     method: 'get',
     headers: {
-      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+      'token':  await AsyncStorage.getItem('token'),
     }
   });
   try {
@@ -81,7 +82,7 @@ export const deleteaddress = createAsyncThunk("deleteaddress", async (addressId,
     method: 'post',
     body: JSON.stringify({ addressId }),
     headers: {
-      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+      'token':  await AsyncStorage.getItem('token'),
       'Content-Type': 'application/json'
     }
   });

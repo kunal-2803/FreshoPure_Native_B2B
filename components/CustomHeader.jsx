@@ -1,7 +1,7 @@
 import { View, Text ,Dimensions,StatusBar,TouchableOpacity,Image,TextInput} from 'react-native'
 const Avatar = require('./../assets/Avatar.png')
 const notification = require('./../assets/notification.png')
-import React,{useEffect} from 'react'
+import React,{useEffect,useState} from 'react'
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 import BackIcon from 'react-native-vector-icons/Ionicons'
@@ -11,17 +11,41 @@ import {useNavigation} from '@react-navigation/native'
 import { selectedAddress } from "../redux/slices/Address/index.js";
 import { useDispatch, useSelector } from "react-redux";
 import SkeletonComponent from '../components/SkeletonComponent.jsx'
+import {getProfile} from '../redux/slices/UserProfile/index.js'
+import useNetworkStatus from '../utils/useNetworkStatus.js'
 
 const CustomHeader = ({title,backButton,height,headerBar,parentHeader,isSearchBar,setSearchQuery,searchQuery}) => {
   const navigation = useNavigation()
+  const [greeting, setGreeting] = useState('');
+  const isConnected = useNetworkStatus()
+
   const dispatch = useDispatch();
   const { isLoading,selected, isError } = useSelector(
     (state) => state.address
   );
+  const {data} = useSelector(state=>state.profile)
+  const user = data?.hotelData;
 
   useEffect(() => {
-    dispatch(selectedAddress());
+    const getCurrentGreeting = () => {
+      const currentHour = new Date().getHours();
+
+      if (currentHour >= 5 && currentHour < 12) {
+        setGreeting('Good Morning');
+      } else if (currentHour >= 12 && currentHour < 17) {
+        setGreeting('Good Afternoon');
+      } else {
+        setGreeting('Good Evening');
+      }
+    };
+
+    getCurrentGreeting();
   }, []);
+
+  useEffect(() => {
+    {isConnected &&dispatch(selectedAddress());}
+    {isConnected && dispatch(getProfile())}
+  }, [dispatch]);
 
   return (
     <View style={{width:windowWidth,minHeight:windowHeight*height}} className={`bg-green rounded-b-3xl flex flex-row z-10 ${isSearchBar ? 'mb-6':'' }`}>
@@ -46,8 +70,8 @@ const CustomHeader = ({title,backButton,height,headerBar,parentHeader,isSearchBa
           {parentHeader && <Text className="text-white font-semibold text-2xl capitalize mt-4">{parentHeader}</Text>}
           {isSearchBar && <View className="w-full flex items-center h-fit absolute -bottom-6">
             <View width={windowWidth*0.9} className="my-2">
-            <Text className="text-white text-lg font-extralight">Good Morning,</Text>
-            <Text className="text-white text-2xl font-semibold">Sunil Verma</Text>
+            <Text className="text-white text-lg font-extralight">{greeting},</Text>
+            <Text className="text-white text-2xl font-semibold capitalize">{user?.fullName}</Text>
             </View>
 
             <View width={windowWidth*0.9} className="flex flex-row justify-between">

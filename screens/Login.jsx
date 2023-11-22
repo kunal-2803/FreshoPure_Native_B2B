@@ -20,7 +20,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const {isLoading,isError,data,isSuccess} = useSelector(state=>state.mobile)
 
-  // console.log(isLoading,isError,data)
 
   const [mobileNo, setmobileNo] = useState('');
   const [error,setError] = useState('')

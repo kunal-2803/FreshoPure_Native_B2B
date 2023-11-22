@@ -6,11 +6,13 @@ import {
   TextInput,
   Dimensions,
   TouchableOpacity,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  BackHandler
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo,useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import OTPTextInput from 'react-native-otp-textinput';
+import { StackActions } from '@react-navigation/native'
 const images = require("./../assets/logins.png");
 const logo = require("../assets/logo.png");
 const windowHeight = Dimensions.get("window").height;
@@ -21,61 +23,67 @@ import CustomButton2 from "../components/CustomButton2.jsx";
 import { useNavigation } from '@react-navigation/native'
 import { useRoute } from '@react-navigation/native';
 import { useDispatch, useSelector } from "react-redux";
-import { otpVerify } from "../redux/slices/Mobile/index.js";
+import { otpVerify,clearData,loadUser,resendOtp } from "../redux/slices/Mobile/index.js";
 
 const OtpVerify = () => {
   const dispatch = useDispatch();
-  // const mobNo = useSelector((state) => state.mobile)
   const route = useRoute();
   const mobile = route?.params?.data; 
-  
+  const {isSuccess,isLoading} = useSelector(state=>state.mobile)
+  const [seconds, setSeconds] = useState(59);
+
 
   const [otp, setOtp] = useState("");
-  const [timer, setTimer] = useState(60);
-  // console.log(otp.join("").toString(),'otp')
+ 
 
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
-
-
-  const handlePress =async () => {
-    let Otp =await otp.join("")
-
-    console.log(mobile,Otp)
-    
-    dispatch(otpVerify({mobile:mobile,otpRec:Otp}))
-    // navigation.navigate('setProfile')
-  }
-
-  useEffect(() => {
-    let intervalId;
-
-    intervalId = setInterval(() => {
-      setTimer((prevTimer) => prevTimer - 1);
-    }, 1000);
-
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, [timer]);
-
-  
-
-
-  const handleOtpChange = (value, index) => {
-    const newOtp = [...otp];
-    newOtp[index] = value;
-    setOtp(newOtp);
-    // Move focus to the next box if the current one has a value
-    if (value && index < newOtp.length - 1) {
-      this.inputs[index + 1].focus();
-    }
+  const handlePress = async () => {
+    dispatch(otpVerify({ mobile: mobile, otpRec: otp }));
   };
-  const inputs = [];
+
+  const handleOTPChange = (otp) => {
+    setOtp(otp);
+  };
 
   const handleSendOTP = () => {
-    setTimer(60);
+    setSeconds(59)
+    dispatch(resendOtp({mobile: mobile}))
   };
+
+
+  useEffect(() => {
+    const timerId = setInterval(() => {
+      setSeconds((prevSeconds) => (prevSeconds > 0 ? prevSeconds - 1 : 0));
+    }, 1000);
+
+    return () => clearInterval(timerId); // Cleanup the interval on component unmount
+  }, []);
+
+
+
+  useEffect(()=>{
+
+
+    if(isSuccess){
+      navigation.dispatch(
+        StackActions.replace('RootNavigator')
+      );
+      dispatch(clearData())
+    }
+    if(!isSuccess){
+      console.log('Incorrect Otp')
+      dispatch(clearData())
+    }
+
+  },[isSuccess,dispatch])
+
+  const formattedTime = useMemo(() => {
+    const formattedSeconds = String(seconds % 60).padStart(2, '0');
+    return formattedSeconds;
+  }, [seconds]);
+
+
 
   return (
     <KeyboardAvoidingView behavior="position" className="flex flex-1 bg-white">
@@ -122,35 +130,21 @@ const OtpVerify = () => {
         {/* otp feild */}
 
         <View className="flex flex-row mb-4">
-          {[0, 1, 2, 3].map((index) => (
-            <TextInput
-              key={index}
-              style={{
-                borderBottomColor: "#000",
-                borderBottomWidth: 1,
-                paddingHorizontal: 15,
-                paddingVertical: 8,
-                marginHorizontal: 10,
-                backgroundColor: "#fff",
-                textAlign: "center",
-                fontSize: 16,
-                width: 40,
-              }}
-              onChangeText={(value) => handleOtpChange(value, index)}
-              value={otp[index] || ""}
-              maxLength={1}
-              keyboardType="numeric"
-              ref={(ref) => (inputs[index] = ref)}
-            />
-          ))}
+        <OTPTextInput
+        handleTextChange={handleOTPChange}
+        inputCount={4} // Specify the number of OTP digits
+        keyboardType="numeric"
+        offTintColor='#88653E'
+        textInputStyle={{ borderBottomWidth: 1, color:'#000' }} 
+      />
         </View>
 
         <View className="flex flex-row my-2">
           <Text className=" text-lightText flex items-center justify-center">
             Trying to autofill OTP in:{" "}
           </Text>
-          {timer > 0 ? (
-            <Text>{`${timer} seconds`}</Text>
+          {formattedTime > 0 ? (
+            <Text>{`${formattedTime} seconds`}</Text>
           ) : (
             <TouchableOpacity onPress={handleSendOTP}>
               <Text className="font-semibold">Resend Code</Text>
@@ -158,7 +152,7 @@ const OtpVerify = () => {
           )}
         </View>
 
-        <CustomButton text="Verify" width={windowWidth * 0.8} handlePress={handlePress} />
+        <CustomButton text="Verify" width={windowWidth * 0.8} handlePress={handlePress} isLoading={isLoading}/>
       </View>
 
     </KeyboardAvoidingView>

@@ -1,10 +1,11 @@
-import { View, Text } from 'react-native'
+import { View, Text,Image } from 'react-native'
 import React from 'react'
+const Internet = require('./../assets/NoInternet.png')
 
 const NoInternet = () => {
   return (
     <View className="flex justify-center items-center">
-      <Text>NoInternet</Text>
+      <Image source={Internet} />
     </View>
   )
 }

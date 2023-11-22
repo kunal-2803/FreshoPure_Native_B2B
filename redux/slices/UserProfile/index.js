@@ -1,15 +1,15 @@
 import React from 'react';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 const baseUrl = 'http://15.206.181.239'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s'
 
 //Action
 export const getProfile = createAsyncThunk("getProfile", async () => {
     const response = await fetch(`${baseUrl}/user/getprofile`, {
         method: 'get',
         headers: {
-            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s'
+            'token':await AsyncStorage.getItem('token')
         }
     });
     const res = await response.json()
@@ -22,7 +22,7 @@ export const setUserProfile = createAsyncThunk("setUserProfile", async ({userDat
         method: 'post',
         body: JSON.stringify( userData ),
         headers: {
-            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+            'token': await AsyncStorage.getItem('token'),
             'Content-Type': 'application/json'
         }
     });
@@ -41,14 +41,12 @@ export const setUserProfileImage = createAsyncThunk("setUserProfileImage", async
         method: 'post',
         body: JSON.stringify(userData ),
         headers: {
-            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+            'token': await AsyncStorage.getItem('token'),
             'Content-Type': 'multipart/form-data'
         }
     });
     try {
-        console.log(response)
         const result = await response.json();
-        console.log(result)
         return result;
     } catch (error) {
         return rejectWithValue(error);

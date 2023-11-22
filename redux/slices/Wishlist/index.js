@@ -1,16 +1,21 @@
 import React from 'react';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s'
 //Action
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export const fetchWishlistItems = createAsyncThunk("fetchWishlistItems", async () => {
     const response = await fetch(`http://15.206.181.239/wishlist/getwishlistitems`, {
         method: 'get',
         headers: {
-            'token': token
+            'token': await AsyncStorage.getItem('token'),
         }
     });
-    const res = await response.json()
-    return res;
+    try {
+        const result = await response.json();
+        return result;
+    } catch (error) {
+        return rejectWithValue(error);
+    }
 });
 
 export const addToWishlist = createAsyncThunk("addToWishlist", async (itemId, { rejectWithValue }) => {
@@ -24,7 +29,7 @@ export const addToWishlist = createAsyncThunk("addToWishlist", async (itemId, { 
         method: 'post',
         body: JSON.stringify({ wishlistItem }),
         headers: {
-            'token': token,
+            'token': await AsyncStorage.getItem('token'),
             'Content-Type': 'application/json'
         }
     });
@@ -43,7 +48,7 @@ export const removefromWishlist = createAsyncThunk("removefromWishlist", async (
         method: 'post',
         body: JSON.stringify({ Itemid: itemId }),
         headers: {
-            'token': token,
+            'token': await AsyncStorage.getItem('token'),
             'Content-Type': 'application/json'
         }
     });
@@ -77,8 +82,10 @@ const wishlistSlice = createSlice({
             state.data = action.payload;
         });
         builder.addCase(fetchWishlistItems.rejected, (state, action) => {
-            console.log("Error", action.payload);
+            console.log("Error et", action.payload);
             state.isError = true;
+            state.isLoading = false;
+
         });
 
 

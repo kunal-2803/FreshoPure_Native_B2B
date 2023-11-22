@@ -49,6 +49,8 @@ const Address = () => {
   useEffect(() => {
     if(isConnected){dispatch(selectedAddress());}
     if(isConnected){dispatch(allAddress())}
+    if(isConnected || !AllAddress){dispatch(allAddress())}
+
   }, []);
 
   if(!isConnected){

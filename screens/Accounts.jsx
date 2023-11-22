@@ -15,6 +15,8 @@ import {useNavigation} from '@react-navigation/native'
 const profile = require('./../assets/profile.png')
 const bg = require('./../assets/bg-texture.png')
 import {useDispatch,useSelector} from 'react-redux'
+import { StackActions } from '@react-navigation/native'
+import { logout,clearData } from '../redux/slices/Mobile/index.js';
 
 const Accounts = () => {
   const navigation = useNavigation()
@@ -27,8 +29,12 @@ const Accounts = () => {
   },[dispatch])
 
   async function handleLogout(){
-    await AsyncStorage.removeItem('token');
-    // navigation.navigate('login')
+   dispatch(logout())
+
+   dispatch(clearData())
+   navigation.dispatch(
+    StackActions.replace('AuthNavigator')
+  );
   }
 
 

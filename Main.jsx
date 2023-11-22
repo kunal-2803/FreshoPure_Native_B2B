@@ -26,14 +26,35 @@ import Accounts from './screens/Accounts';
 import Analytics from './screens/Analytics';
 import FAQ from './screens/FAQ';
 import Checkout from './screens/Checkout';
+import Loading from './components/LoadingScreen';
 import {useDispatch,useSelector} from 'react-redux'
 import {getProfile} from './redux/slices/UserProfile/index.js'
+import { loadUser } from './redux/slices/Mobile/index.js';
 
 const Stack = createNativeStackNavigator();
 
 const AuthStack = () => {
+    const [firstLaunch, setFirstLaunch] = useState(null);
+  useEffect(() => {
+    async function setData() {
+      const appData = await AsyncStorage.getItem("appLaunched");
+      if (appData == null) {
+        setFirstLaunch(true);
+        AsyncStorage.setItem("appLaunched", "false");
+      } else {
+        setFirstLaunch(false);
+      }
+    }
+    setData();
+  }, []);
+
     return (
         <Stack.Navigator>
+             {firstLaunch && (<>
+             <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
+            <Stack.Screen name='splashScreen2' component={SplashScreen2} options={{headerShown:false}}/>
+            <Stack.Screen name='splashScreen3' component={SplashScreen3} options={{headerShown:false}}/></>)}
+
             <Stack.Screen name='login' component={Login} options={{ headerShown: false }} />
             <Stack.Screen name='otp' component={OtpVerify} options={{ headerShown: false }} />
         </Stack.Navigator>
@@ -41,30 +62,34 @@ const AuthStack = () => {
 }
 
 const RootNavigation = () => {
-    const {data} = useSelector(state=>state.profile)
+    
     const dispatch = useDispatch()
-    const user = data?.hotelData;  
+    const {data} = useSelector(state=>state.profile)
 
-    console.log(data)
+    console.log(data?.hotelData?.isProfieComplete,'profilecomplete')
+
+    useEffect(() => {
+        dispatch(getProfile())
+    }, [dispatch]);
 
     return (
         <>
 
-            <Stack.Navigator >
+            <Stack.Navigator screenOptions={{
+          headerShown: false,
+          animation: 'slide_from_right', // Specify the animation here
+        }} >
                 {/* <Stack.Screen name='address' component={Address} options={{headerShown:false}}/> */}
 
-                {/* <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
-            <Stack.Screen name='splashScreen2' component={SplashScreen2} options={{headerShown:false}}/>
-            <Stack.Screen name='splashScreen3' component={SplashScreen3} options={{headerShown:false}}/> */}
+              
 
             
             {/* <Stack.Screen name='analytics' component={Analytics} options={{ headerShown: false }} /> */}
-
-
-
-               <Stack.Screen name='parent' component={Parent} options={{ headerShown: false }} />
-            <Stack.Screen name='checkout' component={Checkout} options={{ headerShown: false }} />
-            <Stack.Screen name='setProfile' component={SetProfile} options={{ headerShown: false }} />
+           {data?.hotelData?.isProfieComplete ? <Stack.Screen name='setProfile' component={SetProfile} options={{ headerShown: false }} />
+           :
+              <><Stack.Screen name='parent' component={Parent} options={{ headerShown: false }} />
+               <Stack.Screen name='checkout' component={Checkout} options={{ headerShown: false }} />
+            
 
 
 
@@ -82,7 +107,12 @@ const RootNavigation = () => {
                 <Stack.Screen name='orderConfirm' component={OrderConfirm} options={{ headerShown: false }} />
                 <Stack.Screen name='payment' component={Payment} options={{ headerShown: false }} />
 
-                <Stack.Screen name='userProfile' component={UserProfile} options={{ headerShown: false }} />
+                <Stack.Screen name='userProfile' component={UserProfile} options={{ headerShown: false }} /></>
+          
+          }
+
+
+               
             </Stack.Navigator>
 
         </>
@@ -92,28 +122,43 @@ const RootNavigation = () => {
 
 
 const Main = () => {
-    const [isAuthenticated, setIsAuthenticated] = useState(null);
+    const dispatch = useDispatch()
+    const {isAuthenticated,data} = useSelector(state=>state.mobile)
 
     useEffect(() => {
-        const checkToken = async () => {
-            const token = await AsyncStorage.getItem('token');
-            setIsAuthenticated(token !== null);
-        };
+        dispatch(loadUser())
 
-        checkToken();
+        if(data ===null){
+            dispatch(loadUser())
+
+        }
     }, []);
 
-    if (isAuthenticated === null) {
-        // Loading state, you can show a loading spinner or another component
-        return null;
-    }
+    console.log(isAuthenticated,data,'data')
+
+      
+      
+    const Stack = createNativeStackNavigator();
+
 
     return (
         <NavigationContainer>
-            <StatusBar
-                barStyle="light-content" backgroundColor="transparent" translucent={true}
-            />
-            {isAuthenticated ? <RootNavigation /> : <AuthStack />}
+              <StatusBar
+        barStyle = "light-content" backgroundColor = "transparent" translucent = {true}
+      />
+             <Stack.Navigator screenOptions={{
+          headerShown: false,
+          animation: 'slide_from_right', // Specify the animation here
+        }}>
+                
+               {isAuthenticated ?   <Stack.Screen name="RootNavigator" component={RootNavigation}  options={{ headerShown: false }} />
+               :
+               <Stack.Screen name="AuthNavigator" component={AuthStack}  options={{ headerShown: false }} />
+    }
+
+
+            </Stack.Navigator>
+
         </NavigationContainer>
     );
 };

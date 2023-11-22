@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 import itemReducer from './slices/HotelItems'
-import mobileReducer from './slices/Mobile'
+import mobileReducer from './slices/Mobile/index.js'
 import addressReducer from './slices/Address'
 import cartReducer from './slices/Cart'
 import wishlistReducer from './slices/Wishlist'

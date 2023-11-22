@@ -3,7 +3,7 @@ import {View,Text} from 'react-native'
 import NetInfo from '@react-native-community/netinfo';
 
 const useNetworkStatus = () => {
-  const [isConnected, setIsConnected] = useState(false); // Assume true as default
+  const [isConnected, setIsConnected] = useState(true); // Assume true as default
 
   useEffect(() => {
     const unsubscribe = NetInfo.addEventListener((state) => {
