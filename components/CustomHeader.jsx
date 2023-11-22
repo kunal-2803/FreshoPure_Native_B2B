@@ -63,7 +63,7 @@ const CustomHeader = ({title,backButton,height,headerBar,parentHeader,isSearchBa
           <Image source={Avatar}/>
           <View className="flex items-center flex-row justify-center">
             
-            {isLoading ? <SkeletonComponent width={windowWidth*0.5} height={windowHeight*0.04}/> :<><EvilIcons name="location" size={24}/><Text className="flex items-center">{selected?.address?.city + ',' + selected?.address?.state}</Text><EvilIcons name="chevron-down" size={26}/></>}
+            {isLoading ? <SkeletonComponent width={windowWidth*0.5} height={windowHeight*0.04}/> :<><EvilIcons name="location" size={24}/><Text className="flex items-center">{selected?.address?.city + ',' + selected?.address?.state}</Text></>}
           </View>
           <EvilIcons name="bell" size={32}/> 
           </View>

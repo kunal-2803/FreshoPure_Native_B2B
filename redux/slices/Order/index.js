@@ -12,14 +12,7 @@ export const orderHistory = createAsyncThunk("orderHistory", async () => {
         }
     });
     const res = await response.json()
-    function compareDates(a, b) {
-        const dateA = new Date(a.date.replace(/(\d{1,2})\/(\d{1,2})\/(\d{4})/, "$3-$2-$1"));
-        const dateB = new Date(b.date.replace(/(\d{1,2})\/(\d{1,2})\/(\d{4})/, "$3-$2-$1"));
-      
-        return dateB - dateA;
-      }
-      
-    res.orderHistory.sort(compareDates)
+   console.log(res,"orederHistory")
     return res;
 });
 
@@ -33,6 +26,7 @@ export const orderHistoryItems = createAsyncThunk("orderHistoryItems", async (or
         }
     });
     const res = await response.json()
+    console.log(res,"oredfe Histroy Itresm result")
     return res;
 });
 
@@ -87,7 +81,7 @@ export const analyticsAPI = createAsyncThunk("analyticsAPI", async (duration) =>
         method: 'post',
         body: JSON.stringify({duration}),
         headers: {
-            'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NGU4Nzk5ZjEyMjk4MTM1ZjczZWMxYTEiLCJpYXQiOjE2OTI5NTcxNDB9.arn2cHDt7P79Uqrw51TXIegTe8mK5QXINhAWZn4k--s',
+            'token': await AsyncStorage.getItem('token'),
             'Content-Type': 'application/json'
         }
     });

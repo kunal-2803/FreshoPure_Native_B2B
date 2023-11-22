@@ -84,7 +84,7 @@ const RootNavigation = () => {
               
 
             
-           {data?.hotelData?.isProfieComplete ? <Stack.Screen name='setProfile' component={SetProfile} options={{ headerShown: false }} />
+           {!data?.hotelData?.isProfieComplete ? <Stack.Screen name='setProfile' component={SetProfile} options={{ headerShown: false }} />
            :
               <><Stack.Screen name='parent' component={Parent} options={{ headerShown: false }} />
                <Stack.Screen name='checkout' component={Checkout} options={{ headerShown: false }} />
