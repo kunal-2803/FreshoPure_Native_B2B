@@ -141,7 +141,7 @@ const Home = () => {
             </>:
            ( isConnected) ? (filteredItems?.length > 0 ? <FlatList
             className=""
-            style={{ width: windowWidth * 0.9 }}
+            style={{ width: windowWidth * 0.9,marginBottom:60 }}
             data={filteredItems}
             renderItem={item => <ItemList item={item?.item} loading={addLoading} />}
             keyExtractor={item => item._id}

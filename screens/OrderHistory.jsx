@@ -25,7 +25,6 @@ const OrderHistory = () => {
   const [page, setPage] = useState(1);
   const [pageLoading, setpageLoading] = useState(false);
 
-console.log(orderhistorty,"historyComponent")
 
   useEffect(() => {
     {isConnected && dispatch(orderHistory())}
@@ -54,7 +53,7 @@ console.log(orderhistorty,"historyComponent")
        isConnected ?     
        <View className="mt-4 flex justify-center items-center">
 
-{orderhistorty.orderHistory.length >0 ?
+{orderhistorty?.orderHistory?.length >0 ?
            <FlatList
             className=""
             style={{ width: width * 0.9 }}

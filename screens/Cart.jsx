@@ -100,7 +100,7 @@ const Cart = () => {
       }
         
       </KeyboardAvoidingView>
-      <View className="flex justify-center absolute bottom-14 w-full items-center">
+      <View className="flex justify-center absolute bottom-12 w-full items-center">
       {data?.cartData?.length > 0 && <CustomButton text='Checkout' handlePress={()=>navigation.navigate('checkout')} width={windowWidth*0.9}/>}
       </View>
      
