@@ -30,12 +30,15 @@ import { selectedAddress } from "../redux/slices/Address/index.js";
 import { useNavigation } from '@react-navigation/native'
 import { StackActions } from '@react-navigation/native'
 import SkeletonComponent from "../components/SkeletonComponent.jsx";
+import useNetworkStatus from '../utils/useNetworkStatus.js'
+
 // import { fetchCartItems } from "../redux/slices/Cart/index.js";
 
 
 const Cart = () => {
 
   const dispatch = useDispatch();
+  const isConnected = useNetworkStatus()
   const navigation = useNavigation()
   const { data, isLoading } = useSelector(state => state.cartItems)
   const { isSuccess,isError,loading } = useSelector(state => state.order)
@@ -48,8 +51,8 @@ const Cart = () => {
   // console.log(selected)
 
   useEffect(() => {
-    dispatch(fetchCartItems()),
-    dispatch(selectedAddress())
+    isConnected && dispatch(fetchCartItems()),
+    isConnected && dispatch(selectedAddress())
   }, [])
 
   
@@ -72,11 +75,8 @@ const Cart = () => {
     const data = {}
     data.address = selected?.address._id
     data.price = totalPrice
-    dispatch(placeOrder(data));
-    dispatch(fetchCartItems())
-
-
-
+    isConnected && dispatch(placeOrder(data));
+    isConnected && dispatch(fetchCartItems())
   }
 
 

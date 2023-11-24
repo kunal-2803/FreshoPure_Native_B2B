@@ -17,15 +17,17 @@ const bg = require('./../assets/bg-texture.png')
 import {useDispatch,useSelector} from 'react-redux'
 import { StackActions } from '@react-navigation/native'
 import { logout,clearData } from '../redux/slices/Mobile/index.js';
+import useNetworkStatus from '../utils/useNetworkStatus.js'
 
 const Accounts = () => {
   const navigation = useNavigation()
+  const isConnected = useNetworkStatus()
   const dispatch = useDispatch()
   const {data} = useSelector(state=>state.profile)
 
 
   useEffect(()=>{
-   dispatch(getProfile())
+   isConnected && dispatch(getProfile())
   },[dispatch])
 
   async function handleLogout(){

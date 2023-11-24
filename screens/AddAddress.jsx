@@ -89,7 +89,7 @@ const AddAddress = () => {
   const handleSubmit = () => {
     if (validateForm()) {
       // All fields are valid, proceed with submission
-      dispatch(addAddress(profileData))
+      isConnected &&  dispatch(addAddress(profileData))
     } else {
       // Display an error or take appropriate action
       console.log('Form validation failed!');

@@ -28,6 +28,7 @@ export const setUserProfile = createAsyncThunk("setUserProfile", async ({userDat
     });
     try {
         const result = await response.json();
+        console.log(result,"update Ka reponse")
         return result;
     } catch (error) {
         return rejectWithValue(error);
@@ -35,10 +36,21 @@ export const setUserProfile = createAsyncThunk("setUserProfile", async ({userDat
 })
 
 export const setUserProfileImage = createAsyncThunk("setUserProfileImage", async (userData, { rejectWithValue }) => {
-    console.log("userData", userData);
+    const selectedImage =userData._parts[0][1].uri
+    const formData = new FormData();
+formData.append('file', {
+    uri: selectedImage,
+    type: 'image/jpeg', 
+    name: 'image.jpg',
+  });
+
+if(userData.update){
+formData.append('update',true );
+}
+console.log(formData,"formData Response")
     const response = await fetch(`${baseUrl}/user/upload`, {
         method: 'post',
-        body: JSON.stringify(userData ),
+        body: formData,
         headers: {
             'token': await AsyncStorage.getItem('token'),
             'Content-Type': 'multipart/form-data'
@@ -46,6 +58,7 @@ export const setUserProfileImage = createAsyncThunk("setUserProfileImage", async
     });
     try {
         const result = await response.json();
+        console.log(result,"update IMage Ka data")
         return result;
     } catch (error) {
         return rejectWithValue(error);

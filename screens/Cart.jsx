@@ -73,7 +73,7 @@ const Cart = () => {
         style={{ height: windowHeight * 1.4 }}
         resizeMode="repeat"
       />
-      <KeyboardAvoidingView behavior="height" className="flex w-full items-center">
+      <KeyboardAvoidingView behavior="position" className="flex w-full items-center" style={{height:windowHeight*0.66}}>
       {isLoading?
             <>
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.15}/>
@@ -84,7 +84,7 @@ const Cart = () => {
             :
         isConnected ? ( (data?.cartData?.length > 0 ? <FlatList
          showsVerticalScrollIndicator={false}
-         style={{width:windowWidth*0.9,height:windowHeight*0.68}}
+         style={{width:windowWidth*0.9}}
          data={data?.cartData}
          renderItem={item=><CartItem item={item?.item} addLoading={addLoading}/>}
          keyExtractor={item => item._id}
@@ -100,8 +100,10 @@ const Cart = () => {
       }
         
       </KeyboardAvoidingView>
+      
       <View className="flex justify-center absolute bottom-14 w-full items-center">
-      {data?.cartData?.length > 0 && <CustomButton text='Checkout' handlePress={()=>navigation.navigate('checkout')} width={windowWidth*0.9}/>}
+        {isConnected?<>
+      {data?.cartData?.length > 0 && <CustomButton text='Checkout' handlePress={()=>navigation.navigate('checkout')} width={windowWidth*0.9}/>}</>:<></>}
       </View>
      
       

@@ -14,6 +14,8 @@ import {useDispatch,useSelector} from 'react-redux'
 import { fetchWishlistItems,removefromWishlist } from '../redux/slices/Wishlist/index.js'
 import { addToCart,fetchCartItems } from '../redux/slices/Cart/index.js'
 const wishlistEmpty = require("./../assets/empty-wishlist.png");
+import NoInternet from '../components/NoInternet.js';
+
 
 const Wishlist = () => {
   const [selectedCategory, setSelectedCategory] = useState('All')

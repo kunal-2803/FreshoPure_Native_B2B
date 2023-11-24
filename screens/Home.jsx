@@ -128,7 +128,7 @@ const Home = () => {
 
 
         {/* item list */}
-        <SafeAreaView style={{ height: windowHeight * 0.6 }} className="flex items-center w-full">
+        <SafeAreaView style={{ height: windowHeight * 0.52 }} className="flex items-center w-full">
         {isLoading ?
             <>
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.08}/>

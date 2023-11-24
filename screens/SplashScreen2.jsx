@@ -30,8 +30,8 @@ const SplashScreen2 = () => {
       <Text className="text-center mt-3 ">Dont Need to get out side {'\n'}everyday for your grocery items</Text>
 
       <View className="flex flex-row space-x-2 mt-24">
-        <View className="w-2 h-2 bg-green rounded-full border-green border" />
         <View className="w-2 h-2  rounded-full border-green border" />
+        <View className="w-2 h-2  bg-green rounded-full border-green border" />
         <View className="w-2 h-2  rounded-full border-green border" />
       </View>
 

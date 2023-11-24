@@ -82,7 +82,7 @@ const CustomHeader = ({title,backButton,height,headerBar,parentHeader,isSearchBa
               <EvilIcons name="search" size={26} className="border " color="#64748B"/>
               <TextInput placeholder="Search for Items" className="text-lightText outline-none w-full ml-2" value={searchQuery} onChangeText={(text)=>setSearchQuery(text)}/>
             </View>
-            <View className="bg-white h-12 rounded-xl flex justify-center items-center" width={windowWidth*0.13}><FontAwesome name="sliders" size={20} color="#64748B"/></View>
+            {/* <View className="bg-white h-12 rounded-xl flex justify-center items-center" width={windowWidth*0.13}><FontAwesome name="sliders" size={20} color="#64748B"/></View> */}
             </View>
 
 
