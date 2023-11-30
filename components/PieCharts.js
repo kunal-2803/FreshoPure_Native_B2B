@@ -30,8 +30,8 @@ const PieCharts = () => {
 
   const widthAndHeight = windowWidth * 0.57
 
-  const series = [analytics?.catagory[0].LocalVegetables, analytics?.catagory[1].LocalImportedFruits, analytics?.catagory[2].LocalExoticFruits]
-  const sliceColor = ['#7CFC00', '#228B22', '#006400']
+  const series = [analytics?.catagory[0].LocalVegetables, analytics?.catagory[1].LocalImportedFruits]
+  const sliceColor = [ '#54B175','#789292',]
 
 
 
@@ -49,22 +49,18 @@ const PieCharts = () => {
                   coverRadius={0.7}
                   coverFill={'#FFF'}
                 />
-                <Text className="absolute  text-center " style={{ marginTop: windowHeight * 0.228 }}>Total Payable {'\n'}<Text className="font-bold ">Rs. {analytics?.totalSpent}</Text> </Text>
+                <Text className="absolute  text-center text-lightText" style={{ marginTop: windowHeight * 0.228 }}>Total Payable {'\n'}<Text className="font-bold ">Rs. {analytics?.totalSpent}</Text> </Text>
               </View>
             </> : <View><Text className="text-center justify-center pt-28" style={{ height: windowHeight * 0.39 }}>No Orders Found</Text></View>}
 
-          <View className="flex flex-row space-x-2 mt-3">
+          <View className="flex flex-row justify-between mt-3 px-4">
             <View className="flex flex-row items-center space-x-1">
-              <View className="w-3 h-3 rounded-full bg-[#7CFC00]" />
+              <View className="w-3 h-3 rounded-full bg-[#789292]" />
               <Text className="text-sm">Vegetables</Text>
             </View>
             <View className="flex flex-row items-center space-x-1">
-              <View className="w-3 h-3 rounded-full bg-[#228B22]" />
+              <View className="w-3 h-3 rounded-full bg-[#54B175]" />
               <Text className="text-sm">Fruits</Text>
-            </View>
-            <View className="flex flex-row items-center space-x-1">
-              <View className="w-3 h-3 rounded-full bg-[#006400]" />
-              <Text className="text-sm">Exotic Fruits</Text>
             </View>
           </View>
 

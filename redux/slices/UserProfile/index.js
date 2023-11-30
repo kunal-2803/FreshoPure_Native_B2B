@@ -1,6 +1,6 @@
 import React from 'react';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-const baseUrl = 'http://15.206.181.239'
+const baseUrl = 'https://freshopure.in'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -72,8 +72,15 @@ const profileSlice = createSlice({
     initialState: {
         isLoading: false,
         data: null,
-        isError: false
+        isError: false,
+        isSuccess:false
     },
+    reducers:{
+        clearData:(state)=>{
+          state.isSuccess=false;
+          state.isError=false;
+        }
+       },
     extraReducers: (builder) => {
         builder.addCase(getProfile.pending, (state, action) => {
             state.isLoading = true;
@@ -86,6 +93,25 @@ const profileSlice = createSlice({
             console.log("Error", action.payload);
             state.isError = true;
         });
+
+        builder.addCase(setUserProfile.pending, (state, action) => {
+            state.isLoading = true;
+            state.isSuccess = false;
+        });
+        builder.addCase(setUserProfile.fulfilled, (state, action) => {
+            state.isLoading = false;
+            state.isSuccess = true;
+            
+        });
+        builder.addCase(setUserProfile.rejected, (state, action) => {
+            console.log("Error", action.payload);
+            state.isLoading=false;
+            state.isError = true;
+            state.isSuccess = false;
+        });
     },
 });
+
+export const {clearData}=profileSlice.actions;
+
 export default profileSlice.reducer;

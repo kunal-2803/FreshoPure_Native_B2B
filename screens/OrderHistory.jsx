@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, Dimensions, TouchableWithoutFeedback, Keyboard, Image, FlatList,RefreshControl } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Dimensions, TouchableWithoutFeedback, Keyboard, Image, FlatList,RefreshControl, SafeAreaView } from 'react-native'
 import React, { useState, useEffect ,useCallback} from 'react'
 
 import CustomHeader from '../components/CustomHeader';
@@ -37,7 +37,7 @@ const OrderHistory = () => {
     },[refreshing])
 
   return (
-    <View>
+    <SafeAreaView>
       <CustomHeader title={'Order History'} backButton={true} height={0.16} headerBar={false} />
       <Image source={bg} className="absolute" style={{ height: height * 1.4 }} resizeMode="repeat" />
       {isLoading ? 
@@ -53,9 +53,9 @@ const OrderHistory = () => {
        isConnected ?     
        <View className="mt-4 flex justify-center items-center">
 
-{orderhistorty?.orderHistory?.length >0 ?
+         {orderhistorty?.orderHistory?.length >0 ?
            <FlatList
-            className=""
+            className="mb-10"
             style={{ width: width * 0.9 }}
             data={orderhistorty?.orderHistory}
             renderItem={item => <OrderHistoryComponet item={item?.item} />}
@@ -72,7 +72,7 @@ const OrderHistory = () => {
 
         </View>:<NoInternet/>
       }
-    </View>
+    </SafeAreaView>
   )
 }
 

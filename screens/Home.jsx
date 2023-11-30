@@ -58,28 +58,6 @@ const Home = () => {
   }, [])
 
 
-  // useEffect(() => {
-  //   if(selectedCategory === 'All' ){
-  //     setFilterByCategory(data?.hotelItems?.items)
-  //   }else{
-  //     const filtered = data?.hotelItems?.items?.filter(product => product.category === selectedCategory);
-  //     setFilterByCategory(filtered);
-  //   }
- 
-  // }, [selectedCategory]);
-
-
-  // useEffect(()=>{
-
-  //   if(searchQuery?.length === 0){
-  //     setSearchItems(filteredByCategory)
-  //   }else{
-  //     let searchItemsData = filteredByCategory?.filter(item=> item.itemName.toLowerCase().includes(searchQuery.toLowerCase()))
-  //     setSearchItems(searchItemsData)
-  //   }
-
-  // },[searchQuery])
-
   const filteredItems = data?.hotelItems?.items?.filter(item => {
     const categoryMatch = selectedCategory === 'All' || item.category === selectedCategory;
     const searchMatch = item.itemName.toLowerCase().includes(searchQuery.toLowerCase());
@@ -141,7 +119,7 @@ const Home = () => {
             </>:
            ( isConnected) ? (filteredItems?.length > 0 ? <FlatList
             className=""
-            style={{ width: windowWidth * 0.9,marginBottom:60 }}
+            style={{ width: windowWidth * 0.9 }}
             data={filteredItems}
             renderItem={item => <ItemList item={item?.item} loading={addLoading} />}
             keyExtractor={item => item._id}

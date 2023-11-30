@@ -8,15 +8,17 @@ const profile = require('./../assets/profile.png')
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
 import {useNavigation} from '@react-navigation/native'
-import { setUserProfile,setUserProfileImage } from "../redux/slices/UserProfile/index.js";
+import { setUserProfile,setUserProfileImage,clearData } from "../redux/slices/UserProfile/index.js";
 import { useDispatch, useSelector } from "react-redux";
 import Icon from 'react-native-vector-icons/AntDesign'
 import * as ImagePicker from 'expo-image-picker';
+import { StackActions } from '@react-navigation/native'
 
 const SetProfile = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
-
+  const {isLoading,isSuccess} = useSelector(state=>state.profile)
+  console.log(isLoading,isSuccess)
   const [image, setImage] = useState(null);
   const [profileData,setProfileData] = useState({fullName:'',hotelName:'',email:'',mobileNo:'',alternateMobileNo:'',addressLine1:'',addressLine2:'',city:'',state:'',pinCode:''})
   
@@ -127,6 +129,15 @@ const SetProfile = () => {
     }
   };
 
+  useEffect(()=>{
+    if(isSuccess){
+      navigation.dispatch(
+        StackActions.replace('parent')
+      );
+      dispatch(clearData())
+    }
+  },[isSuccess])
+
   useEffect(() => {
     (async () => {
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -210,7 +221,7 @@ const SetProfile = () => {
         </View>
   
         <View className="flex w-full justify-center items-center my-2">
-        <CustomButton width={windowWidth*0.85} text={'Proceed'} handlePress={handleSubmit}/>
+        <CustomButton width={windowWidth*0.85} text={'Proceed'} handlePress={handleSubmit} isLoading={isLoading}/>
         </View>
       </View>
   

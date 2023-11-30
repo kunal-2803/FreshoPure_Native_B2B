@@ -1,7 +1,7 @@
 import React from 'react';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-const baseUrl = 'http://15.206.181.239'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+const baseUrl = 'https://freshopure.in'
 
 
 //Action

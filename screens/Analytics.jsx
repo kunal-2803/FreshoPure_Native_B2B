@@ -48,7 +48,7 @@ const Analytics = () => {
         orderData.push(orderhistorty?.orderHistory[1])
     }
         
-    
+     
 
     return (
         <View>
@@ -61,12 +61,12 @@ const Analytics = () => {
                     {/* <PieCharts /> */}
 
                     <View className="w-full flex justify-center items-center mt-2" style={{ height: windowHeight * 1 }}>
-                        <ScrollView style={{ width: windowWidth * 0.9 }} className=" h-full" showsVerticalScrollIndicator={false}>
+                        <ScrollView style={{ width: windowWidth * 0.9,height:windowHeight*0.84 ,marginBottom:12}} className=" h-full" showsVerticalScrollIndicator={false}>
 
 
 
                             <View className="flex mx-auto flex-row " style={{ width: windowWidth * 0.7 }}>
-                                {orderhistorty.orderHistory.length >0 ?
+                                {orderhistorty?.orderHistory?.length >0 ?
                                     <PieCharts /> : <><Image source={NoOrder} style={{ width: windowWidth * 0.6, resizeMode: 'contain' }} /></>
                                 }
                             </View>
@@ -79,32 +79,20 @@ const Analytics = () => {
                             </View>
                             {isLoading ?
                                 <>
-                                    <SkeletonComponent width={windowWidth * 0.9} height={windowWidth * 0.2} />
+                                    <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.2} />
 
-                                    <SkeletonComponent width={windowWidth * 0.9} height={windowWidth * 0.2} />
+                                    <SkeletonComponent width={windowWidth * 0.9} height={windowHeight * 0.2} />
 
                                 </>
 
                                 :
                                 isConnected ?
-                                    <View className="mt-4 flex justify-center items-center">
+                                    <View className="my-4 mb-12 flex justify-center items-center">
 
                                         {orderhistorty.orderHistory.length >0 ?
-                                            <FlatList
-                                                className=""
-                                                style={{ width: windowWidth * 0.9 }}
-                                                data={orderData}
-                                                renderItem={item => <OrderHistoryComponet item={item?.item} />}
-                                                keyExtractor={item => item._id}
-                                                showsVerticalScrollIndicator={false}
-                                                refreshControl={
-                                                    <RefreshControl refreshing={refreshing}
-                                                        onRefresh={onRefresh}
-                                                    // colors={[themeColors.bgMid]} 
-                                                    // tintColor={themeColors.bgMid} 
-                                                    />
-                                                }
-                                            /> : <><Text>No Orders Yet !!</Text></>
+
+                                          orderhistorty.orderHistory?.slice(0, 2).map((item,index)=><OrderHistoryComponet item={item} key={index}/>)
+                                             : <><Text>No Orders Yet !!</Text></>
                                         }
 
                                     </View> : <NoInternet />

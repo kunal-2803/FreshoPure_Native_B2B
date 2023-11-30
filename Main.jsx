@@ -50,7 +50,10 @@ const AuthStack = () => {
   }, []);
 
     return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{
+          headerShown: false,
+          animation: 'slide_from_right', // Specify the animation here
+        }}>
              {firstLaunch && (<>
              <Stack.Screen name='splashScreen1' component={SplashScreen1} options={{headerShown:false}}/>
             <Stack.Screen name='splashScreen2' component={SplashScreen2} options={{headerShown:false}}/>
@@ -65,7 +68,7 @@ const AuthStack = () => {
 const RootNavigation = () => {
     
     const dispatch = useDispatch()
-    const {data} = useSelector(state=>state.profile)
+    const {data,isLoading} = useSelector(state=>state.profile)
 
     useEffect(() => {
         dispatch(getProfile())
@@ -82,7 +85,7 @@ const RootNavigation = () => {
 
               
 
-            
+                {/* <Stack.Screen name="splash" component={SplashScreen}  options={{ headerShown: false }} /> */}
            {!data?.hotelData?.isProfieComplete ? <Stack.Screen name='setProfile' component={SetProfile} options={{ headerShown: false }} />
            :
               <><Stack.Screen name='parent' component={Parent} options={{ headerShown: false }} />
@@ -158,11 +161,10 @@ const Main = () => {
           animation: 'slide_from_right', // Specify the animation here
         }}>
                 {loading && <Stack.Screen name="splash" component={SplashScreen}  options={{ headerShown: false }} />}
-               {isAuthenticated ? <Stack.Screen name="RootNavigator" component={RootNavigation}  options={{ headerShown: false }} />
+              {isAuthenticated ? <Stack.Screen name="RootNavigator" component={RootNavigation}  options={{ headerShown: false }} />
                :
                <Stack.Screen name="AuthNavigator" component={AuthStack}  options={{ headerShown: false }} />
-    }
-
+    } 
 
             </Stack.Navigator>
 

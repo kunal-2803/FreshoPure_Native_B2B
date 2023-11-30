@@ -127,7 +127,7 @@ const ItemList = ({ item }) => {
       <View className="flex flex-row items-center">
         <Ionicons name="heart" color="#DC143C" size={24} onPress={() => dispatch(removefromWishlist(item?._id))} />
         {data?.cartData?.find(cart => cart._id === item?._id) ? <TouchableOpacity className={`flex justify-center items-center border-green bg-green border px-4 py-2 rounded-md ml-4`} ><Text className="text-white uppercase">Added</Text></TouchableOpacity> :
-          <TouchableOpacity className={`flex justify-center items-center border-linegray border px-4 py-2 rounded-md ml-4`} onPress={() => dispatch(addToCart(item?._id))}><Text className="text-green uppercase">Add</Text></TouchableOpacity>}
+          <TouchableOpacity className={`flex justify-center items-center border-linegray border px-4 py-2 rounded-md ml-4`} onPress={AddToCartHandle(item?._id)}><Text className="text-green uppercase">Add</Text></TouchableOpacity>}
       </View>
     </View>
           

@@ -13,7 +13,7 @@ import {
   RefreshControl
 } from "react-native";
 import React, { useState,useEffect,useCallback } from "react";
-
+import { useFocusEffect } from '@react-navigation/native';
 import CustomHeader from "../components/CustomHeader.jsx";
 import CustomButton from "../components/CustomButton.jsx";
 import {useNavigation} from '@react-navigation/native'
@@ -73,7 +73,7 @@ const Cart = () => {
         style={{ height: windowHeight * 1.4 }}
         resizeMode="repeat"
       />
-      <KeyboardAvoidingView behavior="position" className="flex w-full items-center" style={{height:windowHeight*0.66}}>
+      <KeyboardAvoidingView behavior="height" className="flex w-full items-center" style={{height:windowHeight*0.66}}>
       {isLoading?
             <>
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.15}/>
@@ -141,6 +141,7 @@ const CartItem = ({item,addLoading})=>{
     {isConnected && dispatch(fetchCartItems()) }
   }
 
+ 
 
 
   const handleRemoveCart =(id)=>{

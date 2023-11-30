@@ -6,11 +6,6 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -41,6 +36,16 @@
       "eas": {
         "projectId": "0c5d81a2-27d4-4d71-906b-e984341da066"
       }
-    }
+    },
+    "plugins":[
+      [
+        "expo-build-properties",
+        {
+          "android":{
+            "usesCleartextTraffic":true
+          }
+        }
+      ]
+    ]
   }
 }

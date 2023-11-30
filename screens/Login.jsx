@@ -95,8 +95,8 @@ const Login = () => {
         
         <Text className="my-2 font-urban">By continuing, I agree to the <Text className="font-semibold text-brown">Terms of Use</Text>{'\n'} & <Text className="font-semibold text-brown">Privacy Policy</Text></Text>
         <CustomButton text="Login" width={windowWidth*0.8}  handlePress={handlePress} isLoading={isLoading}/>
-          <Text className="text-lightText">or continue with</Text>
-          <CustomButton2 width={windowWidth*0.8}/>
+          {/* <Text className="text-lightText">or continue with</Text>
+          <CustomButton2 width={windowWidth*0.8}/> */}
       </View>
     </KeyboardAvoidingView>
   )

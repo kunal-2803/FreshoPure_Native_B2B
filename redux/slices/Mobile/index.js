@@ -1,10 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const baseUrl = 'http://15.206.181.239'
+const baseUrl = 'https://freshopure.in'
 
 export const loginApi = createAsyncThunk('loginApi', async (mobile) => {
   console.log(mobile,'mobile')
-  const response = await fetch(`http://15.206.181.239/user/login`, {
+  const response = await fetch(`${baseUrl}/user/login`, {
     method: 'post',
     body: JSON.stringify(mobile),
     headers: {
@@ -26,7 +26,7 @@ export const loginApi = createAsyncThunk('loginApi', async (mobile) => {
 
 export const resendOtp = createAsyncThunk('resendOtp', async ({mobile}) => {
 
-  const response = await fetch(`http://15.206.181.239/user/retry`, {
+  const response = await fetch(`${baseUrl}/user/retry`, {
     method: 'post',
     body: JSON.stringify({mobile}),
     headers: {
@@ -91,7 +91,7 @@ export const loadUser = createAsyncThunk('loadUser', async () => {
 
 export const otpVerify = createAsyncThunk('otpVerify', async ({mobile,otpRec}, { rejectWithValue }) => {
   
-  const response = await fetch(`http://15.206.181.239/user/verify`, {
+  const response = await fetch(`${baseUrl}/user/verify`, {
     method: 'post',
     body: JSON.stringify({mobile,otpRec}),
     headers: {

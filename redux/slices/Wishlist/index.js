@@ -2,9 +2,10 @@ import React from 'react';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 //Action
 import AsyncStorage from '@react-native-async-storage/async-storage';
+const baseUrl = 'https://freshopure.in'
 
 export const fetchWishlistItems = createAsyncThunk("fetchWishlistItems", async () => {
-    const response = await fetch(`http://15.206.181.239/wishlist/getwishlistitems`, {
+    const response = await fetch(`${baseUrl}/wishlist/getwishlistitems`, {
         method: 'get',
         headers: {
             'token': await AsyncStorage.getItem('token'),
@@ -25,7 +26,7 @@ export const addToWishlist = createAsyncThunk("addToWishlist", async (itemId, { 
         }
       ];
 
-    const response = await fetch(`http://15.206.181.239/wishlist/additemtowishlist`, {
+    const response = await fetch(`${baseUrl}/wishlist/additemtowishlist`, {
         method: 'post',
         body: JSON.stringify({ wishlistItem }),
         headers: {
@@ -44,7 +45,7 @@ export const addToWishlist = createAsyncThunk("addToWishlist", async (itemId, { 
 
 export const removefromWishlist = createAsyncThunk("removefromWishlist", async (itemId, { rejectWithValue }) => {
     console.log(itemId);
-    const response = await fetch(`http://15.206.181.239/wishlist/removeitemfromwishlist`, {
+    const response = await fetch(`${baseUrl}/wishlist/removeitemfromwishlist`, {
         method: 'post',
         body: JSON.stringify({ Itemid: itemId }),
         headers: {

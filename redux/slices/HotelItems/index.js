@@ -1,7 +1,7 @@
 import React from 'react';
 import { createSlice , createAsyncThunk} from '@reduxjs/toolkit'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const baseUrl = 'http://15.206.181.239'
+const baseUrl = 'https://freshopure.in'
 //Action
 export const fetchItems = createAsyncThunk("fetchItems", async()=>{
     const response = await fetch(`${baseUrl}/items/getalltemsforhotel`,{
