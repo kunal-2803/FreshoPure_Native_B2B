@@ -55,7 +55,6 @@ export const logout = createAsyncThunk('logout', async () => {
 export const loadUser = createAsyncThunk('loadUser', async () => {
 
   const token = await AsyncStorage.getItem('token');
-  console.log(token)
   if(!token){
     
     return {success:false}; 
@@ -187,7 +186,7 @@ export const mobileNumberSlice = createSlice({
     });
     builder.addCase(loadUser.fulfilled, (state,action) => {
       state.isLoading = false;
-      state.isAuthenticated=true;
+      state.isAuthenticated=action.payload.success;
       state.isProfileComplete = action.payload.profileComplete;
       state.data = action.payload?.user
     });

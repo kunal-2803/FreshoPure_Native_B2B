@@ -121,6 +121,8 @@ const Main = () => {
 
     console.log(isAuthenticated,isProfileComplete,'userdata')
 
+    console.log(isAuthenticated,'isAuth')
+
 
     useEffect(() => {
         dispatch(loadUser())
