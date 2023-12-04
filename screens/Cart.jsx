@@ -73,7 +73,7 @@ const Cart = () => {
         style={{ height: windowHeight * 1.4 }}
         resizeMode="repeat"
       />
-      <KeyboardAvoidingView behavior="height" className="flex w-full items-center" style={{height:windowHeight*0.66}}>
+      <KeyboardAvoidingView behavior="position" className="flex w-full items-center" style={{height:windowHeight*0.66}}>
       {isLoading?
             <>
             <SkeletonComponent width={windowWidth*0.9} height={windowHeight*0.15}/>
