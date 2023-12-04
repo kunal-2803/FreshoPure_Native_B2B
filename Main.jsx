@@ -68,11 +68,8 @@ const AuthStack = () => {
 const RootNavigation = () => {
     
     const dispatch = useDispatch()
-    const {data,isLoading} = useSelector(state=>state.profile)
+    const {isAuthenticated,isProfileComplete} = useSelector(state=>state.mobile)
 
-    useEffect(() => {
-        dispatch(getProfile())
-    }, [dispatch]);
 
     return (
         <>
@@ -81,13 +78,9 @@ const RootNavigation = () => {
           headerShown: false,
           animation: 'slide_from_right', // Specify the animation here
         }} >
-                {/* <Stack.Screen name='address' component={Address} options={{headerShown:false}}/> */}
-
-              
-
-                {/* <Stack.Screen name="splash" component={SplashScreen}  options={{ headerShown: false }} /> */}
-           {!data?.hotelData?.isProfieComplete ? <Stack.Screen name='setProfile' component={SetProfile} options={{ headerShown: false }} />
-           :
+                
+           {!isProfileComplete && <Stack.Screen name='setProfile' component={SetProfile} options={{ headerShown: false }} />}
+           
               <><Stack.Screen name='parent' component={Parent} options={{ headerShown: false }} />
                <Stack.Screen name='checkout' component={Checkout} options={{ headerShown: false }} />
             
@@ -109,8 +102,8 @@ const RootNavigation = () => {
                 <Stack.Screen name='analytics' component={Analytics} options={{ headerShown: false }} />
 
                 <Stack.Screen name='userProfile' component={UserProfile} options={{ headerShown: false }} /></>
+
           
-          }
 
 
                
@@ -124,15 +117,14 @@ const RootNavigation = () => {
 
 const Main = () => {
     const dispatch = useDispatch()
-    const {isAuthenticated,data} = useSelector(state=>state.mobile)
+    const {isAuthenticated,isProfileComplete} = useSelector(state=>state.mobile)
+
+    console.log(isAuthenticated,isProfileComplete,'userdata')
+
 
     useEffect(() => {
         dispatch(loadUser())
 
-        if(data ===null){
-            dispatch(loadUser())
-
-        }
     }, []);
 
     const [loading, setLoading] = useState(true);

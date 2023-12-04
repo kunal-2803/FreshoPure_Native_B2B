@@ -3,7 +3,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const baseUrl = 'https://freshopure.in'
 
 export const loginApi = createAsyncThunk('loginApi', async (mobile) => {
-  console.log(mobile,'mobile')
   const response = await fetch(`${baseUrl}/user/login`, {
     method: 'post',
     body: JSON.stringify(mobile),
@@ -56,6 +55,7 @@ export const logout = createAsyncThunk('logout', async () => {
 export const loadUser = createAsyncThunk('loadUser', async () => {
 
   const token = await AsyncStorage.getItem('token');
+  console.log(token)
   if(!token){
     
     return {success:false}; 
@@ -74,12 +74,14 @@ export const loadUser = createAsyncThunk('loadUser', async () => {
 
       const res = await response.json()
 
+      console.log(response?.status)
 
-      if(response?.status=== 200){
-        return {success:true,user:res};
 
+      if(response?.status === 200){
+        return {success:true, profileComplete:true,user:res.hotelData};
+        
       }else {
-        return {success:false}
+        return {success:true,profileComplete:false,user:null}
       }
 
     } catch (error) {
@@ -129,6 +131,7 @@ export const mobileNumberSlice = createSlice({
     isError: false,
     isSuccess:false,
     isAuthenticated:false,
+    isProfileComplete:false,
   },
   reducers:{
     clearData:(state)=>{
@@ -183,9 +186,9 @@ export const mobileNumberSlice = createSlice({
       state.isAuthenticated=false;
     });
     builder.addCase(loadUser.fulfilled, (state,action) => {
-     console.log(action.payload?.user,'action')
       state.isLoading = false;
-      state.isAuthenticated=action.payload?.success;
+      state.isAuthenticated=true;
+      state.isProfileComplete = action.payload.profileComplete;
       state.data = action.payload?.user
     });
     builder.addCase(loadUser.rejected, (state,action) => {

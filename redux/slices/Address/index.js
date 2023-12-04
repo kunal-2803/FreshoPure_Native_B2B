@@ -26,7 +26,6 @@ export const addAddress = createAsyncThunk("addAddress", async (newAddress) => {
 })
 
 export const selectedAddress = createAsyncThunk("selectedAddress", async () => {
-  console.log('hit')
   const response = await fetch(`${baseUrl}/address/getselectedaddress`, {
     method: 'get',
     headers: {

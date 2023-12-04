@@ -17,7 +17,6 @@ export const getProfile = createAsyncThunk("getProfile", async () => {
 });
 
 export const setUserProfile = createAsyncThunk("setUserProfile", async ({userData}, { rejectWithValue }) => {
-    console.log("userData", userData);
     const response = await fetch(`${baseUrl}/user/setprofile`, {
         method: 'post',
         body: JSON.stringify( userData ),
@@ -28,7 +27,6 @@ export const setUserProfile = createAsyncThunk("setUserProfile", async ({userDat
     });
     try {
         const result = await response.json();
-        console.log(result,"update Ka reponse")
         return result;
     } catch (error) {
         return rejectWithValue(error);
